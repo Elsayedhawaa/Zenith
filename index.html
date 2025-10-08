@@ -8,17 +8,16 @@
 
 <style>
   :root{
-    /* Calm green palette */
     --bg-dark-a:#012421;
     --bg-dark-b:#003733;
 
-    --accent-1:#023336;     /* strong ink on dark */
-    --accent-2:#4DA564;     /* primary green */
-    --accent-3:#C1E6BA;     /* mint */
-    --accent-4:#EAF8E7;     /* near-white */
+    --accent-1:#023336;
+    --accent-2:#4DA564;
+    --accent-3:#C1E6BA;
+    --accent-4:#EAF8E7;
 
     --ink-strong:#0a3a32;   /* strong ink on light */
-    --ink-muted:#2b6f60;    /* muted ink on light */
+    --ink-muted:#2b6f60;
 
     --panel-border:rgba(255,255,255,.08);
     --panel-bg:rgba(255,255,255,.05);
@@ -29,60 +28,8 @@
     --panel-radius:18px;
     --field-radius:14px;
 
-    /* synced from JS: whole-page subtle breathing hue */
-    --breath-duration: 10s;
-  } 
-/* 1) Move the visual (circle + start) to the top */
-.app { display: flex; flex-direction: column; }  /* ensure flex stack */ 
-.visual { order: -1; margin-top: 0; }            /* float visual to top */
-
-/* 2) Background strictly behind content and softened */
-.sky { z-index: -1; opacity: .45; pointer-events: none; }  /* background never blocks UI */
-
-/* 3) Number input styling (dark + light) and focus ring */
-input[type=number] {
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1.5px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.12);
-  color: var(--accent-4);
-  font-weight: 800;
-  font-size: 15px;
-  outline: none;
-  transition: border-color .2s, background .2s, color .2s;
-}
-input[type=number]:focus-visible {
-  outline: 3px solid var(--accent-2);
-  outline-offset: 2px;
-}
-body.light input[type=number] {
-  background: #ffffff;
-  color: #0a3a32;               /* strong ink in light theme */
-  border-color: rgba(2,51,54,.18);
-}
-
-/* 4) Select colors, and black text while dropdown is open (best-effort) */
-select {
-  color: var(--accent-4);
-  background: rgba(0,0,0,.12);
-  border: 1.5px solid rgba(255,255,255,.12);
-}
-body.light select {
-  color: #0a3a32;               /* readable in light */
-  background: #ffffff;
-  border-color: rgba(2,51,54,.18);
-}
-/* Options in dropdown (support varies by browser) */
-option { color: #000; background: #fff; }        /* black text when menu renders options */
-
-/* Force black while the menu is open (JS toggles this class) */
-select.open { color: #000 !important; background: #fff !important; }
-
-/* 5) Stronger focus visibility for all focusable app buttons/toggles */
-button:focus-visible, .toggle:focus-visible, select:focus-visible {
-  outline: 3px solid var(--accent-2);
-  outline-offset: 3px;
-}
+    --breath-duration: 10s; /* JS syncs to cycle length */
+  }
 
   /* Base */
   *,*::before,*::after{ box-sizing:border-box; }
@@ -95,18 +42,14 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
 
-  /* Whole-page ultra subtle breathing shift (synced) */
-  @keyframes bgBreath {
-    0% { filter:hue-rotate(0deg) brightness(1); }
-    50%{ filter:hue-rotate(4deg) brightness(1.04); }
-    100%{ filter:hue-rotate(0deg) brightness(1); }
-  }
+  /* Subtle page hue/brightness breathing (synced from JS) */
+  @keyframes bgBreath { 0%{filter:hue-rotate(0) brightness(1);} 50%{filter:hue-rotate(4deg) brightness(1.04);} 100%{filter:hue-rotate(0) brightness(1);} }
   body.breathing { animation: bgBreath var(--breath-duration) linear infinite; }
 
-  /* Star field BEHIND content (z-index:-1) */
+  /* Star background BEHIND content (z-index < 0) and reduced opacity */
   .sky{
-    position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
-    opacity:.55; /* softer so text is always readable */
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    opacity:.45;
     background:
       radial-gradient(circle at 25% 15%, #C1E6BA33 1.5px, transparent 2px),
       radial-gradient(circle at 78% 38%, #EAF8E74d 1.7px, transparent 2.4px),
@@ -115,42 +58,36 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
       radial-gradient(circle at 50% 50%, #C1E6BA22 1.1px, transparent 1.6px),
       transparent;
     background-size: 320px 320px, 280px 280px, 300px 300px, 360px 360px, 260px 260px;
-    filter: blur(1.1px);
-    animation: twinkle 90s linear infinite;
+    filter: blur(1.0px);
+    animation: skyScroll 90s linear infinite;
   }
-  @keyframes twinkle {
+  @keyframes skyScroll {
     0% { background-position: 0 0, 20px 10px, 40px 0, 0 0, -20px 10px; }
     100% { background-position: 600px 420px, 340px 260px, 520px 340px, 280px 220px, 180px 160px; }
   }
 
   /* App shell */
   .app{
-    width:min(1020px, 94vw);
+    width:min(1020px,94vw);
     margin: clamp(16px, 4vh, 40px) auto;
     display:flex; flex-direction:column; gap:18px;
   }
-
   .topbar{
     display:flex; align-items:center; justify-content:space-between; gap:12px;
   }
-  .title{
-    font-size: clamp(22px,3.4vw,32px); font-weight:900; letter-spacing:-.6px; margin:0;
-    color:var(--accent-4);
-    text-shadow: 0 6px 22px rgba(77,165,100,.22);
-  }
-  .subtitle{
-    font-size:13.5px; color:rgba(234,248,231,.88); font-weight:600; margin-top:6px;
-  }
+  .title{ font-size: clamp(22px,3.4vw,32px); font-weight:900; letter-spacing:-.6px; margin:0; color:var(--accent-4); text-shadow:0 6px 22px rgba(77,165,100,.22); }
+  .subtitle{ font-size:13.5px; color:rgba(234,248,231,.88); font-weight:600; margin-top:6px; }
+
   .theme-btn{
     width:48px; height:48px; border-radius:12px; border:1px solid var(--panel-border);
     background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
     color:var(--accent-4); display:grid; place-items:center; cursor:pointer;
     box-shadow: 0 10px 28px rgba(2,51,54,.22);
-    transition: transform .18s ease, background .22s ease, border-color .22s ease, box-shadow .22s ease;
+    transition: transform .18s, background .22s, border-color .22s, box-shadow .22s;
   }
   .theme-btn:hover{ transform: translateY(-2px); background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04)); }
 
-  /* Panels (separated boxes) */
+  /* Panels */
   .panel{
     width:100%; border-radius:var(--panel-radius);
     background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.025));
@@ -159,104 +96,69 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
     backdrop-filter: blur(7px);
   }
 
-  /* Controls */
+  /* Visual section FIRST (top area) as requested */
+  .visual{ order:-1; padding:12px 12px 16px; display:flex; flex-direction:column; align-items:center; gap:10px; justify-content:flex-start; }
+  .circle-wrap{ position:relative; width:min(420px,92%); aspect-ratio:1/1; min-width:230px; display:grid; place-items:center; margin-top:4px; }
+  .bubbles{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+  .bubble{ position:absolute; bottom:-40px; border-radius:50%; background: radial-gradient(circle at 30% 30%, rgba(225,255,240,.95), rgba(200,255,235,.32)); box-shadow: 0 8px 18px rgba(77,165,100,.18); filter: blur(.2px); opacity:.22; animation: floatUp linear forwards; }
+  @keyframes floatUp{ 0%{ transform: translateY(0) scale(.9); opacity:0; } 12%{ opacity:.28; } 90%{ opacity:.16; } 100%{ transform: translateY(-120%) scale(1.06); opacity:0; } }
+  .pulse-ring{ position:absolute; inset:0; border-radius:50%; pointer-events:none; z-index:1; border:3px solid rgba(193,230,186,.12); box-shadow: inset 0 18px 60px rgba(2,51,54,.08), 0 0 32px rgba(77,165,100,.14); opacity:.12; transform: scale(.96); transition: transform .42s ease, opacity .42s ease; }
+  .orbit{ position:absolute; inset:-22px; border-radius:50%; pointer-events:none; z-index:1; box-shadow: 0 0 24px rgba(77,165,100,.24), 0 0 3px rgba(193,230,186,.28); animation: orbit 7.2s linear infinite; opacity:.72; }
+  @keyframes orbit { to{ transform: rotate(360deg);} }
+  .breath-circle{ position:relative; z-index:2; width:68%; aspect-ratio:1/1; min-width:200px; max-width:320px; border-radius:50%; display:grid; place-items:center; color:var(--accent-4); background: radial-gradient(ellipse at 30% 25%, rgba(77,165,100,.24), rgba(2,51,54,.12)); border:2px solid rgba(77,165,100,.20); box-shadow: 0 18px 60px rgba(2,51,54,.28); transition: transform 560ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms; }
+  .breath-circle.glow{ box-shadow: 0 28px 90px rgba(77,165,100,.32), 0 10px 34px rgba(2,51,54,.26); }
+  .phase{ font-size:clamp(16px,2.4vw,20px); font-weight:900; color:var(--accent-4); letter-spacing:.3px; }
+  .big{ font-size:clamp(36px,6vw,54px); font-weight:900; color:var(--accent-1); margin-top:4px; letter-spacing:-.6px; }
+  .tiny{ font-size:13px; color:rgba(234,248,231,.88); margin-top:6px; }
+  .phrase{ font-size:clamp(14px,2.2vw,18px); font-weight:900; color:white; text-align:center; background: linear-gradient(120deg, #4DA564, #028a78); padding:10px 16px; border-radius:999px; box-shadow: 0 10px 32px rgba(2,51,54,.18); opacity:0; transform:translateY(8px); transition:opacity 260ms, transform 260ms; }
+  .phrase.show{ opacity:1; transform:none; }
+  .actions{ display:flex; gap:10px; align-items:center; justify-content:center; margin-top:4px; }
+  .btn{ border:0; border-radius:44px; padding:13px 24px; font-weight:900; cursor:pointer; color:var(--accent-4); background: linear-gradient(120deg,#4DA564,#028a78); box-shadow: 0 14px 36px rgba(2,51,54,.22); transition: transform .16s, box-shadow .22s, background .22s; }
+  .btn:hover{ transform: translateY(-3px); box-shadow: 0 22px 52px rgba(2,51,54,.28); }
+  .btn.alt{ background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); }
+  .btn.alt:hover{ background: rgba(255,255,255,.12); }
+
+  /* Controls section */
   .controls{ padding:16px 14px 18px; display:flex; flex-direction:column; gap:12px; }
-  .grid{
-    display:grid; gap:12px;
-    grid-template-columns: repeat(2, minmax(160px, 1fr));
-  }
+  .grid{ display:grid; gap:12px; grid-template-columns: repeat(2, minmax(160px, 1fr)); }
   .field{ display:flex; flex-direction:column; gap:8px; padding:10px; border-radius:12px; background: rgba(255,255,255,.03); }
   label{ font-size:13px; font-weight:900; color:var(--accent-3); }
-
+  /* Improved number inputs and select */
   input[type=number], select{
-    border:1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.12);
-    color:var(--accent-4); padding:10px 12px; border-radius: var(--field-radius);
-    font-weight:800; font-size:15px; outline:none; transition: border-color .2s, background .2s, color .2s;
+    border:1.5px solid rgba(255,255,255,.12);
+    background: rgba(0,0,0,.12);
+    color: var(--accent-4);
+    padding:12px 14px;
+    border-radius: var(--field-radius);
+    font-weight:800; font-size:15px; outline:none;
+    transition: border-color .2s, background .2s, color .2s;
     -webkit-appearance: none; appearance: none;
   }
   input[type=number]::placeholder{ color: rgba(234,248,231,.62); }
-  input[type=number]:focus, select:focus{ border-color: var(--accent-2); background: rgba(0,0,0,.16); }
-  /* Select dropdown text colors (best-effort; native UIs vary) */
-  option{ color: #EAF8E7; background: #05302a; } /* dark mode dropdown options */
-
+  input[type=number]:focus-visible, select:focus-visible{ outline: 3px solid var(--accent-2); outline-offset: 2px; }
   .row{ display:flex; gap:12px; align-items:center; }
   .row > select{ min-width:160px; }
   .options{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
-
   .toggle{ display:flex; align-items:center; gap:10px; color:var(--accent-3); font-weight:900; cursor:pointer; }
   .switch{ width:52px; height:30px; border-radius:999px; background: rgba(255,255,255,.08); padding:3px; position:relative; transition: all .24s; border:1px solid rgba(255,255,255,.10); }
   .knob{ position:absolute; left:3px; top:3px; width:24px; height:24px; border-radius:50%; background:var(--accent-4); box-shadow:0 6px 16px rgba(0,0,0,.35); transform: translateX(0); transition: transform .2s ease; }
   .switch.on{ background: linear-gradient(90deg, var(--ring-deep), var(--ring-soft)); }
   .switch.on .knob{ transform: translateX(22px); }
-
   .meta{ display:flex; justify-content:space-between; gap:10px; color:rgba(234,248,231,.88); font-weight:900; }
   .hint{ font-size:12.5px; color:rgba(234,248,231,.78); font-weight:800; }
 
-  /* Visual (TOP‑ALIGNED as requested) */
-  .visual{ padding:12px 12px 16px; display:flex; flex-direction:column; align-items:center; gap:10px; justify-content:flex-start; }
-  .circle-wrap{
-    position:relative; width:min(420px, 92%); aspect-ratio: 1 / 1; min-width:230px;
-    display:grid; place-items:center; margin-top:4px;
-  }
-  .bubbles{ position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
-  .bubble{
-    position:absolute; bottom:-40px; border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, rgba(225,255,240,.95), rgba(200,255,235,.32));
-    box-shadow: 0 8px 18px rgba(77,165,100,.18); filter: blur(.2px); opacity:.22; animation: floatUp linear forwards;
-  }
-  @keyframes floatUp{ 0%{ transform: translateY(0) scale(.9); opacity:0; } 12%{ opacity:.28; } 90%{ opacity:.16; } 100%{ transform: translateY(-120%) scale(1.06); opacity:0; } }
+  /* Make option text black in dropdown (support varies), plus JS adds .open */
+  option{ color:#000; background:#fff; }         /* attempt for native menus */
+  select.open{ color:#000 !important; background:#fff !important; } /* JS fallback */
 
-  .pulse-ring{ position:absolute; inset:0; border-radius:50%; pointer-events:none; z-index:1;
-    border:3px solid rgba(193,230,186,.12); box-shadow: inset 0 18px 60px rgba(2,51,54,.08), 0 0 32px rgba(77,165,100,.14);
-    opacity:.12; transform: scale(.96); transition: transform .42s ease, opacity .42s ease;
-  }
-  .orbit{ position:absolute; inset:-22px; border-radius:50%; pointer-events:none; z-index:1;
-    box-shadow: 0 0 24px rgba(77,165,100,.24), 0 0 3px rgba(193,230,186,.28);
-    animation: orbit 7.2s linear infinite; opacity:.72;
-  }
-  @keyframes orbit { to{ transform: rotate(360deg);} }
-
-  .breath-circle{
-    position:relative; z-index:2; width:68%; aspect-ratio:1/1; min-width:200px; max-width:320px; border-radius:50%;
-    display:grid; place-items:center; color:var(--accent-4);
-    background: radial-gradient(ellipse at 30% 25%, rgba(77,165,100,.24), rgba(2,51,54,.12));
-    border:2px solid rgba(77,165,100,.20);
-    box-shadow: 0 18px 60px rgba(2,51,54,.28);
-    transition: transform 560ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms; will-change: transform;
-  }
-  .breath-circle.glow{ box-shadow: 0 28px 90px rgba(77,165,100,.32), 0 10px 34px rgba(2,51,54,.26); }
-
-  .phase{ font-size:clamp(16px,2.4vw,20px); font-weight:900; color:var(--accent-4); letter-spacing:.3px; }
-  .big{ font-size:clamp(36px,6vw,54px); font-weight:900; color:var(--accent-1); margin-top:4px; letter-spacing:-.6px; }
-  .tiny{ font-size:13px; color:rgba(234,248,231,.88); margin-top:6px; }
-
-  .phrase{
-    font-size:clamp(14px,2.2vw,18px); font-weight:900; color:white; text-align:center;
-    background: linear-gradient(120deg, #4DA564, #028a78); padding:10px 16px; border-radius:999px;
-    box-shadow: 0 10px 32px rgba(2,51,54,.18);
-    opacity:0; transform:translateY(8px); transition:opacity 260ms, transform 260ms;
-  }
-  .phrase.show{ opacity:1; transform:none; }
-
-  .actions{ display:flex; gap:10px; align-items:center; justify-content:center; margin-top:4px; }
-  .btn{
-    border:0; border-radius:44px; padding:13px 24px; font-weight:900; cursor:pointer;
-    color:var(--accent-4); background: linear-gradient(120deg,#4DA564,#028a78);
-    box-shadow: 0 14px 36px rgba(2,51,54,.22);
-    transition: transform .16s ease, box-shadow .22s ease, background .22s ease;
-  }
-  .btn:hover{ transform: translateY(-3px); box-shadow: 0 22px 52px rgba(2,51,54,.28); }
-  .btn.alt{ background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); }
-  .btn.alt:hover{ background: rgba(255,255,255,.12); }
-
-  /* Light theme overrides */
+  /* Light theme overrides (adaptive colors) */
   body.light{ color:var(--ink-strong); background: linear-gradient(180deg,#EAF8E7,#F6FFFA 80%); }
   body.light .title{ color:#0b3b33; text-shadow:none; }
   body.light .subtitle{ color:#275f52; }
   body.light .panel{ background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.76)); border-color: rgba(2,51,54,.08); box-shadow: 0 10px 28px rgba(2,51,54,.10); }
   body.light .controls .field{ background: rgba(2,51,54,.04); }
   body.light input[type=number], body.light select{ background:#fff; color:#0a3a32; border-color: rgba(2,51,54,.18); }
-  body.light option{ color:#0a3a32; background:#ffffff; } /* dropdown options on light */
+  body.light option{ color:#000; background:#fff; } /* dropdown items readable */
   body.light .meta, body.light .tiny{ color:#215547; }
   body.light .phrase{ color:#023336; background: linear-gradient(120deg, #b6f0cf, #eaffe9); }
   body.light .breath-circle{ background: radial-gradient(ellipse at 30% 25%, rgba(77,165,100,.28), rgba(2,51,54,.08)); border-color: rgba(2,51,54,.12); box-shadow: 0 18px 60px rgba(2,51,54,.12); }
@@ -269,14 +171,13 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
     .actions{ flex-wrap:wrap; }
   }
 
-  /* Respect reduced motion */
+  /* Reduced motion */
   @media (prefers-reduced-motion: reduce){
     *{ animation: none !important; transition: none !important; }
   }
 </style>
 </head>
 <body class="breathing">
-  <!-- Background behind UI -->
   <div class="sky" aria-hidden="true"></div>
 
   <div class="app" role="application" aria-label="Zenith Breathing App">
@@ -288,6 +189,34 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
       <button id="themeBtn" class="theme-btn" title="Toggle light/dark" aria-label="Toggle theme">🌙</button>
     </div>
 
+    <!-- Visual first (top area) -->
+    <section class="panel visual" aria-label="Breathing visual">
+      <div class="circle-wrap" id="circleWrap">
+        <div class="bubbles" id="bubbles"></div>
+        <canvas id="trail" style="position:absolute; inset:0; z-index:1; pointer-events:none;"></canvas>
+
+        <div id="pulse" class="pulse-ring" aria-hidden="true"></div>
+        <div class="orbit" aria-hidden="true"></div>
+
+        <div id="circle" class="breath-circle" role="img" aria-label="Breathing circle">
+          <div style="text-align:center;">
+            <div class="phase" id="phase">—</div>
+            <div class="big" id="phaseTime">0s</div>
+            <div class="tiny">Total left: <span id="totalTime">0s</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phrase" id="phrase">Welcome — set your timings and press Start</div>
+
+      <div class="actions">
+        <button id="startBtn" class="btn" aria-pressed="false" aria-keyshortcuts="Space Enter">Start</button>
+        <button id="pauseBtn" class="btn alt" title="Pause/resume" aria-keyshortcuts="Space Enter">Pause</button>
+        <button id="resetBtn" class="btn alt" title="Reset" aria-keyshortcuts="R r">Reset</button>
+      </div>
+    </section>
+
+    <!-- Controls second -->
     <section class="panel controls" aria-label="Controls">
       <div class="grid">
         <div class="field">
@@ -340,32 +269,6 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
 
       <div class="hint">Tip: press <strong>Space</strong> to Start/Pause, <strong>R</strong> to Reset.</div>
     </section>
-
-    <section class="panel visual" aria-label="Breathing visual">
-      <div class="circle-wrap" id="circleWrap">
-        <div class="bubbles" id="bubbles"></div>
-        <canvas id="trail" style="position:absolute; inset:0; z-index:1; pointer-events:none;"></canvas>
-
-        <div id="pulse" class="pulse-ring" aria-hidden="true"></div>
-        <div class="orbit" aria-hidden="true"></div>
-
-        <div id="circle" class="breath-circle" role="img" aria-label="Breathing circle">
-          <div style="text-align:center;">
-            <div class="phase" id="phase">—</div>
-            <div class="big" id="phaseTime">0s</div>
-            <div class="tiny">Total left: <span id="totalTime">0s</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="phrase" id="phrase">Welcome — set your timings and press Start</div>
-
-      <div class="actions">
-        <button id="startBtn" class="btn" aria-pressed="false">Start</button>
-        <button id="pauseBtn" class="btn alt" title="Pause/resume">Pause</button>
-        <button id="resetBtn" class="btn alt" title="Reset">Reset</button>
-      </div>
-    </section>
   </div>
 
 <script>
@@ -412,10 +315,9 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
   let endTS = null;
   let lastPhaseIndex = -1;
 
-  // Performance toggles
   let pageHidden = false;
 
-  /* Audio (gentle chime) */
+  /* Audio chime */
   let audioCtx = null;
   function chime(){
     if(!beepOn) return;
@@ -426,9 +328,9 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
       const o2 = audioCtx.createOscillator();
       const g  = audioCtx.createGain();
       const f  = audioCtx.createBiquadFilter();
-      f.type = 'lowpass'; f.frequency.value = 2200;
+      f.type='lowpass'; f.frequency.value=2200;
       o1.type='sine'; o2.type='sine';
-      o1.frequency.value = 880; o2.frequency.value = 1320;
+      o1.frequency.value=880; o2.frequency.value=1320;
       o1.connect(g); o2.connect(g); g.connect(f); f.connect(audioCtx.destination);
       g.gain.setValueAtTime(0.0001, now);
       g.gain.exponentialRampToValueAtTime(0.08, now + 0.03);
@@ -438,7 +340,7 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
     }catch(e){}
   }
 
-  /* Voice */
+  /* Voice cues */
   const synth = window.speechSynthesis;
   function speak(text){
     if(!voiceOn) return;
@@ -451,43 +353,39 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
     }catch(e){}
   }
 
-  /* Settings helpers */
+  /* Helpers */
   function readSettings(){
-    const inh = Math.max(0, Number(inhaleEl.value) || 0);
-    const h1  = Math.max(0, Number(hold1El.value) || 0);
-    const exh = Math.max(0, Number(exhaleEl.value) || 0);
-    const h2  = Math.max(0, Number(hold2El.value) || 0);
+    const inh = Math.max(0, Number(inhaleEl.value)||0);
+    const h1  = Math.max(0, Number(hold1El.value)||0);
+    const exh = Math.max(0, Number(exhaleEl.value)||0);
+    const h2  = Math.max(0, Number(hold2El.value)||0);
     let total = Number(totalSel.value);
-    const custom = Number(customTotalEl.value) || 0;
-    if(custom >= 10) total = custom;
-    return { inh, h1, exh, h2, total };
+    const custom = Number(customTotalEl.value)||0;
+    if(custom>=10) total = custom;
+    return {inh,h1,exh,h2,total};
   }
-  function fmt(s){
-    s = Math.max(0, Math.round(s));
-    return (s<60) ? s+'s' : (Math.floor(s/60)+'m '+(s%60)+'s');
-  }
+  function fmt(s){ s=Math.max(0,Math.round(s)); return (s<60)? s+'s' : (Math.floor(s/60)+'m '+(s%60)+'s'); }
   function updateCycleDisplay(len){
-    cycleLenEl.textContent = Math.round(len) + 's';
+    cycleLenEl.textContent = Math.round(len)+'s';
     if(len>0){
-      document.documentElement.style.setProperty('--breath-duration', Math.max(4, Math.round(len)) + 's');
+      document.documentElement.style.setProperty('--breath-duration', Math.max(4,Math.round(len))+'s');
       document.body.classList.add('breathing');
     }
   }
 
-  /* Phrase */
   function showPhrase(name){
     const map = { Inhale:'Inhale deeply…', Hold:'Hold gently…', Exhale:'Exhale slowly…' };
     phrase.classList.remove('show');
-    setTimeout(()=>{ phrase.textContent = map[name] || 'Hold gently…'; phrase.classList.add('show'); }, 120);
+    setTimeout(()=>{ phrase.textContent = map[name] || 'Hold gently…'; phrase.classList.add('show'); },120);
   }
 
-  /* Particle trail (canvas) */
+  /* Trail particles (canvas) – lightweight */
   let ctx, w=0, h=0, rafId=null;
-  const particles = [];
+  const particles=[];
   function resizeCanvas(){
     const r = circleWrap.getBoundingClientRect();
     w = Math.floor(r.width); h = Math.floor(r.height);
-    trailCanvas.width = w; trailCanvas.height = h;
+    trailCanvas.width=w; trailCanvas.height=h;
     ctx = trailCanvas.getContext('2d');
   }
   window.addEventListener('resize', resizeCanvas, {passive:true});
@@ -496,203 +394,133 @@ button:focus-visible, .toggle:focus-visible, select:focus-visible {
   function emitParticles(){
     if(pageHidden) return;
     const size = Math.min(w,h)*0.34;
-    const n = 3; // fewer for perf
-    for(let i=0;i<n;i++){
-      const a = Math.random()*Math.PI*2;
-      const r = size + (Math.random()*8-4);
-      const x = w/2 + Math.cos(a)*r;
-      const y = h/2 + Math.sin(a)*r;
-      particles.push({ x,y, vx:(Math.random()-.5)*0.4, vy:(Math.random()-.5)*0.4, life: 28+Math.random()*16 });
+    for(let i=0;i<3;i++){
+      const a=Math.random()*Math.PI*2, r=size+(Math.random()*8-4);
+      particles.push({ x:w/2+Math.cos(a)*r, y:h/2+Math.sin(a)*r, vx:(Math.random()-.5)*0.4, vy:(Math.random()-.5)*0.4, life: 28+Math.random()*16 });
     }
   }
-
   function stepParticles(){
-    if(!ctx){ rafId = requestAnimationFrame(stepParticles); return; }
-    // soft fade frame
-    ctx.globalCompositeOperation='destination-out';
-    ctx.fillStyle='rgba(0,0,0,.10)';
-    ctx.fillRect(0,0,w,h);
+    if(!ctx){ rafId=requestAnimationFrame(stepParticles); return; }
+    ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='rgba(0,0,0,.10)'; ctx.fillRect(0,0,w,h);
     ctx.globalCompositeOperation='lighter';
     for(let i=particles.length-1;i>=0;i--){
-      const p = particles[i];
-      p.x += p.vx; p.y += p.vy; p.vx*=0.985; p.vy*=0.985; p.life-=1;
-      const alpha = Math.max(0,p.life/40);
-      ctx.fillStyle = `rgba(197,245,221,${alpha})`;
-      ctx.beginPath(); ctx.arc(p.x,p.y,1.2+(1-alpha)*1.2,0,Math.PI*2); ctx.fill();
+      const p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.vx*=.985; p.vy*=.985; p.life--;
+      const a=Math.max(0,p.life/40); ctx.fillStyle=`rgba(197,245,221,${a})`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,1.2+(1-a)*1.2,0,Math.PI*2); ctx.fill();
       if(p.life<=0) particles.splice(i,1);
     }
-    rafId = requestAnimationFrame(stepParticles);
+    rafId=requestAnimationFrame(stepParticles);
   }
-  rafId = requestAnimationFrame(stepParticles);
+  rafId=requestAnimationFrame(stepParticles);
 
-  /* Floating bubbles (DOM) */
-  let bubbleInt = null;
+  /* Floating bubbles (throttled) */
+  let bubbleInt=null;
   function startBubbles(){
     if(bubbleInt) return;
-    bubbleInt = setInterval(()=>{
+    bubbleInt=setInterval(()=>{
       if(pageHidden) return;
-      const b = document.createElement('div'); b.className='bubble';
-      const s = 6 + Math.random()*14;
-      b.style.width=s+'px'; b.style.height=s+'px';
-      b.style.left=(Math.random()*86+7)+'%';
-      b.style.animationDuration=(7+Math.random()*7)+'s';
-      bubblesBox.appendChild(b);
-      setTimeout(()=> b.remove(), 14000);
-    }, 1500); // throttled for perf
+      const b=document.createElement('div'); b.className='bubble';
+      const s=6+Math.random()*14; b.style.width=s+'px'; b.style.height=s+'px';
+      b.style.left=(Math.random()*86+7)+'%'; b.style.animationDuration=(7+Math.random()*7)+'s';
+      document.getElementById('bubbles').appendChild(b);
+      setTimeout(()=>b.remove(),14000);
+    },1500);
   }
   function stopBubbles(){ clearInterval(bubbleInt); bubbleInt=null; }
 
-  /* Timer logic */
+  /* Timer */
   function startTimer(){
-    const s = readSettings();
-    const cycleLen = s.inh+s.h1+s.exh+s.h2;
+    const s=readSettings(); const cycleLen=s.inh+s.h1+s.exh+s.h2;
     if(cycleLen<=0){ alert('Set at least one positive phase length.'); return; }
     updateCycleDisplay(cycleLen);
-
-    startTS = Date.now() - pauseOffset;
-    endTS = (s.total===-1) ? Infinity : startTS + s.total*1000;
-    statusEl.textContent='running';
-    startBtn.textContent='Stop';
-    startBtn.setAttribute('aria-pressed','true');
-    circle.classList.add('glow');
-    phrase.classList.add('show');
-
-    if(timerInterval) clearInterval(timerInterval);
-    timerInterval = setInterval(tick, 120);
-    emitParticles();
-    try{ audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); }catch(e){}
+    startTS=Date.now()-pauseOffset; endTS=(s.total===-1)?Infinity:startTS+s.total*1000;
+    statusEl.textContent='running'; startBtn.textContent='Stop'; startBtn.setAttribute('aria-pressed','true');
+    circle.classList.add('glow'); phrase.classList.add('show');
+    if(timerInterval) clearInterval(timerInterval); timerInterval=setInterval(tick,120);
+    try{ audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
     tick();
   }
-  function pauseTimer(){
-    if(!startTS) return;
-    pauseOffset = Date.now() - startTS;
-    statusEl.textContent='paused';
-    if(timerInterval) clearInterval(timerInterval);
-    pulse.style.opacity=.08;
-    synth.cancel();
-  }
+  function pauseTimer(){ if(!startTS) return; pauseOffset=Date.now()-startTS; statusEl.textContent='paused'; if(timerInterval) clearInterval(timerInterval); pulse.style.opacity=.08; synth.cancel(); }
   function stopTimer(){
     if(timerInterval) clearInterval(timerInterval);
     timerInterval=null; startTS=null; endTS=null; pauseOffset=0; lastPhaseIndex=-1;
-    statusEl.textContent='stopped';
-    startBtn.textContent='Start'; startBtn.setAttribute('aria-pressed','false');
+    statusEl.textContent='stopped'; startBtn.textContent='Start'; startBtn.setAttribute('aria-pressed','false');
     phaseEl.textContent='—'; phaseTimeEl.textContent='0s'; totalTimeEl.textContent='0s';
     phrase.textContent='Welcome — set your timings and press Start'; phrase.classList.remove('show');
-    circle.style.transform='scale(.95)'; circle.classList.remove('glow'); pulse.style.opacity=.12;
-    chime();
+    circle.style.transform='scale(.95)'; circle.classList.remove('glow'); pulse.style.opacity=.12; chime();
   }
-
   function tick(){
-    const s = readSettings();
-    const phases = [
-      {name:'Inhale', len:s.inh},
-      {name:'Hold',   len:s.h1},
-      {name:'Exhale', len:s.exh},
-      {name:'Hold',   len:s.h2}
-    ];
-    const cycleLen = phases.reduce((a,b)=>a+b.len,0);
-    if(cycleLen<=0){ stopTimer(); return; }
-
-    const now = Date.now();
-    const elapsed = (now-startTS)/1000;
-    const totalLeft = (endTS===Infinity) ? Infinity : Math.max(0, Math.round((endTS-now)/1000));
-
-    let t = elapsed % cycleLen, idx=0;
-    for(let i=0;i<phases.length;i++){
-      if(t<=phases[i].len){ idx=i; break; }
-      t-=phases[i].len; if(i===phases.length-1) idx=phases.length-1;
-    }
-    const cur = phases[idx]; const left = Math.max(0, cur.len - t);
-
-    if(idx!==lastPhaseIndex){
-      chime(); speak(cur.name); showPhrase(cur.name);
-      lastPhaseIndex = idx;
-      emitParticles(); // pulse of particles on phase change
-    }
-
-    phaseEl.textContent = cur.name;
-    phaseTimeEl.textContent = Math.ceil(left)+'s';
-    totalTimeEl.textContent = (totalLeft===Infinity) ? '— (indefinite)' : fmt(totalLeft);
-
-    // exact sync circle scale with phase
+    const s=readSettings();
+    const phases=[{name:'Inhale',len:s.inh},{name:'Hold',len:s.h1},{name:'Exhale',len:s.exh},{name:'Hold',len:s.h2}];
+    const cycleLen=phases.reduce((a,b)=>a+b.len,0); if(cycleLen<=0){ stopTimer(); return; }
+    const now=Date.now(), elapsed=(now-startTS)/1000, totalLeft=(endTS===Infinity)?Infinity:Math.max(0,Math.round((endTS-now)/1000));
+    let t=elapsed%cycleLen, idx=0; for(let i=0;i<phases.length;i++){ if(t<=phases[i].len){ idx=i; break; } t-=phases[i].len; if(i===phases.length-1) idx=phases.length-1; }
+    const cur=phases[idx], left=Math.max(0,cur.len-t);
+    if(idx!==lastPhaseIndex){ chime(); speak(cur.name); showPhrase(cur.name); lastPhaseIndex=idx; emitParticles(); }
+    phaseEl.textContent=cur.name; phaseTimeEl.textContent=Math.ceil(left)+'s'; totalTimeEl.textContent=(totalLeft===Infinity)?'— (indefinite)':fmt(totalLeft);
     let scale=.95;
-    if(cur.name==='Inhale'){
-      const p = cur.len ? (1 - left/cur.len) : 1;
-      scale = .82 + .38*p; pulse.style.transform=`scale(${.98+.28*p})`; pulse.style.opacity=(.10+.18*p);
-    }else if(cur.name==='Exhale'){
-      const p = cur.len ? (1 - left/cur.len) : 1;
-      scale = 1.06 - .32*p; pulse.style.transform=`scale(${1.08-.28*p})`; pulse.style.opacity=(.10+.12*p);
-    }else{
-      scale = .92 + .06*Math.sin(performance.now()/380);
-      pulse.style.transform='scale(.96)'; pulse.style.opacity=.12;
-    }
-    circle.style.transform = `scale(${scale.toFixed(3)})`;
-
-    if(totalLeft!==Infinity && totalLeft<=0){
-      clearInterval(timerInterval); timerInterval=null; startTS=null;
-      statusEl.textContent='finished'; startBtn.textContent='Start';
-      chime(); speak('Session finished');
-      circle.classList.remove('glow'); pulse.style.opacity=.12; phrase.classList.remove('show');
-    }
+    if(cur.name==='Inhale'){ const p=cur.len?(1-left/cur.len):1; scale=.82+.38*p; pulse.style.transform=`scale(${.98+.28*p})`; pulse.style.opacity=(.10+.18*p); }
+    else if(cur.name==='Exhale'){ const p=cur.len?(1-left/cur.len):1; scale=1.06-.32*p; pulse.style.transform=`scale(${1.08-.28*p})`; pulse.style.opacity=(.10+.12*p); }
+    else{ scale=.92+.06*Math.sin(performance.now()/380); pulse.style.transform='scale(.96)'; pulse.style.opacity=.12; }
+    circle.style.transform=`scale(${scale.toFixed(3)})`;
+    if(totalLeft!==Infinity && totalLeft<=0){ clearInterval(timerInterval); timerInterval=null; startTS=null; statusEl.textContent='finished'; startBtn.textContent='Start'; chime(); speak('Session finished'); circle.classList.remove('glow'); pulse.style.opacity=.12; phrase.classList.remove('show'); }
   }
 
-  /* UI */
-  startBtn.addEventListener('click', ()=> {
-    if(statusEl.textContent==='running') stopTimer();
-    else if(statusEl.textContent==='paused') startTimer();
-    else { pauseOffset=0; startTimer(); }
-  });
-  pauseBtn.addEventListener('click', ()=> {
-    if(statusEl.textContent==='running') pauseTimer();
-    else if(statusEl.textContent==='paused') startTimer();
-  });
+  /* Buttons & keyboard */
+  function wireKeyboardActivate(el, handler){
+    el.addEventListener('keydown', (e)=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); handler(); } });
+  }
+  wireKeyboardActivate(startBtn, ()=>startBtn.click());
+  wireKeyboardActivate(pauseBtn, ()=>pauseBtn.click());
+  wireKeyboardActivate(resetBtn, ()=>resetBtn.click());
+  wireKeyboardActivate(beepToggle, ()=>beepToggle.click());
+  wireKeyboardActivate(voiceToggle, ()=>voiceToggle.click());
+
+  startBtn.addEventListener('click', ()=>{ if(statusEl.textContent==='running') stopTimer(); else if(statusEl.textContent==='paused') startTimer(); else { pauseOffset=0; startTimer(); } });
+  pauseBtn.addEventListener('click', ()=>{ if(statusEl.textContent==='running') pauseTimer(); else if(statusEl.textContent==='paused') startTimer(); });
   resetBtn.addEventListener('click', stopTimer);
 
-  // Toggles
-  function setSwitch(el, on){
-    const sw=el.querySelector('.switch');
-    el.setAttribute('aria-pressed', on?'true':'false');
-    sw.classList.toggle('on', !!on);
-  }
-  setSwitch(beepToggle, true);
-  setSwitch(voiceToggle,false);
+  function setSwitch(el,on){ const sw=el.querySelector('.switch'); el.setAttribute('aria-pressed',on?'true':'false'); sw.classList.toggle('on',!!on); }
+  let beepOn=true, voiceOn=false; setSwitch(beepToggle, true); setSwitch(voiceToggle,false);
   beepToggle.addEventListener('click', ()=>{ beepOn=!beepOn; setSwitch(beepToggle,beepOn); });
   voiceToggle.addEventListener('click', ()=>{ voiceOn=!voiceOn; setSwitch(voiceToggle,voiceOn); if(!voiceOn) synth.cancel(); });
 
-  // Keyboard
-  window.addEventListener('keydown', e=>{
-    if(e.key===' '){ e.preventDefault(); startBtn.click(); }
-    if(e.key==='r' || e.key==='R'){ e.preventDefault(); resetBtn.click(); }
-  });
+  window.addEventListener('keydown', (e)=>{ if(e.key===' '){ e.preventDefault(); startBtn.click(); } if(e.key==='r'||e.key==='R'){ e.preventDefault(); resetBtn.click(); } });
 
-  // Live cycle length display
-  [inhaleEl,hold1El,exhaleEl,hold2El].forEach(el=> el.addEventListener('input', ()=>{
-    const s=readSettings(); updateCycleDisplay(s.inh+s.h1+s.exh+s.h2);
-  }));
+  [inhaleEl,hold1El,exhaleEl,hold2El].forEach(el=> el.addEventListener('input', ()=>{ const s=readSettings(); updateCycleDisplay(s.inh+s.h1+s.exh+s.h2); }));
+
   totalSel.addEventListener('change', ()=> customTotalEl.value='');
 
-  // Theme toggle (also ensure readable inputs/selects)
+  /* Theme toggle + adapt input/select text colors */
   themeBtn.addEventListener('click', ()=>{
     const light = !document.body.classList.contains('light');
     document.body.classList.toggle('light', light);
     themeBtn.textContent = light ? '☀️' : '🌙';
-    // force color on selects for visibility (best-effort)
     const color = light ? '#0a3a32' : '#EAF8E7';
-    [totalSel].forEach(s=>{ s.style.color=color; });
-    [inhaleEl,hold1El,exhaleEl,hold2El,customTotalEl].forEach(i=>{ i.style.color=color; });
+    [totalSel, inhaleEl, hold1El, exhaleEl, hold2El, customTotalEl].forEach(el => { el.style.color = color; });
   });
 
-  // Page Visibility API: pause animations/loops when hidden
-  function onVisibility(){
-    pageHidden = document.visibilityState !== 'visible';
-    if(pageHidden){ stopBubbles(); }
-    else { startBubbles(); }
+  /* Make select text black while dropdown is open (best‑effort fallback) */
+  function setSelectOpen(isOpen){
+    if(isOpen){ totalSel.classList.add('open'); totalSel.style.color='#000'; totalSel.style.background='#fff'; }
+    else{
+      totalSel.classList.remove('open');
+      const light = document.body.classList.contains('light');
+      totalSel.style.color = light ? '#0a3a32' : '#EAF8E7';
+      totalSel.style.background = light ? '#fff' : 'rgba(0,0,0,.12)';
+    }
   }
-  document.addEventListener('visibilitychange', onVisibility); onVisibility(); /* start or stop correctly */ /* MDN confirms throttling patterns */ 
+  totalSel.addEventListener('focus',    ()=> setSelectOpen(true));
+  totalSel.addEventListener('mousedown',()=> setSelectOpen(true));
+  totalSel.addEventListener('change',   ()=> setSelectOpen(false));
+  totalSel.addEventListener('blur',     ()=> setSelectOpen(false));
 
-  // Init
-  const s0 = readSettings();
-  updateCycleDisplay(s0.inh + s0.h1 + s0.exh + s0.h2);
+  /* Page Visibility: pause nonessential visuals */
+  function onVisibility(){ pageHidden = document.visibilityState!=='visible'; if(pageHidden) stopBubbles(); else startBubbles(); }
+  document.addEventListener('visibilitychange', onVisibility); onVisibility();
+
+  // init
+  const s0=readSettings(); updateCycleDisplay(s0.inh+s0.h1+s0.exh+s0.h2);
   setTimeout(()=> startBtn.focus({preventScroll:true}), 700);
 })();
 </script>
