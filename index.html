@@ -6,153 +6,215 @@
 <title>Zenith — Breathing App</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet" />
 <style>
-:root {
-  --ink-dark: #062c23;
-  --ink-light: #f6fffb;
-  --green-primary: #10b981;
-  --green-accent: #34d399;
-  --bg-dark-a: #042019;
-  --bg-dark-b: #064e3b;
-  --bg-light-a: #eafff7;
-  --bg-light-b: #d8fff0;
-  --radius-card: 18px;
-  --radius-field: 14px;
-  --header-height: 80px;
+:root{
+  --ink-dark:#062c23;
+  --ink-light:#f6fffb;
+
+  --green-primary:#10b981;
+  --green-accent:#34d399;
+
+  --bg-dark-a:#042019;
+  --bg-dark-b:#064e3b;
+  --bg-light-a:#eafff7;
+  --bg-light-b:#d8fff0;
+
+  --card-dark:#0b2e29;
+  --card-light:#ffffff;
+
+  --radius-card:20px;
+  --radius-field:14px;
+
+  --breath-duration:10s;
+  --header-height:80px;
 }
-html,body { height:100%; margin:0; }
-body {
+
+/* Reset/base */
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ height:100%; margin:0; }
+body{
   font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  color:var(--ink-light);
   background: linear-gradient(135deg,var(--bg-dark-a),var(--bg-dark-b));
-  color: var(--ink-light);
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
 }
-body.light {
+body.light{
+  color:var(--ink-dark);
   background: linear-gradient(135deg,var(--bg-light-a),var(--bg-light-b));
-  color: var(--ink-dark);
 }
-.sky { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events:none; opacity:.24; filter: blur(.8px); background:
+
+/* Gentle global breathing */
+@keyframes bgBreath{0%{filter:hue-rotate(0) brightness(1)}50%{filter:hue-rotate(6deg) brightness(1.06)}100%{filter:hue-rotate(0) brightness(1)}}
+body.breathing{ animation: bgBreath var(--breath-duration) linear infinite; }
+
+/* Stars layer */
+.sky{
+  position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.24; filter:blur(.7px);
+  background:
     radial-gradient(circle at 25% 15%, #bbffe833 1.5px, transparent 2px),
     radial-gradient(circle at 78% 38%, #eafff64d 1.7px, transparent 2.4px),
     radial-gradient(circle at 12% 72%, #6ff3c244 1.3px, transparent 2px),
     radial-gradient(circle at 85% 80%, #10b98133 1.2px, transparent 1.9px),
     radial-gradient(circle at 50% 50%, #a7f3d022 1.1px, transparent 1.6px);
   background-size: 360px 360px, 300px 300px, 320px 320px, 360px 360px, 260px 260px;
-  animation: skyMove 90s linear infinite;}
-@keyframes skyMove {
-  0%{background-position:0 0,40px 20px,80px 0,0 0,-40px 20px;}
-  100%{background-position:700px 520px,380px 300px,560px 380px,320px 240px,200px 190px;}
+  animation: skyMove 90s linear infinite;
+}
+@keyframes skyMove{0%{background-position:0 0,40px 20px,80px 0,0 0,-40px 20px}100%{background-position:700px 520px,380px 300px,560px 380px,320px 240px,200px 190px}}
+
+/* Transparent centered header (no box) */
+.site-header{
+  position:fixed; top:0; left:0; right:0; height:var(--header-height); z-index:50;
+  display:flex; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.header-inner{
+  display:flex; align-items:center; gap:14px; pointer-events:auto;
+}
+.brand-logo{ width:46px; height:46px; }
+.ring{ stroke:#10b981; stroke-width:3; fill:none; stroke-linecap:round; stroke-dasharray:120; stroke-dashoffset:120; animation:ringDraw 2.2s ease forwards; }
+@keyframes ringDraw{to{stroke-dashoffset:0}}
+.leaf{ fill:url(#gradLeaf); transform-origin:22px 22px; animation:leafPulse 2.6s ease-in-out infinite; }
+@keyframes leafPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+.brand-name{
+  font-weight:900; font-size:26px; letter-spacing:.34px; line-height:1;
+  color:var(--ink-light); text-shadow:0 2px 8px rgba(16,185,129,.7);
+  transition:color .22s;
+}
+body.light .brand-name{ color:var(--green-primary); text-shadow:none; }
+
+/* Theme button fixed top-right */
+.theme-btn{
+  position:fixed; right:24px; top:18px; z-index:60;
+  width:44px; height:44px; display:grid; place-items:center;
+  border:none; border-radius:50%;
+  background:rgba(255,255,255,.18);
+  color:var(--green-accent);
+  box-shadow:0 6px 18px rgba(16,185,129,.22);
+  font-size:24px; cursor:pointer;
+  transition: background .16s, box-shadow .22s, color .18s, transform .12s;
+}
+.theme-btn:hover{ transform:translateY(-1px); box-shadow:0 8px 24px rgba(16,185,129,.28); }
+body.light .theme-btn{ background:#ffffff; color:var(--green-primary); }
+
+/* App container (below header) */
+.app{
+  position:relative; z-index:1;
+  width:min(1100px,94vw);
+  margin: calc(var(--header-height) + 18px) auto 24px;
+  display:flex; flex-direction:column; gap:24px; align-items:center;
 }
 
-/* Header (no box, only logo+name centered at very top) */
-.site-header {
-  position: fixed;
-  left: 0; top: 0; right: 0; z-index: 50;
-  width: 100vw;
-  height: var(--header-height);
-  background: none;
-  display: flex; align-items: center; justify-content: center;
-  pointer-events: none;
-}
-.header-inner {
-  display: flex; align-items: center; gap: 14px;
-  pointer-events: auto;
-}
-.brand-logo { width: 44px; height: 44px; }
-.ring {
-  stroke: #10b981; stroke-width: 3; fill: none; stroke-linecap: round;
-  stroke-dasharray: 120; stroke-dashoffset: 120;
-  animation: ringDraw 2.4s cubic-bezier(.49,.11,.4,.90) forwards;
-}
-@keyframes ringDraw { to { stroke-dashoffset: 0; } }
-.leaf {
-  fill: url(#gradLeaf); transform-origin: 22px 22px;
-  animation: leafPulse 2.4s ease-in-out infinite;
-}
-@keyframes leafPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.11);} }
-.brand-name {
-  font-weight: 900; font-size: 27px; letter-spacing: .38px; user-select: none; line-height: 1.2;
-  color: var(--ink-light);
-  text-shadow: 0 2px 8px rgba(16,185,129,.70);
-  transition: color .22s;
-}
-body.light .brand-name {
-  color: var(--green-primary);
-  text-shadow: none;
-}
-
-/* Theme toggle */
-.theme-btn {
-  position: fixed;
-  top: 18px;
-  right: 36px;
-  z-index: 100;
-  width: 44px;
-  height: 44px;
-  display: grid; place-items: center;
-  font-size: 24px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.18);
-  color: var(--green-accent);
-  box-shadow: 0 4px 16px rgba(16,185,129,0.17);
-  cursor: pointer;
-  pointer-events: auto;
-  outline: none;
-  transition: background .15s, box-shadow .14s, color .18s;
-}
-body.light .theme-btn { background: #fff; color: var(--green-primary);}
-.theme-btn:active { background:rgba(52,211,153,0.13); box-shadow:0 6px 24px #34d39940; }
-
-/* App container shifted below header */
-.app {
-  margin: calc(var(--header-height) + 30px) auto 0 auto;
-  padding-bottom: 34px;
-  width: min(1100px,96vw);
-}
-/* Card styling */
-.card {
+/* Cards */
+.card{
+  width:100%; max-width:880px;
+  background: rgba(11,46,41,.92);
   border-radius: var(--radius-card);
-  background: rgba(22,34,31,0.85);
-  box-shadow: 0 10px 30px rgba(16,185,129,.23);
-  margin-bottom: 24px;
+  box-shadow: 0 16px 44px rgba(16,185,129,.28);
 }
-body.light .card {
-  background: #fff;
-  box-shadow: 0 8px 22px #10b98118;
-}
-.visual { padding: 28px 20px 16px; display:flex; flex-direction:column; align-items:center; gap:22px;}
-.circle-wrap{ width:min(420px,98vw); aspect-ratio:1; display: grid; place-items:center; }
+body.light .card{ background:#ffffff; box-shadow: 0 10px 28px rgba(16,185,129,.18); }
 
-/* ... keep your visual, control, and footer CSS as in previous version ... */
+/* Visual */
+.visual{ padding:22px 22px 14px; display:flex; flex-direction:column; align-items:center; gap:14px; }
+.circle-wrap{ position:relative; width:min(440px,96%); aspect-ratio:1/1; display:grid; place-items:center; }
+.bubbles{ position:absolute; inset:10px; z-index:1; pointer-events:none;}
+.bubble{ position:absolute; bottom:-40px; border-radius:50%; background: radial-gradient(circle at 32% 28%, rgba(225,255,240,.92), rgba(200,255,235,.26)); box-shadow:0 10px 22px rgba(16,185,129,.28); opacity:.22; filter:blur(.2px); animation:floatUp linear forwards; }
+@keyframes floatUp{0%{transform:translateY(0) scale(.92); opacity:0}12%{opacity:.26}90%{opacity:.12}100%{transform:translateY(-120%) scale(1.06); opacity:0}}
+.pulse{ position:absolute; inset:12px; border-radius:50%; pointer-events:none; z-index:2; border:4px solid #34d399; box-shadow: 0 0 70px #065f46; opacity:.24; transform:scale(.96); transition: transform .4s, opacity .4s; }
+.orbit{ position:absolute; inset:14px; border-radius:50%; pointer-events:none; z-index:2; box-shadow:0 0 22px #34d399, 0 0 3px #a7f3d0; animation:orbit 7.2s linear infinite; opacity:.78; }
+@keyframes orbit{to{transform:rotate(360deg)}}
+.circle{
+  position:relative; z-index:3; width:70%; min-width:210px; aspect-ratio:1/1; border-radius:50%;
+  display:grid; place-items:center; text-align:center; color:var(--ink-light);
+  background: radial-gradient(ellipse at 30% 22%, rgba(52,211,153,.48), rgba(16,185,129,.28) 60%, rgba(6,44,35,.10) 100%),
+              conic-gradient(from 220deg, rgba(16,185,129,.76), rgba(52,211,153,.54), rgba(16,185,129,.76));
+  border: 3px solid #10b981;
+  box-shadow:0 36px 120px rgba(16,185,129,.58), 0 18px 44px rgba(6,44,35,.42), inset 0 0 30px rgba(255,255,255,.22);
+  transition: transform 560ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms;
+}
+.circle.glow{ box-shadow: 0 58px 160px #10b981, 0 26px 70px rgba(6,44,35,.65), inset 0 0 38px #ffff; }
+.phase{ font-weight:900; font-size:19px; letter-spacing:.3px; }
+.big{ font-weight:900; font-size:54px; letter-spacing:-.9px; color:#053a2d; text-shadow:0 8px 20px #a7f3d0bb; }
+body.light .big{ color:#047857; }
+.tiny{ font-weight:800; font-size:15px; color:#d0fff2; }
+body.light .tiny{ color:#10b981; }
 
-/* Footer (single, always at bottom) */
-.site-footer {
-  text-align:center;
-  padding:18px 12px 10px 12px;
-  font-weight:800;
-  font-size:14px;
-  color:#34d399;
-  user-select:none;
-  letter-spacing:.03em;
+.phrase{
+  font-weight:900; font-size:1rem; color:#ffffff; background: linear-gradient(120deg,#34d399,#10b981);
+  padding:10px 16px; border-radius:999px; box-shadow:0 12px 34px #10b9813a;
+  opacity:0; transform:translateY(6px); transition:opacity 220ms, transform 220ms;
 }
-body.light .site-footer {
-  color:var(--green-primary);
+.phrase.show{ opacity:1; transform:none; }
+
+.actions{ display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; }
+.btn{
+  border-radius:44px; border:3px solid #34d399; padding:12px 26px; font-weight:900; font-size:18px; cursor:pointer;
+  color:#062c23; background: linear-gradient(120deg,#a7f3d0,#10b981);
+  box-shadow: 0 8px 22px rgba(16,185,129,.22);
+  transition: transform .12s, box-shadow .18s, background .18s, filter .16s;
 }
+.btn:hover{ transform: translateY(-2px); box-shadow: 0 18px 42px #10b98144; background: linear-gradient(120deg,#34d399,#10b981); filter:saturate(1.08); }
+.btn.alt{ color:var(--ink-light); background: linear-gradient(120deg,#10b981,#34d399); border-color:#10b981; }
+
+/* Controls */
+.controls{ padding:18px 16px 22px; display:flex; flex-direction:column; gap:16px; }
+.grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
+.field{ display:flex; flex-direction:column; gap:8px; padding:12px; border-radius:var(--radius-field); background:#0e3a32; box-shadow:0 10px 24px #10b9812a; }
+body.light .field{ background:#ffffff; box-shadow:0 10px 24px #10b98118; }
+label{ font-size:14px; font-weight:900; color:#34d399; }
+body.light label{ color:#10b981; }
+input[type=number], select{
+  border:3px solid #34d399; background:#0b2e29; color:var(--ink-light);
+  padding:12px 14px; border-radius:var(--radius-field); font-weight:900; font-size:16px;
+  outline:none; transition:border-color .18s, background .18s, color .18s; -webkit-appearance:none; appearance:none;
+}
+input[type=number]::placeholder{ color:#cffff0; opacity:.85; }
+input[type=number]:focus-visible, select:focus-visible{ outline:3px solid #34d399; outline-offset:4px; }
+body.light input[type=number], body.light select{ background:#ffffff; color:#062c23; border-color:#10b981; }
+.row{ display:flex; align-items:center; gap:14px; }
+.row>select{ min-width:170px; }
+
+.options{ display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+.toggle{ display:flex; align-items:center; gap:12px; font-weight:900; color:#34d399; cursor:pointer; }
+body.light .toggle{ color:#047857; }
+.switch{
+  position:relative; width:64px; height:36px; border-radius:9999px; background:#0b2e29; border:2.5px solid #34d399;
+  display:flex; align-items:center; transition:all .22s;
+}
+body.light .switch{ background:#ffffff; border-color:#10b981; }
+.knob{
+  position:absolute; top:50%; left:4px; transform:translateY(-50%); width:28px; height:28px; border-radius:50%;
+  background:#f6fffb; box-shadow:0 2px 10px #065f46; transition:left .24s;
+}
+.switch.on{ background:#10b981; border-color:#10b981; }
+.switch.on .knob{ left: calc(100% - 32px); }
+
+.meta{ display:flex; justify-content:space-between; font-weight:900; font-size:14px; color:#b4ffee; }
+body.light .meta{ color:#047857; }
+.hint{ font-weight:900; font-size:13px; color:#34d399; }
+body.light .hint{ color:#10b981; }
+
+option{ color:#000; background:#fff; }
+select.open{ color:#000 !important; background:#fff !important; }
+
+/* Footer */
+.site-footer{
+  text-align:center; padding:16px 10px 24px; font-weight:800; font-size:14px; color:#48e1b0; user-select:none;
+}
+body.light .site-footer{ color:#047857; }
+
+/* Responsive */
 @media (max-width:720px){
-  .header-inner .brand-name{ font-size: 18px;}
-  .app{ padding:0;}
+  .brand-name{ font-size:18px; }
 }
-@media (prefers-reduced-motion: reduce){
-  *{animation:none !important; transition:none!important;}
-}
+@media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
 </style>
 </head>
-<body>
+<body class="breathing">
   <div class="sky" aria-hidden="true"></div>
 
-  <!-- Header -->
-  <header class="site-header" role="banner">
+  <!-- Transparent centered header -->
+  <header class="site-header" role="banner" aria-label="Zenith">
     <div class="header-inner">
-      <svg class="brand-logo" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+      <svg class="brand-logo" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
         <defs>
           <linearGradient id="gradLeaf" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#10b981"/>
@@ -160,22 +222,26 @@ body.light .site-footer {
           </linearGradient>
         </defs>
         <circle class="ring" cx="22" cy="22" r="18"/>
-        <path class="leaf"
-              d="M22 11 C29 15, 32 24, 22 36 C12 24, 15 15, 22 11 Z"/>
+        <path class="leaf" d="M22 11 C29 15, 32 24, 22 36 C12 24, 15 15, 22 11 Z"/>
       </svg>
       <span class="brand-name">Zenith</span>
     </div>
   </header>
-  <button id="themeBtn" class="theme-btn" aria-label="Toggle theme">🌙</button>
 
-  <main class="app">
-    <!-- Visual -->
-    <section class="card visual">
+  <!-- Theme toggle (aligned top-right) -->
+  <button id="themeBtn" class="theme-btn" aria-label="Toggle theme" title="Toggle light/dark">🌙</button>
+
+  <main class="app" role="main" aria-label="Zenith Breathing App">
+    <!-- Visual card -->
+    <section class="card visual" aria-label="Breathing visual">
       <div class="circle-wrap" id="circleWrap">
-        <canvas id="trail" style="position:absolute; inset:8px; z-index:1; pointer-events:none;"></canvas>
-        <div id="pulse" class="pulse"></div>
-        <div class="orbit"></div>
-        <div id="circle" class="circle">
+        <div class="bubbles" id="bubbles"></div>
+        <canvas id="trail" style="position:absolute; inset:10px; z-index:1; pointer-events:none;"></canvas>
+
+        <div id="pulse" class="pulse" aria-hidden="true"></div>
+        <div class="orbit" aria-hidden="true"></div>
+
+        <div id="circle" class="circle" role="img" aria-label="Breathing circle">
           <div>
             <div class="phase" id="phase">—</div>
             <div class="big" id="phaseTime">0s</div>
@@ -183,15 +249,18 @@ body.light .site-footer {
           </div>
         </div>
       </div>
+
       <div class="phrase" id="phrase">Welcome — set your timings and press Start</div>
+
       <div class="actions">
         <button id="startBtn" class="btn" aria-pressed="false">Start</button>
         <button id="pauseBtn" class="btn alt" title="Pause/resume">Pause</button>
         <button id="resetBtn" class="btn alt" title="Reset">Reset</button>
       </div>
     </section>
-    <!-- Controls -->
-    <section class="card controls">
+
+    <!-- Controls card -->
+    <section class="card controls" aria-label="Controls">
       <div class="grid">
         <div class="field">
           <label for="inhale">Inhale (sec)</label>
@@ -210,6 +279,7 @@ body.light .site-footer {
           <input id="hold2" type="number" min="0" value="0" />
         </div>
       </div>
+
       <div>
         <label style="font-size:13px; font-weight:900; color:#34d399;">Total time</label>
         <div class="row">
@@ -223,7 +293,8 @@ body.light .site-footer {
           <input id="customTotal" type="number" min="10" placeholder="Custom sec (optional)" style="flex:1" />
         </div>
       </div>
-      <div class="options">
+
+      <div class="options" role="group" aria-label="Options toggles">
         <div id="beepToggle" class="toggle" role="button" aria-pressed="true" tabindex="0">
           <span>Beep</span>
           <div class="switch on"><div class="knob"></div></div>
@@ -233,16 +304,263 @@ body.light .site-footer {
           <div class="switch"><div class="knob"></div></div>
         </div>
       </div>
-      <div class="meta">
+
+      <div class="meta" aria-live="polite">
         <div>Status: <strong id="status">stopped</strong></div>
         <div>Cycle length: <strong id="cycleLen">0s</strong></div>
       </div>
+
       <div class="hint">Tip: press <strong>Space</strong> to Start/Pause, <strong>R</strong> to Reset.</div>
     </section>
-    <footer class="site-footer">© 2025 Zenith. All rights reserved.</footer>
+
+    <footer class="site-footer" role="contentinfo">
+      © 2025 Zenith. All rights reserved.
+    </footer>
   </main>
+
 <script>
-// JS code unchanged from previous explanations (see full solution above)
+(() => {
+  const themeBtn = document.getElementById('themeBtn');
+
+  const inhaleEl = document.getElementById('inhale');
+  const hold1El = document.getElementById('hold1');
+  const exhaleEl = document.getElementById('exhale');
+  const hold2El = document.getElementById('hold2');
+
+  const totalSel = document.getElementById('total');
+  const customTotalEl = document.getElementById('customTotal');
+
+  const beepToggle  = document.getElementById('beepToggle');
+  const voiceToggle = document.getElementById('voiceToggle');
+
+  const statusEl = document.getElementById('status');
+  const cycleLenEl = document.getElementById('cycleLen');
+  const phaseEl = document.getElementById('phase');
+  const phaseTimeEl = document.getElementById('phaseTime');
+  const totalTimeEl = document.getElementById('totalTime');
+
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  const circle = document.getElementById('circle');
+  const pulse  = document.getElementById('pulse');
+  const phrase = document.getElementById('phrase');
+
+  const circleWrap = document.getElementById('circleWrap');
+  const trailCanvas = document.getElementById('trail');
+  const bubblesBox  = document.getElementById('bubbles');
+
+  let beepOn = true;
+  let voiceOn = false;
+
+  let timerInterval = null;
+  let startTS = null;
+  let pauseOffset = 0;
+  let endTS = null;
+  let lastPhaseIndex = -1;
+
+  let pageHidden = false;
+
+  /* Audio chime */
+  let audioCtx = null;
+  function chime(){
+    if(!beepOn) return;
+    try{
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const now = audioCtx.currentTime;
+      const o1 = audioCtx.createOscillator();
+      const o2 = audioCtx.createOscillator();
+      const g  = audioCtx.createGain();
+      const f  = audioCtx.createBiquadFilter();
+      f.type='lowpass'; f.frequency.value=2300;
+      o1.type='sine'; o2.type='sine';
+      o1.frequency.value=880; o2.frequency.value=1320;
+      o1.connect(g); o2.connect(g); g.connect(f); f.connect(audioCtx.destination);
+      g.gain.setValueAtTime(0.0001, now);
+      g.gain.exponentialRampToValueAtTime(0.085, now + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
+      o1.start(now); o2.start(now); o1.stop(now + 1.02); o2.stop(now + 1.02);
+    }catch(e){}
+  }
+
+  /* Voice cues */
+  const synth = window.speechSynthesis;
+  function speak(text){
+    if(!voiceOn) return;
+    if(!('speechSynthesis' in window)) return;
+    try{
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US'; u.rate = 0.95;
+      synth.speak(u);
+    }catch(e){}
+  }
+
+  /* Helpers */
+  function readSettings(){
+    const inh = Math.max(0, Number(inhaleEl.value)||0);
+    const h1  = Math.max(0, Number(hold1El.value)||0);
+    const exh = Math.max(0, Number(exhaleEl.value)||0);
+    const h2  = Math.max(0, Number(hold2El.value)||0);
+    let total = Number(totalSel.value);
+    const custom = Number(customTotalEl.value)||0;
+    if(custom>=10) total = custom;
+    return {inh,h1,exh,h2,total};
+  }
+  function fmt(s){ s=Math.max(0,Math.round(s)); return (s<60)? s+'s' : (Math.floor(s/60)+'m '+(s%60)+'s'); }
+  function updateCycleDisplay(len){
+    cycleLenEl.textContent = Math.round(len)+'s';
+    if(len>0){
+      document.documentElement.style.setProperty('--breath-duration', Math.max(4,Math.round(len))+'s');
+      document.body.classList.add('breathing');
+    }
+  }
+  function showPhrase(name){
+    const map = { Inhale:'Inhale deeply…', Hold:'Hold gently…', Exhale:'Exhale slowly…' };
+    phrase.classList.remove('show');
+    setTimeout(()=>{ phrase.textContent = map[name] || 'Hold gently…'; phrase.classList.add('show'); },120);
+  }
+
+  /* Trail particles (canvas) */
+  let ctx, w=0, h=0, rafId=null;
+  const particles=[];
+  function resizeCanvas(){
+    const r = circleWrap.getBoundingClientRect();
+    w = Math.floor(r.width - 20); h = Math.floor(r.height - 20);
+    trailCanvas.width=w; trailCanvas.height=h;
+    ctx = trailCanvas.getContext('2d');
+    trailCanvas.style.left = '10px';
+    trailCanvas.style.top  = '10px';
+  }
+  window.addEventListener('resize', resizeCanvas, {passive:true});
+  resizeCanvas();
+
+  function emitParticles(){
+    if(pageHidden) return;
+    const size = Math.min(w,h)*0.34;
+    for(let i=0;i<3;i++){
+      const a=Math.random()*Math.PI*2, r=size+(Math.random()*8-4);
+      particles.push({ x:w/2+Math.cos(a)*r, y:h/2+Math.sin(a)*r, vx:(Math.random()-.5)*0.4, vy:(Math.random()-.5)*0.4, life: 28+Math.random()*16 });
+    }
+  }
+  function stepParticles(){
+    if(!ctx){ rafId=requestAnimationFrame(stepParticles); return; }
+    ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='rgba(0,0,0,.10)'; ctx.fillRect(0,0,w,h);
+    ctx.globalCompositeOperation='lighter';
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.vx*=.985; p.vy*=.985; p.life--;
+      const a=Math.max(0,p.life/40); ctx.fillStyle=`rgba(197,245,221,${a})`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,1.4+(1-a)*1.2,0,Math.PI*2); ctx.fill();
+      if(p.life<=0) particles.splice(i,1);
+    }
+    rafId=requestAnimationFrame(stepParticles);
+  }
+  rafId=requestAnimationFrame(stepParticles);
+
+  /* Floating bubbles */
+  let bubbleInt=null;
+  function startBubbles(){
+    if(bubbleInt) return;
+    bubbleInt=setInterval(()=>{
+      if(pageHidden) return;
+      const b=document.createElement('div'); b.className='bubble';
+      const s=8+Math.random()*16; b.style.width=s+'px'; b.style.height=s+'px';
+      b.style.left=(Math.random()*86+7)+'%'; b.style.animationDuration=(7+Math.random()*7)+'s';
+      bubblesBox.appendChild(b);
+      setTimeout(()=>b.remove(),14000);
+    },1500);
+  }
+  function stopBubbles(){ clearInterval(bubbleInt); bubbleInt=null; }
+
+  /* Timer */
+  function startTimer(){
+    const s=readSettings(); const cycleLen=s.inh+s.h1+s.exh+s.h2;
+    if(cycleLen<=0){ alert('Set at least one positive phase length.'); return; }
+    updateCycleDisplay(cycleLen);
+    startTS=Date.now()-pauseOffset; endTS=(s.total===-1)?Infinity:startTS+s.total*1000;
+    statusEl.textContent='running'; startBtn.textContent='Stop'; startBtn.setAttribute('aria-pressed','true');
+    circle.classList.add('glow'); phrase.classList.add('show');
+    if(timerInterval) clearInterval(timerInterval); timerInterval=setInterval(tick,120);
+    try{ audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+    tick();
+  }
+  function pauseTimer(){ if(!startTS) return; pauseOffset=Date.now()-startTS; statusEl.textContent='paused'; if(timerInterval) clearInterval(timerInterval); pulse.style.opacity=.24; synth.cancel(); }
+  function stopTimer(){
+    if(timerInterval) clearInterval(timerInterval);
+    timerInterval=null; startTS=null; endTS=null; pauseOffset=0; lastPhaseIndex=-1;
+    statusEl.textContent='stopped'; startBtn.textContent='Start'; startBtn.setAttribute('aria-pressed','false');
+    phaseEl.textContent='—'; phaseTimeEl.textContent='0s'; totalTimeEl.textContent='0s';
+    phrase.textContent='Welcome — set your timings and press Start'; phrase.classList.remove('show');
+    circle.style.transform='scale(.95)'; circle.classList.remove('glow'); pulse.style.opacity=.22; chime();
+  }
+  function tick(){
+    const s=readSettings();
+    const phases=[{name:'Inhale',len:s.inh},{name:'Hold',len:s.h1},{name:'Exhale',len:s.exh},{name:'Hold',len:s.h2}];
+    const cycleLen=phases.reduce((a,b)=>a+b.len,0); if(cycleLen<=0){ stopTimer(); return; }
+    const now=Date.now(), elapsed=(now-startTS)/1000, totalLeft=(endTS===Infinity)?Infinity:Math.max(0,Math.round((endTS-now)/1000));
+    let t=elapsed%cycleLen, idx=0; for(let i=0;i<phases.length;i++){ if(t<=phases[i].len){ idx=i; break; } t-=phases[i].len; if(i===phases.length-1) idx=phases.length-1; }
+    const cur=phases[idx], left=Math.max(0,cur.len-t);
+    if(idx!==lastPhaseIndex){ chime(); speak(cur.name); showPhrase(cur.name); lastPhaseIndex=idx; emitParticles(); }
+    phaseEl.textContent=cur.name; phaseTimeEl.textContent=Math.ceil(left)+'s'; totalTimeEl.textContent=(totalLeft===Infinity)?'— (indefinite)':fmt(totalLeft);
+    let scale=.95;
+    if(cur.name==='Inhale'){ const p=cur.len?(1-left/cur.len):1; scale=.80+.42*p; pulse.style.transform=`scale(${.98+.32*p})`; pulse.style.opacity=.22+.22*p; }
+    else if(cur.name==='Exhale'){ const p=cur.len?(1-left/cur.len):1; scale=1.10-.36*p; pulse.style.transform=`scale(${1.10-.30*p})`; pulse.style.opacity=.20+.16*p; }
+    else{ scale=.92+.06*Math.sin(performance.now()/380); pulse.style.transform='scale(.96)'; pulse.style.opacity=.22; }
+    circle.style.transform=`scale(${scale.toFixed(3)})`;
+    if(totalLeft!==Infinity && totalLeft<=0){
+      clearInterval(timerInterval); timerInterval=null; startTS=null; statusEl.textContent='finished'; startBtn.textContent='Start';
+      chime(); speak('Session finished'); circle.classList.remove('glow'); pulse.style.opacity=.22; phrase.classList.remove('show');
+    }
+  }
+
+  /* Keyboard + toggles */
+  function wireKey(el, handler){ el.addEventListener('keydown', e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); handler(); } }); }
+  wireKey(startBtn, ()=>startBtn.click()); wireKey(pauseBtn, ()=>pauseBtn.click()); wireKey(resetBtn, ()=>resetBtn.click());
+  wireKey(beepToggle, ()=>beepToggle.click()); wireKey(voiceToggle, ()=>voiceToggle.click());
+
+  startBtn.addEventListener('click', ()=>{ if(statusEl.textContent==='running') stopTimer(); else if(statusEl.textContent==='paused') startTimer(); else { pauseOffset=0; startTimer(); } });
+  pauseBtn.addEventListener('click', ()=>{ if(statusEl.textContent==='running') pauseTimer(); else if(statusEl.textContent==='paused') startTimer(); });
+  resetBtn.addEventListener('click', stopTimer);
+
+  function setSwitch(el,on){ const sw=el.querySelector('.switch'); el.setAttribute('aria-pressed',on?'true':'false'); sw.classList.toggle('on',!!on); }
+  setSwitch(beepToggle,true); setSwitch(voiceToggle,false);
+  beepToggle.addEventListener('click', ()=>{ beepOn=!beepOn; setSwitch(beepToggle,beepOn); });
+  voiceToggle.addEventListener('click', ()=>{ voiceOn=!voiceOn; setSwitch(voiceToggle,voiceOn); if(!voiceOn) synth.cancel(); });
+
+  window.addEventListener('keydown', (e)=>{ if(e.key===' '){ e.preventDefault(); startBtn.click(); } if(e.key==='r'||e.key==='R'){ e.preventDefault(); resetBtn.click(); } });
+
+  [inhaleEl,hold1El,exhaleEl,hold2El].forEach(el=> el.addEventListener('input', ()=>{ const s=readSettings(); updateCycleDisplay(s.inh+s.h1+s.exh+s.h2); }));
+  totalSel.addEventListener('change', ()=> customTotalEl.value='');
+
+  themeBtn.addEventListener('click', ()=>{
+    const light = !document.body.classList.contains('light');
+    document.body.classList.toggle('light', light);
+    themeBtn.textContent = light ? '☀️' : '🌙';
+    const color = light ? '#047857' : '#f6fffb';
+    [totalSel, inhaleEl, hold1El, exhaleEl, hold2El, customTotalEl].forEach(el => { el.style.color = color; });
+  });
+
+  function setSelectOpen(open){
+    if(open){ totalSel.classList.add('open'); totalSel.style.color='#000'; totalSel.style.background='#fff'; }
+    else{
+      totalSel.classList.remove('open');
+      const light = document.body.classList.contains('light');
+      totalSel.style.color = light ? '#047857' : '#f6fffb';
+      totalSel.style.background = light ? '#fff' : '#0b2e29';
+    }
+  }
+  totalSel.addEventListener('focus', ()=> setSelectOpen(true));
+  totalSel.addEventListener('mousedown', ()=> setSelectOpen(true));
+  totalSel.addEventListener('change', ()=> setSelectOpen(false));
+  totalSel.addEventListener('blur', ()=> setSelectOpen(false));
+
+  function onVisibility(){ pageHidden = document.visibilityState!=='visible'; if(pageHidden) stopBubbles(); else startBubbles(); }
+  document.addEventListener('visibilitychange', onVisibility); onVisibility();
+
+  const s0 = readSettings(); updateCycleDisplay(s0.inh+s0.h1+s0.exh+s0.h2);
+  setTimeout(()=> startBtn.focus({preventScroll:true}), 700);
+})();
 </script>
 </body>
 </html>
