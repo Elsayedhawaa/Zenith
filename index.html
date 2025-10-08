@@ -9,7 +9,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
   }
 
   body {
@@ -18,17 +18,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: background 2s ease;
-    background: linear-gradient(135deg, #004d40, #00695c);
-    animation: gradientShift 10s ease infinite alternate;
-    color: #fff;
+    background: linear-gradient(135deg, #002b27, #004d40);
+    animation: gradientShift 20s ease-in-out infinite alternate;
+    transition: background 1.5s ease, color 1.5s ease;
+    color: #ffffff;
     overflow: hidden;
   }
 
   @keyframes gradientShift {
-    0% { background: linear-gradient(135deg, #004d40, #00695c); }
-    50% { background: linear-gradient(135deg, #00695c, #00796b); }
-    100% { background: linear-gradient(135deg, #004d40, #00897b); }
+    0% { background: linear-gradient(135deg, #002b27, #004d40); }
+    50% { background: linear-gradient(135deg, #003833, #00695c); }
+    100% { background: linear-gradient(135deg, #002b27, #00796b); }
   }
 
   .theme-toggle {
@@ -42,15 +42,16 @@
     cursor: pointer;
     transition: transform 0.3s ease;
   }
+
   .theme-toggle:hover {
     transform: scale(1.1);
   }
 
   h1 {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     font-weight: 600;
     opacity: 0;
-    animation: fadeIn 2s forwards;
+    animation: fadeIn 2.5s forwards;
   }
 
   @keyframes fadeIn {
@@ -59,26 +60,27 @@
 
   .phrase {
     margin-top: 10px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 500;
     opacity: 0;
     transition: opacity 1s ease;
   }
 
   .circle {
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(0, 255, 200, 0.3);
-    margin: 30px 0;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 25px rgba(0, 255, 200, 0.25);
+    margin: 40px 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 4s ease, box-shadow 2s ease;
+    transition: transform 4s ease, box-shadow 3s ease;
   }
 
-  .glow {
-    box-shadow: 0 0 50px rgba(0, 255, 200, 0.7);
+  .circle.glow {
+    box-shadow: 0 0 55px rgba(0, 255, 200, 0.7);
   }
 
   .controls {
@@ -92,23 +94,31 @@
     background: #00bfa5;
     border: none;
     color: #fff;
-    padding: 10px 20px;
+    padding: 10px 22px;
     margin: 5px;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
+    font-size: 1rem;
     transition: background 0.3s, transform 0.3s;
   }
+
   button:hover {
     background: #1de9b6;
     transform: scale(1.05);
   }
 
   input {
-    padding: 5px;
+    padding: 6px;
     border-radius: 6px;
     border: none;
+    width: 50px;
     text-align: center;
+  }
+
+  label {
+    margin: 0 5px;
+    font-size: 0.95rem;
   }
 
   .light-mode {
@@ -126,8 +136,8 @@
   }
 
   .light-mode .circle {
-    background: rgba(0, 77, 64, 0.1);
-    box-shadow: 0 0 20px rgba(0, 77, 64, 0.3);
+    background: rgba(0, 77, 64, 0.08);
+    box-shadow: 0 0 25px rgba(0, 77, 64, 0.25);
   }
 </style>
 </head>
@@ -195,7 +205,7 @@
     soundToggle.textContent = soundOn ? "Sound: ON" : "Sound: OFF";
   });
 
-  const phases = ["Inhale deeply...", "Hold...", "Exhale slowly...", "Hold..."];
+  const phases = ["Inhale deeply…", "Hold…", "Exhale slowly…", "Hold…"];
   let phaseIndex = 0;
 
   function updatePhrase(text) {
@@ -213,7 +223,7 @@
     }
   }
 
-  function breathe() {
+  function breatheCycle() {
     const times = [
       inhaleTime.value * 1000,
       holdTime.value * 1000,
@@ -221,35 +231,43 @@
       holdTime2.value * 1000,
     ];
 
-    let totalCycle = times.reduce((a, b) => a + b);
-    let current = 0;
-    phaseIndex = 0;
-    updatePhrase(phases[phaseIndex]);
+    let totalCycle = times.reduce((a, b) => a + b, 0);
+    let phaseDurations = [...times];
 
-    circle.classList.add("glow");
-    circle.style.transform = "scale(1.2)";
+    let currentPhase = 0;
+    updatePhrase(phases[currentPhase]);
+    playChime();
+    animatePhase(currentPhase);
 
     interval = setInterval(() => {
-      current += times[phaseIndex];
-      setTimeout(() => {
-        playChime();
-        phaseIndex = (phaseIndex + 1) % phases.length;
-        updatePhrase(phases[phaseIndex]);
-        if (phaseIndex === 0) circle.style.transform = "scale(1.2)";
-        else if (phaseIndex === 2) circle.style.transform = "scale(0.8)";
-      }, times[phaseIndex]);
+      currentPhase = (currentPhase + 1) % phases.length;
+      updatePhrase(phases[currentPhase]);
+      playChime();
+      animatePhase(currentPhase);
+    }, phaseDurations[currentPhase]);
 
-      if (current >= totalCycle) {
-        clearInterval(interval);
-        breathe();
-      }
+    setTimeout(() => {
+      clearInterval(interval);
+      breatheCycle();
     }, totalCycle);
+  }
+
+  function animatePhase(index) {
+    if (index === 0) { // Inhale
+      circle.style.transform = "scale(1.25)";
+      circle.classList.add("glow");
+    } else if (index === 2) { // Exhale
+      circle.style.transform = "scale(0.85)";
+      circle.classList.add("glow");
+    } else {
+      circle.classList.remove("glow");
+    }
   }
 
   startBtn.addEventListener("click", () => {
     if (!running) {
       running = true;
-      breathe();
+      breatheCycle();
     }
   });
 
