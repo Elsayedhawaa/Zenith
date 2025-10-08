@@ -1,733 +1,784 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Zenith Breathing App</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zenith — Breathing App</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-<style>
-  :root{
-    /* Green-first palette (calm) */
-    --bg-dark-a:#012421;
-    --bg-dark-b:#003733;
+  <style>
+    :root{
+      --bg-a: #012421;
+      --bg-b: #003733;
+      --accent-1: #023336;
+      --accent-2: #4DA564;
+      --accent-3: #C1E6BA;
+      --text-light: #EAF8E7;
+      --muted: rgba(234,248,231,0.78);
+      --card-bg: rgba(255,255,255,0.02);
+      --glass: rgba(255,255,255,0.02);
+      --breath-duration: 8s; /* overridden by JS */
+      --max-page-width: 1200px;
+    }
 
-    --accent-1:#023336;   /* deep teal text on dark */
-    --accent-2:#4DA564;   /* primary green */
-    --accent-3:#C1E6BA;   /* soft mint text */
-    --accent-4:#EAF8E7;   /* near white text */
+    /* base */
+    html,body{height:100%; margin:0; font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:28px;
+      background: linear-gradient(120deg,var(--bg-a), var(--bg-b));
+      color:var(--text-light);
+      transition: background 600ms ease, color 400ms ease;
+      overflow-y:auto;
+    }
 
-    --ink-strong:#083b36; /* dark text on light */
-    --ink-muted:#2b6f60;
+    /* breathing background subtle shift synced by --breath-duration */
+    @keyframes bgBreath {
+      0% { filter: hue-rotate(0deg) brightness(1); }
+      50% { filter: hue-rotate(6deg) brightness(1.03); }
+      100% { filter: hue-rotate(0deg) brightness(1); }
+    }
+    body.breathing { animation: bgBreath var(--breath-duration) linear infinite; }
 
-    --panel-glass:rgba(255,255,255,0.04);
-    --panel-stroke:rgba(255,255,255,0.07);
+    /* full-width page layout (left controls, right visual) */
+    .page {
+      width:100%;
+      max-width:var(--max-page-width);
+      display:grid;
+      grid-template-columns: 1fr 520px;
+      gap:28px;
+      align-items:start;
+      box-sizing:border-box;
+    }
 
-    --ring-soft:#6fd28a;
-    --ring-deep:#2a9369;
+    /* star canvas covers background full width (z-index behind everything) */
+    #starCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      filter: blur(0.6px);
+    }
 
-    --primary-grad:linear-gradient(120deg,#4DA564 0%,#028a78 100%);
-    --primary-grad-alt:linear-gradient(120deg,#028a78 0%,#4DA564 100%);
+    /* panel look for the left side (controls) */
+    .panel {
+      position: relative;
+      z-index: 2;
+      padding:20px;
+      border-radius:14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      backdrop-filter: blur(6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    }
 
-    --shadow-strong:0 18px 60px rgba(2,51,54,.28);
-    --shadow-soft:0 10px 30px rgba(77,165,100,.28);
-    --shadow-ui:0 10px 28px rgba(2,51,54,.22);
+    .controls {
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
 
-    --panel-radius:18px;
-    --field-radius:14px;
+    .brand {
+      display:flex; justify-content:space-between; align-items:flex-start; gap:12px;
+    }
+    .title {
+      font-size:22px; font-weight:800; color:var(--text-light);
+    }
+    .subtitle { font-size:13px; color:var(--muted); margin-top:6px; font-weight:600; }
 
-    /* background breathing shift duration (synced from JS) */
-    --breath-duration: 10s;
-  }
+    /* theme toggle */
+    .theme-toggle {
+      background:transparent; border:1px solid rgba(255,255,255,0.06);
+      width:46px; height:46px; border-radius:10px; display:grid; place-items:center; cursor:pointer; color:var(--text-light);
+      transition: transform 180ms, background 180ms; font-size:20px;
+    }
+    .theme-toggle:hover { transform:scale(1.05); }
 
-  /* Base */
-  *,*::before,*::after{ box-sizing:border-box; }
-  html,body{ height:100%; margin:0; }
-  body{
-    font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-    color:var(--accent-4);
-    background: radial-gradient(1200px 800px at 20% -10%, #074236 0%, transparent 50%),
-                linear-gradient(120deg,var(--bg-dark-a),var(--bg-dark-b));
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-  }
+    /* settings grid: separated boxes */
+    .settings-grid {
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:14px;
+      margin-top:6px;
+    }
 
-  /* Subtle whole-page hue/brightness breathing */
-  @keyframes bgBreath {
-    0%   { filter:hue-rotate(0deg) brightness(1); }
-    50%  { filter:hue-rotate(4deg) brightness(1.04); }
-    100% { filter:hue-rotate(0deg) brightness(1); }
-  }
-  body.breathing { animation: bgBreath var(--breath-duration) linear infinite; }
+    .setting-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+      border-radius:12px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
 
-  /* Full-page, softly blurred, twinkling stars (non-blocking UI) */
-  .sky{
-    position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
-    background:
-      radial-gradient(circle at 25% 15%, #C1E6BA33 1.5px, transparent 2px),
-      radial-gradient(circle at 78% 38%, #EAF8E74d 1.7px, transparent 2.4px),
-      radial-gradient(circle at 12% 72%, #A4F3C144 1.3px, transparent 2px),
-      radial-gradient(circle at 85% 80%, #7FD0A833 1.2px, transparent 1.9px),
-      radial-gradient(circle at 50% 50%, #C1E6BA22 1.1px, transparent 1.6px),
-      transparent;
-    background-size: 300px 300px, 260px 260px, 280px 280px, 320px 320px, 240px 240px;
-    filter: blur(1.2px);
-  }
-  .sky::before,
-  .sky::after{
-    content:"";
-    position:absolute; inset:-25%;
-    background:
-      radial-gradient(circle, #EAF8E7 1px, transparent 1.7px) 0 0/ 6px 6px,
-      radial-gradient(circle, #C1E6BA 1px, transparent 2.2px) 40px 30px/ 10px 10px,
-      radial-gradient(circle, #7fd0a8 1px, transparent 1.8px) 80px 10px/ 14px 14px;
-    opacity:.22;
-    animation: twinkle 5.8s infinite ease-in-out alternate;
-  }
-  .sky::after{
-    opacity:.18; filter: blur(0.8px);
-    animation-duration: 7.2s;
-    animation-delay: .6s;
-  }
-  @keyframes twinkle {
-    0%{ transform: translate3d(0,0,0) scale(1); opacity:.12; }
-    50%{ transform: translate3d(-1.5%, -1%, 0) scale(1.03); opacity:.26; }
-    100%{ transform: translate3d(1%, 1.2%, 0) scale(0.98); opacity:.16; }
-  }
+    label { display:block; font-weight:700; font-size:13px; color:var(--accent-3); margin-bottom:8px; }
+    input[type=number], select {
+      width:100%; padding:10px 12px; border-radius:10px; background:transparent; color:var(--text-light);
+      border:1px solid rgba(255,255,255,0.04); font-weight:700; font-size:15px;
+    }
 
-  /* App shell (free layout, naturally stacked, centered) */
-  .app{
-    position:relative; z-index:2;
-    width:min(1020px, 92vw);
-    margin: clamp(18px, 5vh, 40px) auto;
-    display:flex;
-    flex-direction:column;
-    gap:22px;
-  }
+    .total-row { display:flex; gap:12px; align-items:center; margin-top:10px; }
+    .total-row select { width:170px; flex:0 0 170px; padding:10px 12px; border-radius:10px; }
+    .total-row input.custom { flex:1; padding:10px 12px; border-radius:10px; }
 
-  /* Header row */
-  .topbar{
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-  }
-  .title{
-    font-size: clamp(22px, 3.2vw, 32px);
-    font-weight:900; letter-spacing:-0.6px; margin:0;
-    color:var(--accent-4);
-    text-shadow: 0 6px 28px rgba(77,165,100,0.22);
-  }
-  .subtitle{
-    font-size: 13.5px; color: rgba(234,248,231,0.88); font-weight:600; margin-top:6px;
-  }
+    /* options as separate pills */
+    .options { display:flex; gap:18px; margin-top:12px; align-items:center; }
+    .option-card { background:var(--card-bg); padding:8px 12px; border-radius:999px; display:flex; gap:12px; align-items:center; border:1px solid rgba(255,255,255,0.03); }
+    .toggle { display:flex; gap:8px; align-items:center; cursor:pointer; user-select:none; font-weight:700; color:var(--accent-3); }
+    .switch { width:48px; height:28px; border-radius:999px; background: rgba(255,255,255,0.06); padding:3px; display:flex; align-items:center; position:relative; transition:all 220ms; }
+    .switch.on { background: linear-gradient(90deg,var(--accent-1),var(--accent-2)); box-shadow: 0 6px 20px rgba(2,51,54,0.18); }
+    .knob { width:20px; height:20px; border-radius:50%; background:var(--text-light); transform:translateX(0); transition:transform 200ms ease; box-shadow:0 6px 14px rgba(0,0,0,0.35); }
+    .switch.on .knob { transform:translateX(20px); }
 
-  /* Theme button matching the UI */
-  .theme-btn{
-    width:48px; height:48px; border-radius:12px; border:1px solid var(--panel-stroke);
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-    color:var(--accent-4); display:grid; place-items:center; cursor:pointer;
-    box-shadow: var(--shadow-ui);
-    transition: transform .18s ease, background .22s ease, border-color .22s ease, box-shadow .22s ease;
-  }
-  .theme-btn:hover{ transform: translateY(-2px); background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04)); }
+    .meta-row { display:flex; justify-content:space-between; margin-top:12px; color:var(--muted); font-weight:700; }
 
-  /* Panels (visually separated boxes) */
-  .panel{
-    width:100%;
-    background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
-    border: 1px solid var(--panel-stroke);
-    border-radius: var(--panel-radius);
-    box-shadow: var(--shadow-strong);
-    backdrop-filter: blur(8px);
-  }
+    .hint { margin-top:10px; color:rgba(234,248,231,0.7); font-weight:600; }
 
-  /* Controls section */
-  .controls{
-    display:flex; flex-direction:column; gap:16px; padding:18px 16px 20px;
-  }
-  .grid{
-    display:grid; gap:14px;
-    grid-template-columns: repeat(2, minmax(170px, 1fr));
-  }
-  .field{
-    display:flex; flex-direction:column; gap:8px;
-    padding:12px; border-radius:14px; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04);
-  }
-  label{ font-size:13px; font-weight:800; color:var(--accent-3); }
-  input[type=number], select{
-    border:1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.08);
-    color:var(--accent-4); padding:10px 12px; border-radius: var(--field-radius);
-    font-weight:800; font-size:15px; outline:none; transition: border-color .2s, background .2s;
-  }
-  input[type=number]::placeholder{ color: rgba(234,248,231,.62); }
-  input[type=number]:focus, select:focus{ border-color: var(--accent-2); background: rgba(0,0,0,0.12); }
+    /* VISUAL column */
+    .visual-column { z-index:2; display:flex; align-items:center; justify-content:center; min-height:520px; }
+    .visual-box {
+      width:100%; max-width:520px; display:flex; flex-direction:column; align-items:center; gap:14px;
+    }
 
-  .row{ display:flex; gap:12px; align-items:center; }
-  .row > select{ min-width:160px; }
+    .circle-wrap { width:360px; height:360px; display:grid; place-items:center; position:relative; }
+    .pulse-ring {
+      position:absolute; width:100%; height:100%; border-radius:50%;
+      border:3px solid rgba(77,165,100,0.08); box-shadow: inset 0 18px 60px rgba(2,51,54,0.06);
+      opacity:0.12; transition: transform 360ms, opacity 360ms;
+    }
+    .orbit {
+      position:absolute; width:420px; height:420px; border-radius:50%; box-shadow:0 0 40px rgba(2,51,54,0.04); opacity:0.55; pointer-events:none;
+    }
 
-  .options{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
-  .toggle{ display:flex; align-items:center; gap:10px; color:var(--accent-3); font-weight:800; cursor:pointer; }
-  .switch{ width:52px; height:30px; border-radius:999px; background: rgba(255,255,255,0.06); padding:3px; position:relative; transition: all .24s; border:1px solid rgba(255,255,255,0.09); }
-  .switch .knob{ position:absolute; left:3px; top:3px; width:24px; height:24px; border-radius:50%; background:var(--accent-4); box-shadow:0 6px 16px rgba(0,0,0,0.35); transition: transform .2s ease; transform: translateX(0); }
-  .switch.on{ background: linear-gradient(90deg, var(--ring-deep), var(--ring-soft)); box-shadow: 0 10px 26px rgba(77,165,100,.22) inset, 0 6px 18px rgba(77,165,100,.24); }
-  .switch.on .knob{ transform: translateX(22px); }
+    .breath-circle {
+      width:260px; height:260px; border-radius:50%; display:grid; place-items:center; color:white; font-weight:800;
+      background: radial-gradient(circle at 30% 20%, rgba(77,165,100,0.14), rgba(2,51,54,0.04));
+      border:2px solid rgba(77,165,100,0.12);
+      box-shadow: 0 18px 60px rgba(2,51,54,0.28);
+      transition: transform 520ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms;
+      will-change: transform;
+    }
+    .breath-circle.glow { box-shadow: 0 28px 90px rgba(77,165,100,0.28), 0 6px 28px rgba(2,51,54,0.22); }
 
-  .meta{ display:flex; justify-content:space-between; gap:10px; color:rgba(234,248,231,.88); font-weight:800; }
+    .phase-label {
+      font-family: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+      font-size:18px; font-weight:700; color:var(--text-light); letter-spacing:0.6px;
+    }
+    .phase-time { font-size:44px; font-weight:900; color:var(--accent-1); margin-top:6px; }
 
-  .hint{ font-size:12.5px; color:rgba(234,248,231,.78); font-weight:700; }
+    .small { color:var(--muted); margin-top:8px; font-weight:700; }
 
-  /* Visual section */
-  .visual{
-    padding:18px 14px 22px; display:flex; flex-direction:column; align-items:center; gap:14px;
-  }
-  .circle-wrap{
-    width: min(420px, 68vw); height: min(420px, 68vw);
-    max-width:420px; max-height:420px; min-width:240px; min-height:240px;
-    position:relative; display:grid; place-items:center;
-  }
+    .phrase {
+      font-weight:700; font-size:15px; padding:10px 18px; border-radius:999px;
+      background: linear-gradient(90deg,var(--accent-2), rgba(2,131,116,0.85));
+      color:white; box-shadow: 0 10px 36px rgba(2,51,54,0.18);
+      opacity:0; transform:translateY(8px); transition:opacity 260ms, transform 260ms;
+    }
+    .phrase.show { opacity:1; transform:none; }
 
-  /* floating bubbles layer (DOM) */
-  .bubbles{ position:absolute; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
-  .bubble{
-    position:absolute; bottom:-40px; border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, rgba(225,255,240,.9), rgba(200,255,235,.35));
-    box-shadow: 0 8px 18px rgba(77,165,100,.2);
-    filter: blur(.2px); opacity:.22; animation: floatUp linear forwards;
-  }
-  @keyframes floatUp{
-    0%{ transform: translateY(0) scale(.9); opacity:.0; }
-    10%{ opacity:.25; }
-    90%{ opacity:.18; }
-    100%{ transform: translateY(-120%) scale(1.06); opacity:0; }
-  }
+    .start-area { display:flex; flex-direction:column; gap:12px; align-items:center; margin-top:6px; }
+    .start-btn {
+      background: linear-gradient(135deg,var(--accent-2), #028a78);
+      padding:16px 44px; border-radius:44px; font-weight:900; border:0; color:var(--text-light); cursor:pointer;
+      font-size:18px; box-shadow:0 18px 48px rgba(2,51,54,0.2); transition:transform 160ms;
+    }
+    .start-btn:hover { transform:translateY(-4px); }
 
-  .pulse-ring{
-    position:absolute; inset:0; border-radius:50%; pointer-events:none; z-index:1;
-    border:3px solid rgba(193,230,186,0.10);
-    box-shadow: inset 0 18px 60px rgba(2,51,54,0.08), 0 0 40px rgba(77,165,100,.16);
-    opacity:.12; transform: scale(.96); transition: transform .42s ease, opacity .42s ease;
-  }
-  .orbit{
-    position:absolute; inset:-22px; border-radius:50%; pointer-events:none; z-index:1;
-    box-shadow: 0 0 26px rgba(77,165,100,.25), 0 0 3px rgba(193,230,186,.35);
-    animation: orbit 7.2s linear infinite;
-    opacity:.76;
-  }
-  @keyframes orbit { to{ transform: rotate(360deg);} }
+    .secondary-row { display:flex; gap:14px; align-items:center; }
+    .muted-btn { padding:12px 26px; border-radius:28px; border:0; font-weight:800; cursor:pointer; background: rgba(255,255,255,0.04); color:var(--text-light); }
 
-  .breath-circle{
-    position:relative; z-index:2;
-    width: 68%; height: 68%; min-width: 200px; min-height:200px; max-width: 320px; max-height: 320px;
-    border-radius:50%;
-    display:grid; place-items:center;
-    color:var(--accent-4);
-    background: radial-gradient(ellipse at 30% 25%, rgba(77,165,100,.22), rgba(2,51,54,.10));
-    border: 2px solid rgba(77,165,100,.20);
-    box-shadow: 0 18px 60px rgba(2,51,54,.28);
-    transition: transform 560ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms;
-    will-change: transform;
-  }
-  .breath-circle.glow{ box-shadow: 0 28px 90px rgba(77,165,100,.32), 0 10px 34px rgba(2,51,54,.26); }
+    /* particle canvas & bubbles overlay */
+    #particleCanvas { position:absolute; inset:0; z-index:1; pointer-events:none; }
 
-  .phase{ font-size: clamp(16px, 2.4vw, 20px); font-weight:900; color:var(--accent-4); letter-spacing:.3px; }
-  .big{ font-size: clamp(36px, 6vw, 54px); font-weight:900; color:var(--accent-1); margin-top:4px; letter-spacing:-.6px; }
-  .tiny{ font-size:13px; color:rgba(234,248,231,.88); margin-top:6px; }
-
-  .phrase{
-    font-size: clamp(14px, 2.2vw, 18px); font-weight:800; color:white;
-    background: linear-gradient(120deg, #4DA564, #028a78);
-    padding:10px 16px; border-radius:999px; box-shadow: 0 10px 36px rgba(2,51,54,.20);
-    opacity:0; transform: translateY(8px); transition: opacity 260ms, transform 260ms;
-  }
-  .phrase.show{ opacity:1; transform:none; }
-
-  .actions{ display:flex; gap:12px; align-items:center; justify-content:center; margin-top:6px; }
-
-  .btn{
-    border:0; border-radius:44px; padding:14px 28px; font-weight:900; cursor:pointer;
-    color:var(--accent-4); background: var(--primary-grad); box-shadow: 0 16px 40px rgba(2,51,54,.22);
-    transition: transform .16s ease, box-shadow .22s ease, background .22s ease;
-  }
-  .btn:hover{ transform: translateY(-4px); box-shadow: 0 24px 56px rgba(2,51,54,.28); }
-  .btn.alt{ background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); }
-  .btn.alt:hover{ background: rgba(255,255,255,.10); }
-
-  /* Light theme overrides (toggle body.light) */
-  body.light{
-    color:var(--ink-strong);
-    background: radial-gradient(1400px 900px at 20% -12%, #cdeedd 0%, transparent 50%),
-                linear-gradient(180deg,#EAF8E7 0%, #F6FFFA 80%);
-  }
-  body.light .title{ color:#0d3d33; text-shadow:none; }
-  body.light .subtitle{ color:#2f6455; }
-  body.light .panel{ background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.72)); border-color: rgba(2,51,54,.08); box-shadow: 0 10px 28px rgba(2,51,54,.10); }
-  body.light .controls .field{ background: rgba(2,51,54,.04); border-color: rgba(2,51,54,.06); }
-  body.light input[type=number], body.light select{ background: #ffffff; color:#0a3a32; border-color: rgba(2,51,54,.18); }
-  body.light input[type=number]:focus, body.light select:focus{ border-color:#4DA564; }
-  body.light .meta, body.light .tiny{ color:#235a4d; }
-  body.light .phrase{ color:#023336; background: linear-gradient(120deg, #b6f0cf, #e4ffee); }
-  body.light .breath-circle{ background: radial-gradient(ellipse at 30% 25%, rgba(77,165,100,.28), rgba(2,51,54,.08)); border-color: rgba(2,51,54,.12); box-shadow: 0 18px 60px rgba(2,51,54,.12); }
-  body.light .pulse-ring{ border-color: rgba(2,51,54,.14); box-shadow: inset 0 18px 60px rgba(2,51,54,.06); }
-  body.light .theme-btn{ color:#0a3a32; }
-</style>
+    /* responsive */
+    @media (max-width:1100px){
+      .page { grid-template-columns: 1fr; gap:18px; padding:18px; }
+      .visual-column { order:-1; }
+      .circle-wrap { width:300px; height:300px; }
+      .breath-circle { width:220px; height:220px; }
+    }
+  </style>
 </head>
 <body class="breathing">
-  <!-- background layer -->
-  <div class="sky" aria-hidden="true"></div>
 
-  <!-- app -->
-  <div class="app" role="application" aria-label="Zenith Breathing App">
-    <div class="topbar">
-      <div>
-        <h1 class="title">Zenith Breathing App</h1>
-        <div class="subtitle">A calm, private breathing tool — customize seconds, voice, and beep.</div>
+  <!-- star canvas behind everything -->
+  <canvas id="starCanvas" aria-hidden="true"></canvas>
+
+  <div class="page" role="application" aria-label="Zenith Breathing App">
+
+    <!-- LEFT: controls -->
+    <div class="panel controls" aria-label="Controls panel">
+      <div class="brand">
+        <div>
+          <div class="title">Zenith Breathing App</div>
+          <div class="subtitle">A calm, private breathing tool — customize inhale/hold/exhale/hold, voice & beep.</div>
+        </div>
+        <button id="themeToggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
       </div>
-      <button id="themeBtn" class="theme-btn" title="Toggle light/dark" aria-label="Toggle theme">🌙</button>
-    </div>
 
-    <!-- Controls -->
-    <section class="panel controls" aria-label="Controls">
-      <div class="grid">
-        <div class="field">
+      <div class="settings-grid" role="form" aria-label="Breathing settings">
+        <div class="setting-card">
           <label for="inhale">Inhale (sec)</label>
           <input id="inhale" type="number" min="0" value="4" />
         </div>
-        <div class="field">
+
+        <div class="setting-card">
           <label for="hold1">Hold after inhale (sec)</label>
           <input id="hold1" type="number" min="0" value="0" />
         </div>
-        <div class="field">
+
+        <div class="setting-card">
           <label for="exhale">Exhale (sec)</label>
           <input id="exhale" type="number" min="0" value="6" />
         </div>
-        <div class="field">
+
+        <div class="setting-card">
           <label for="hold2">Hold after exhale (sec)</label>
           <input id="hold2" type="number" min="0" value="0" />
         </div>
       </div>
 
-      <div style="margin-top:6px;">
-        <label for="total" style="font-size:13px; font-weight:900; color:var(--accent-3);">Total time</label>
-        <div class="row">
-          <select id="total" aria-label="Total session length">
+      <div style="margin-top:12px;" aria-label="Total time controls">
+        <label for="total" style="font-weight:800; color:var(--accent-3)">Total time</label>
+        <div class="total-row" role="group">
+          <select id="total">
             <option value="60">1 minute</option>
             <option value="120" selected>2 minutes</option>
             <option value="300">5 minutes</option>
             <option value="600">10 minutes</option>
             <option value="-1">Repeat indefinitely</option>
           </select>
-          <input id="customTotal" type="number" min="10" placeholder="Custom sec (optional)" style="flex:1;" />
+          <input id="customTotal" class="custom" type="number" min="10" placeholder="Custom sec (optional)" />
         </div>
       </div>
 
-      <div class="options" role="group" aria-label="Options">
-        <div id="beepToggle" class="toggle" role="button" aria-pressed="true" tabindex="0">
-          <span>Beep</span>
-          <div class="switch on"><div class="knob"></div></div>
+      <div class="options" role="group" aria-label="Options toggles">
+        <div class="option-card">
+          <div id="beepToggle" class="toggle" role="button" aria-pressed="true" tabindex="0">
+            <span>Beep</span>
+            <div class="switch on"><div class="knob"></div></div>
+          </div>
         </div>
-        <div id="voiceToggle" class="toggle" role="button" aria-pressed="false" tabindex="0">
-          <span>Voice</span>
-          <div class="switch"><div class="knob"></div></div>
+
+        <div class="option-card">
+          <div id="voiceToggle" class="toggle" role="button" aria-pressed="false" tabindex="0">
+            <span>Voice</span>
+            <div class="switch"><div class="knob"></div></div>
+          </div>
         </div>
+
       </div>
 
-      <div class="meta" aria-live="polite">
+      <div class="meta-row" aria-live="polite">
         <div>Status: <strong id="status">stopped</strong></div>
         <div>Cycle length: <strong id="cycleLen">0s</strong></div>
       </div>
 
       <div class="hint">Tip: press <strong>Space</strong> to Start/Pause, and <strong>R</strong> to Reset.</div>
-    </section>
+    </div>
 
-    <!-- Visual -->
-    <section class="panel visual" aria-label="Breathing visual">
-      <div class="circle-wrap" id="circleWrap">
-        <!-- ambient effects -->
-        <div class="bubbles" id="bubbles"></div>
-        <canvas id="trail" class="trail" style="position:absolute; inset:0; z-index:1; pointer-events:none;"></canvas>
+    <!-- RIGHT: visual -->
+    <div class="visual-column">
+      <div class="visual-box panel" style="display:flex; align-items:center; justify-content:center; flex-direction:column; gap:12px; position:relative; overflow:visible;">
+        <!-- particle canvas sits above stars but behind UI -->
+        <canvas id="particleCanvas" aria-hidden="true"></canvas>
 
-        <div id="pulse" class="pulse-ring" aria-hidden="true"></div>
-        <div class="orbit" aria-hidden="true"></div>
+        <div class="circle-wrap" aria-hidden="false">
+          <div id="pulse" class="pulse-ring"></div>
+          <div class="orbit" aria-hidden="true"></div>
+          <div id="circle" class="breath-circle" role="img" aria-label="Breathing circle" tabindex="0">
+            <div style="text-align:center;">
+              <div class="phase-label" id="phase">—</div>
+              <div class="phase-time" id="phaseTime">0s</div>
+              <div style="height:10px;"></div>
+              <div class="small">Total left: <span id="totalTime">0s</span></div>
+            </div>
+          </div>
+        </div>
 
-        <div id="circle" class="breath-circle" role="img" aria-label="Breathing circle">
-          <div style="text-align:center;">
-            <div class="phase" id="phase">—</div>
-            <div class="big" id="phaseTime">0s</div>
-            <div class="tiny">Total left: <span id="totalTime">0s</span></div>
+        <div class="phrase" id="phrase">Welcome — set your timings and press Start</div>
+
+        <div class="start-area" style="width:100%; align-items:center;">
+          <button id="startBtn" class="start-btn" aria-pressed="false">Start</button>
+          <div class="secondary-row" style="margin-top:6px;">
+            <button id="pauseBtn" class="muted-btn" title="Pause/resume">Pause</button>
+            <button id="resetBtn" class="muted-btn" title="Reset (R)">Reset</button>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="phrase" id="phrase">Welcome — set your timings and press Start</div>
-
-      <div class="actions">
-        <button id="startBtn" class="btn" aria-pressed="false">Start</button>
-        <button id="pauseBtn" class="btn alt" title="Pause/resume">Pause</button>
-        <button id="resetBtn" class="btn alt" title="Reset (R)">Reset</button>
-      </div>
-    </section>
   </div>
 
-<script>
-(() => {
-  /* Elements */
-  const themeBtn = document.getElementById('themeBtn');
+  <script>
+    /* ---------- Setup canvases for stars + particles ---------- */
+    const starCanvas = document.getElementById('starCanvas');
+    const particleCanvas = document.getElementById('particleCanvas');
+    const starCtx = starCanvas.getContext?.('2d');
+    const pCtx = particleCanvas.getContext?.('2d');
 
-  const inhaleEl = document.getElementById('inhale');
-  const hold1El  = document.getElementById('hold1');
-  const exhaleEl = document.getElementById('exhale');
-  const hold2El  = document.getElementById('hold2');
-  const totalSel = document.getElementById('total');
-  const customTotalEl = document.getElementById('customTotal');
-
-  const beepToggle  = document.getElementById('beepToggle');
-  const voiceToggle = document.getElementById('voiceToggle');
-
-  const statusEl = document.getElementById('status');
-  const cycleLenEl = document.getElementById('cycleLen');
-  const phaseEl = document.getElementById('phase');
-  const phaseTimeEl = document.getElementById('phaseTime');
-  const totalTimeEl = document.getElementById('totalTime');
-
-  const startBtn = document.getElementById('startBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
-  const resetBtn = document.getElementById('resetBtn');
-
-  const circle = document.getElementById('circle');
-  const pulse  = document.getElementById('pulse');
-  const phrase = document.getElementById('phrase');
-
-  const circleWrap = document.getElementById('circleWrap');
-  const trailCanvas = document.getElementById('trail');
-  const bubblesBox  = document.getElementById('bubbles');
-
-  /* State */
-  let beepOn = true;
-  let voiceOn = false;
-
-  let timerInterval = null;
-  let startTS = null;
-  let pauseOffset = 0;
-  let endTS = null;
-  let lastPhaseIndex = -1;
-
-  // Audio chime
-  let audioCtx = null;
-  function chime(){
-    if(!beepOn) return;
-    try{
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      const now = audioCtx.currentTime;
-      const o1 = audioCtx.createOscillator();
-      const o2 = audioCtx.createOscillator();
-      const g  = audioCtx.createGain();
-      const f  = audioCtx.createBiquadFilter();
-      f.type = 'lowpass'; f.frequency.value = 2200;
-      o1.type='sine'; o2.type='sine';
-      o1.frequency.value = 880; o2.frequency.value = 1320;
-      o1.connect(g); o2.connect(g); g.connect(f); f.connect(audioCtx.destination);
-      g.gain.setValueAtTime(0.0001, now);
-      g.gain.exponentialRampToValueAtTime(0.08, now + 0.03);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
-      o1.start(now); o2.start(now);
-      o1.stop(now + 1.02); o2.stop(now + 1.02);
-    }catch(e){ /* ignore */ }
-  }
-
-  // Speech
-  const synth = window.speechSynthesis;
-  function speak(text){
-    if(!voiceOn) return;
-    if(!('speechSynthesis' in window)) return;
-    try{
-      synth.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US'; u.rate = 0.95; u.pitch = 1;
-      synth.speak(u);
-    }catch(e){ /* ignore */ }
-  }
-
-  // Read settings
-  function readSettings(){
-    const inh = Math.max(0, Number(inhaleEl.value) || 0);
-    const h1  = Math.max(0, Number(hold1El.value) || 0);
-    const exh = Math.max(0, Number(exhaleEl.value) || 0);
-    const h2  = Math.max(0, Number(hold2El.value) || 0);
-    let total = Number(totalSel.value);
-    const custom = Number(customTotalEl.value) || 0;
-    if(custom >= 10) total = custom;
-    return { inh, h1, exh, h2, total };
-  }
-
-  function fmt(s){
-    s = Math.max(0, Math.round(s));
-    if(s < 60) return s + 's';
-    return Math.floor(s/60) + 'm ' + (s%60) + 's';
-  }
-
-  function updateCycleDisplay(len){
-    cycleLenEl.textContent = Math.round(len) + 's';
-    // sync background slow shift with whole cycle length
-    if(len > 0){
-      document.documentElement.style.setProperty('--breath-duration', Math.max(4, Math.round(len)) + 's');
-      document.body.classList.add('breathing');
+    function resizeCanvases(){
+      starCanvas.width = innerWidth; starCanvas.height = innerHeight;
+      particleCanvas.width = document.querySelector('.visual-box').clientWidth;
+      particleCanvas.height = document.querySelector('.visual-box').clientHeight;
+      // position particle canvas inside visual-box
+      const vb = document.querySelector('.visual-box').getBoundingClientRect();
+      particleCanvas.style.left = (vb.left) + 'px';
+      particleCanvas.style.top = (vb.top) + 'px';
+      particleCanvas.style.width = vb.width + 'px';
+      particleCanvas.style.height = vb.height + 'px';
+      particleCanvas.width = vb.width * devicePixelRatio;
+      particleCanvas.height = vb.height * devicePixelRatio;
+      particleCanvas.style.transform = `scale(${1 / devicePixelRatio})`;
+      particleCanvas.getContext('2d')?.scale(devicePixelRatio, devicePixelRatio);
     }
-  }
+    window.addEventListener('resize', () => { resizeCanvases(); drawStars(); });
 
-  // Phrase
-  function showPhrase(phaseName){
-    const map = { Inhale:'Inhale deeply…', Hold:'Hold gently…', Exhale:'Exhale slowly…' };
-    phrase.classList.remove('show');
-    setTimeout(()=>{ phrase.textContent = (map[phaseName] || 'Hold gently…'); phrase.classList.add('show'); }, 120);
-  }
+    // create twinkling stars
+    let stars = [];
+    function initStars(){
+      stars = [];
+      const count = Math.round((innerWidth * innerHeight) / 80000); // scale by area
+      for(let i=0;i<count;i++){
+        stars.push({
+          x: Math.random()*innerWidth,
+          y: Math.random()*innerHeight,
+          r: Math.random()*1.2 + 0.3,
+          alpha: Math.random()*0.6 + 0.2,
+          twinkle: Math.random()*2 + 1,
+          phase: Math.random()*Math.PI*2
+        });
+      }
+    }
+    function drawStars(){
+      if(!starCtx) return;
+      starCtx.clearRect(0,0,starCanvas.width, starCanvas.height);
+      const t = performance.now() / 1000;
+      for(const s of stars){
+        const a = s.alpha * (0.6 + 0.4*Math.sin(t * s.twinkle + s.phase));
+        starCtx.beginPath();
+        starCtx.fillStyle = `rgba(230, 250, 240, ${a})`;
+        starCtx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+        starCtx.fill();
+      }
+    }
 
-  /* Particle trail (canvas) */
-  let ctx, pxW=0, pxH=0;
-  const particles = [];
-  function resizeCanvas(){
-    const r = circleWrap.getBoundingClientRect();
-    pxW = Math.floor(r.width);
-    pxH = Math.floor(r.height);
-    trailCanvas.width = pxW;
-    trailCanvas.height = pxH;
-    ctx = trailCanvas.getContext('2d');
-  }
-  window.addEventListener('resize', resizeCanvas, {passive:true});
-  resizeCanvas();
-
-  function spawnParticles(){
-    // Emit near circle perimeter
-    const rect = circleWrap.getBoundingClientRect();
-    const size = Math.min(rect.width, rect.height) * 0.34; // circle radius approx
-    for(let i=0;i<4;i++){
-      const a = Math.random()*Math.PI*2;
-      const r = size + (Math.random()*10-5);
-      const x = pxW/2 + Math.cos(a)*r;
-      const y = pxH/2 + Math.sin(a)*r;
-      const sp = 0.6 + Math.random()*1.2;
+    // particles & bubbles behind UI (particle trails near the circle)
+    let particles = [];
+    function spawnParticle(x,y){
       particles.push({
         x, y,
-        vx: Math.cos(a)*sp*0.6 + (Math.random()-.5)*0.3,
-        vy: Math.sin(a)*sp*0.6 + (Math.random()-.5)*0.3,
-        life: 38 + Math.random()*22,
-        color: 'rgba(197, 245, 221, '
+        vx: (Math.random()-0.5)*0.6,
+        vy: -Math.random()*0.6 - 0.2,
+        life: Math.random()*1400 + 900,
+        start: performance.now(),
+        r: Math.random()*5 + 2,
+        alpha: Math.random()*0.6 + 0.15
       });
     }
-  }
-
-  function animateTrail(){
-    if(!ctx) return requestAnimationFrame(animateTrail);
-    // fade the previous frame slightly
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.10)';
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillRect(0,0,pxW,pxH);
-    ctx.globalCompositeOperation = 'lighter';
-
-    // update/draw particles
-    for(let i=particles.length-1;i>=0;i--){
-      const p = particles[i];
-      p.x += p.vx; p.y += p.vy;
-      p.vx *= 0.98; p.vy *= 0.98;
-      p.life -= 1;
-      const alpha = Math.max(0, p.life/60);
-      ctx.fillStyle = p.color + alpha + ')';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 1.4 + (1-alpha)*1.2, 0, Math.PI*2);
-      ctx.fill();
-      if(p.life <= 0) particles.splice(i,1);
-    }
-    requestAnimationFrame(animateTrail);
-  }
-  animateTrail();
-
-  // Floating bubbles (DOM)
-  function spawnBubble(){
-    const b = document.createElement('div');
-    b.className='bubble';
-    const s = 6 + Math.random()*16;
-    b.style.width = s+'px'; b.style.height = s+'px';
-    b.style.left = (Math.random()*88+6)+'%';
-    b.style.animationDuration = (6 + Math.random()*6)+'s';
-    bubblesBox.appendChild(b);
-    setTimeout(()=> b.remove(), 13000);
-  }
-  setInterval(spawnBubble, 900);
-
-  /* Timer logic */
-  function startTimer(){
-    const s = readSettings();
-    const cycleLength = s.inh + s.h1 + s.exh + s.h2;
-    if(cycleLength <= 0){ alert('Set at least one positive phase length.'); return; }
-    updateCycleDisplay(cycleLength);
-
-    startTS = Date.now() - pauseOffset;
-    endTS = (s.total === -1) ? Infinity : startTS + s.total*1000;
-    statusEl.textContent = 'running';
-    startBtn.textContent = 'Stop';
-    startBtn.setAttribute('aria-pressed','true');
-    circle.classList.add('glow');
-    phrase.classList.add('show');
-
-    if(timerInterval) clearInterval(timerInterval);
-    timerInterval = setInterval(tick, 120);
-
-    try{ audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); }catch(e){}
-    tick();
-  }
-
-  function pauseTimer(){
-    if(!startTS) return;
-    pauseOffset = Date.now() - startTS;
-    statusEl.textContent = 'paused';
-    if(timerInterval) clearInterval(timerInterval);
-    synth.cancel();
-    pulse.style.opacity = 0.08;
-  }
-
-  function stopTimer(){
-    if(timerInterval) clearInterval(timerInterval);
-    timerInterval = null;
-    startTS = null; endTS = null; pauseOffset = 0; lastPhaseIndex = -1;
-    statusEl.textContent = 'stopped';
-    startBtn.textContent = 'Start';
-    startBtn.setAttribute('aria-pressed','false');
-    phaseEl.textContent = '—';
-    phaseTimeEl.textContent = '0s';
-    totalTimeEl.textContent = '0s';
-    phrase.textContent = 'Welcome — set your timings and press Start';
-    phrase.classList.remove('show');
-    circle.style.transform = 'scale(.95)';
-    circle.classList.remove('glow');
-    pulse.style.opacity = .12;
-    chime();
-  }
-
-  function tick(){
-    const s = readSettings();
-    const phases = [
-      {name:'Inhale', len: s.inh},
-      {name:'Hold',   len: s.h1},
-      {name:'Exhale', len: s.exh},
-      {name:'Hold',   len: s.h2}
-    ];
-    const cycleLength = phases.reduce((a,b)=>a+b.len,0);
-    if(cycleLength <= 0){ stopTimer(); return; }
-
-    const now = Date.now();
-    const elapsed = (now - startTS)/1000;
-    const totalLeft = (endTS === Infinity) ? Infinity : Math.max(0, Math.round((endTS - now)/1000));
-
-    let t = elapsed % cycleLength;
-    let idx = 0;
-    for(let i=0;i<phases.length;i++){
-      if(t <= phases[i].len){ idx = i; break; }
-      t -= phases[i].len;
-      if(i === phases.length-1) idx = phases.length-1;
-    }
-    const cur = phases[idx];
-    const left = Math.max(0, cur.len - t);
-
-    // phase change
-    if(idx !== lastPhaseIndex){
-      chime();
-      speak(cur.name);
-      showPhrase(cur.name);
-      lastPhaseIndex = idx;
+    function spawnBubble(x, y){
+      particles.push({
+        x, y,
+        vx: (Math.random()-0.5)*0.4,
+        vy: -(Math.random()*0.2 + 0.05),
+        life: Math.random()*2200 + 1600,
+        start: performance.now(),
+        r: Math.random()*12 + 8,
+        alpha: 0.08,
+        bubble:true
+      });
     }
 
-    // texts
-    phaseEl.textContent = cur.name;
-    phaseTimeEl.textContent = Math.ceil(left)+'s';
-    totalTimeEl.textContent = (totalLeft===Infinity) ? '— (indefinite)' : fmt(totalLeft);
-
-    // visuals (exactly sync scale progression)
-    let scale = .95;
-    if(cur.name === 'Inhale'){
-      const prog = cur.len ? (1 - left/cur.len) : 1;
-      scale = 0.82 + 0.38*prog;
-      pulse.style.transform = `scale(${0.98 + 0.28*prog})`;
-      pulse.style.opacity   = (0.10 + 0.18*prog);
-      spawnParticles();
-    }else if(cur.name === 'Exhale'){
-      const prog = cur.len ? (1 - left/cur.len) : 1;
-      scale = 1.06 - 0.32*prog;
-      pulse.style.transform = `scale(${1.08 - 0.28*prog})`;
-      pulse.style.opacity   = (0.10 + 0.12*prog);
-      spawnParticles();
-    }else{
-      scale = 0.92 + 0.06*Math.sin(performance.now()/380);
-      pulse.style.transform = 'scale(.96)';
-      pulse.style.opacity = .12;
+    function updateParticles(){
+      if(!pCtx) return;
+      const now = performance.now();
+      pCtx.clearRect(0,0,particleCanvas.width, particleCanvas.height);
+      const vb = document.querySelector('.visual-box').getBoundingClientRect();
+      for(let i=particles.length-1;i>=0;i--){
+        const p = particles[i];
+        const age = now - p.start;
+        if(age > p.life){ particles.splice(i,1); continue; }
+        const t = age / p.life;
+        p.x += p.vx * (1 + 0.2*Math.sin(now/300));
+        p.y += p.vy * (1 + 0.1*Math.cos(now/200));
+        const alpha = p.bubble ? p.alpha * (1 - t) : p.alpha * (1 - t);
+        pCtx.beginPath();
+        if(p.bubble){
+          pCtx.fillStyle = `rgba(255,255,255,${alpha})`;
+          pCtx.globalCompositeOperation = 'lighter';
+          pCtx.arc((p.x - vb.left), (p.y - vb.top), p.r, 0, Math.PI*2);
+          pCtx.fill();
+          pCtx.globalCompositeOperation = 'source-over';
+        } else {
+          pCtx.fillStyle = `rgba(255,255,255,${alpha})`;
+          pCtx.beginPath();
+          pCtx.arc((p.x - vb.left), (p.y - vb.top), p.r, 0, Math.PI*2);
+          pCtx.fill();
+        }
+      }
     }
-    circle.style.transform = `scale(${scale.toFixed(3)})`;
 
-    // finish
-    if(totalLeft !== Infinity && totalLeft <= 0){
-      clearInterval(timerInterval); timerInterval = null; startTS = null;
-      statusEl.textContent = 'finished';
-      startBtn.textContent = 'Start';
-      chime();
-      speak('Session finished');
-      circle.classList.remove('glow');
-      pulse.style.opacity = .12;
-      phrase.classList.remove('show');
+    // animation loops
+    function startAnimationLoops(){
+      let last = performance.now();
+      function frame(){
+        const now = performance.now();
+        // twinkle
+        drawStars();
+        // particles
+        updateParticles();
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
     }
-  }
 
-  /* UI bindings */
-  startBtn.addEventListener('click', ()=>{
-    if(statusEl.textContent === 'running'){ stopTimer(); }
-    else if(statusEl.textContent === 'paused'){ startTimer(); }
-    else { pauseOffset = 0; startTimer(); }
-  });
-  pauseBtn.addEventListener('click', ()=>{
-    if(statusEl.textContent === 'running') pauseTimer();
-    else if(statusEl.textContent === 'paused') startTimer();
-  });
-  resetBtn.addEventListener('click', stopTimer);
+    // initialize
+    function initVisuals(){
+      resizeCanvases();
+      initStars();
+      drawStars();
+      startAnimationLoops();
+      // spawn some ambient bubbles periodically
+      setInterval(()=>{
+        const vb = document.querySelector('.visual-box').getBoundingClientRect();
+        spawnBubble(vb.left + Math.random()*vb.width, vb.top + vb.height - 10);
+      }, 1500);
+    }
 
-  // toggles
-  function setSwitch(el, on){
-    const sw = el.querySelector('.switch');
-    el.setAttribute('aria-pressed', on?'true':'false');
-    if(on) sw.classList.add('on'); else sw.classList.remove('on');
-  }
-  setSwitch(beepToggle, true);
-  setSwitch(voiceToggle,false);
+    // wait for layout then init canvas sizes
+    window.addEventListener('load', () => { initVisuals(); });
 
-  beepToggle.addEventListener('click', ()=>{ beepOn=!beepOn; setSwitch(beepToggle,beepOn); });
-  voiceToggle.addEventListener('click', ()=>{ voiceOn=!voiceOn; setSwitch(voiceToggle,voiceOn); if(!voiceOn) synth.cancel(); });
+    /* ---------- App logic: timers, UI, voice, chime ---------- */
+    (function(){
+      // elements
+      const inhaleEl = document.getElementById('inhale');
+      const hold1El = document.getElementById('hold1');
+      const exhaleEl = document.getElementById('exhale');
+      const hold2El = document.getElementById('hold2');
+      const totalSelect = document.getElementById('total');
+      const customTotalEl = document.getElementById('customTotal');
 
-  // keyboard
-  window.addEventListener('keydown', e=>{
-    if(e.key===' '){ e.preventDefault(); startBtn.click(); }
-    if(e.key==='r' || e.key==='R'){ e.preventDefault(); resetBtn.click(); }
-  });
+      const beepToggle = document.getElementById('beepToggle');
+      const voiceToggle = document.getElementById('voiceToggle');
 
-  // inputs update cycle length display
-  [inhaleEl,hold1El,exhaleEl,hold2El].forEach(el=> el.addEventListener('input', ()=>{
-    const s = readSettings(); updateCycleDisplay(s.inh+s.h1+s.exh+s.h2);
-  }));
-  totalSel.addEventListener('change', ()=> customTotalEl.value='');
+      const statusEl = document.getElementById('status');
+      const cycleLenEl = document.getElementById('cycleLen');
+      const phaseLabel = document.getElementById('phase');
+      const phaseTime = document.getElementById('phaseTime');
+      const totalTimeEl = document.getElementById('totalTime');
 
-  // theme
-  let isLight = false;
-  themeBtn.addEventListener('click', ()=>{
-    isLight=!isLight;
-    document.body.classList.toggle('light', isLight);
-    themeBtn.textContent = isLight ? '☀️' : '🌙';
-  });
+      const startBtn = document.getElementById('startBtn');
+      const pauseBtn = document.getElementById('pauseBtn');
+      const resetBtn = document.getElementById('resetBtn');
 
-  // init
-  const s0 = readSettings();
-  updateCycleDisplay(s0.inh + s0.h1 + s0.exh + s0.h2);
-  setTimeout(()=> startBtn.focus({preventScroll:true}), 700);
+      const circle = document.getElementById('circle');
+      const pulse = document.getElementById('pulse');
+      const phraseEl = document.getElementById('phrase');
+      const pageEl = document.body;
+      const themeToggle = document.getElementById('themeToggle');
 
-  // reduced motion
-  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    document.querySelectorAll('.breath-circle,.pulse-ring,.orbit,.sky').forEach(el=> el.style.animation='none');
-  }
-})();
-</script>
+      // state
+      let beepOn = true;
+      let voiceOn = false;
+      let timerInterval = null;
+      let startTS = null;
+      let paused = false;
+      let pauseOffset = 0;
+      let endTS = null;
+      let lastPhaseIndex = -1;
+
+      // audio chime
+      let audioCtx = null;
+      function playChime(){
+        if(!beepOn) return;
+        try{
+          audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+          const now = audioCtx.currentTime;
+          const o1 = audioCtx.createOscillator();
+          const o2 = audioCtx.createOscillator();
+          const g = audioCtx.createGain();
+          const filt = audioCtx.createBiquadFilter();
+          filt.type = 'lowpass'; filt.frequency.value = 2200;
+          o1.type='sine'; o2.type='sine';
+          o1.frequency.value = 880; o2.frequency.value = 1320;
+          o1.connect(g); o2.connect(g); g.connect(filt); filt.connect(audioCtx.destination);
+          g.gain.setValueAtTime(0.0001, now);
+          g.gain.exponentialRampToValueAtTime(0.06, now + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.0002, now + 1.0);
+          o1.start(now); o2.start(now);
+          o1.stop(now + 0.95); o2.stop(now + 0.95);
+        } catch(e){ console.warn('Audio error', e); }
+      }
+
+      // speech
+      const synth = window.speechSynthesis;
+      function speak(text){
+        if(!voiceOn) return;
+        if(!('speechSynthesis' in window)) return;
+        try{
+          synth.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = 'en-US';
+          u.rate = 0.95;
+          synth.speak(u);
+        } catch(e){ console.warn('Speech error', e); }
+      }
+
+      // helpers
+      function readSettings(){
+        const inh = Math.max(0, Number(inhaleEl.value) || 0);
+        const h1  = Math.max(0, Number(hold1El.value) || 0);
+        const exh = Math.max(0, Number(exhaleEl.value) || 0);
+        const h2  = Math.max(0, Number(hold2El.value) || 0);
+        let total = Number(totalSelect.value);
+        const custom = Number(customTotalEl.value) || 0;
+        if(custom >= 10) total = custom;
+        return {inh,h1,exh,h2,total};
+      }
+
+      function formatSec(s){
+        s = Math.max(0, Math.round(s));
+        if(s < 60) return s + 's';
+        const m = Math.floor(s/60); const sec = s%60;
+        return `${m}m ${sec}s`;
+      }
+
+      function updateCycleLen(len){
+        cycleLenEl.textContent = `${Math.round(len)}s`;
+      }
+
+      const phraseMap = { Inhale:'Inhale deeply…', Hold:'Hold gently…', Exhale:'Exhale slowly…' };
+      function showPhrase(phaseName){
+        const text = phraseMap[phaseName] || 'Hold…';
+        phraseEl.classList.remove('show');
+        setTimeout(()=>{ phraseEl.textContent = text; phraseEl.classList.add('show'); }, 120);
+      }
+
+      // spawn small particles at circle edge for trail
+      function spawnTrail(){
+        const rect = document.querySelector('.circle-wrap').getBoundingClientRect();
+        const angle = Math.random()*Math.PI*2;
+        const x = rect.left + rect.width/2 + Math.cos(angle) * (rect.width/4);
+        const y = rect.top + rect.height/2 + Math.sin(angle) * (rect.height/4);
+        spawnParticle(x, y);
+      }
+
+      // main tick
+      function tick(){
+        const s = readSettings();
+        const phases = [{name:'Inhale', len:s.inh},{name:'Hold', len:s.h1},{name:'Exhale', len:s.exh},{name:'Hold', len:s.h2}];
+        const cycleLength = phases.reduce((a,b)=>a+b.len,0);
+        if(cycleLength <= 0){ stopTimer(); return; }
+        updateCycleLen(cycleLength);
+
+        const now = Date.now();
+        const elapsed = (now - startTS) / 1000.0;
+        const totalLeft = (endTS === Infinity) ? Infinity : Math.max(0, Math.round((endTS - now)/1000));
+        let cycleElapsed = elapsed % cycleLength;
+        if(elapsed < 0) cycleElapsed = 0;
+
+        // find phase
+        let phaseIndex = 0; let t = cycleElapsed;
+        for(let i=0;i<phases.length;i++){
+          if(t <= phases[i].len){ phaseIndex = i; break; }
+          t -= phases[i].len;
+          if(i === phases.length-1) phaseIndex = phases.length-1;
+        }
+        const current = phases[phaseIndex];
+        const phaseLeft = Math.max(0, current.len - t);
+
+        // phase change
+        if(phaseIndex !== lastPhaseIndex){
+          playChime();
+          if(voiceOn) speak(current.name);
+          showPhrase(current.name);
+          lastPhaseIndex = phaseIndex;
+          // spawn a small burst of particles when phase switches
+          for(let k=0;k<6;k++) spawnTrail();
+        }
+
+        // speak countdown 3..2..1
+        if(voiceOn && phaseLeft <= 3 && phaseLeft >= 1){
+          speak(String(Math.ceil(phaseLeft)));
+        }
+
+        // update texts
+        phaseLabel.textContent = current.name;
+        phaseTime.textContent = Math.ceil(phaseLeft) + 's';
+        totalTimeEl.textContent = (totalLeft === Infinity) ? '— (indefinite)' : formatSec(totalLeft);
+
+        // visuals: circle scale & pulse
+        let targetScale = 0.95;
+        if(current.name === 'Inhale'){
+          const progress = current.len > 0 ? (1 - (phaseLeft / current.len)) : 1;
+          targetScale = 0.82 + 0.38 * progress; // grows
+          pulse.style.transform = `scale(${0.98 + 0.28*progress})`;
+          pulse.style.opacity = (0.06 + 0.18*progress);
+        } else if(current.name === 'Exhale'){
+          const progress = current.len > 0 ? (1 - (phaseLeft / current.len)) : 1;
+          targetScale = 1.06 - 0.32 * progress; // shrinks
+          pulse.style.transform = `scale(${1.08 - 0.28*progress})`;
+          pulse.style.opacity = (0.06 + 0.12*progress);
+        } else {
+          targetScale = 0.92 + 0.06 * Math.sin(performance.now()/400);
+          pulse.style.transform = `scale(0.95)`;
+          pulse.style.opacity = 0.12;
+        }
+        circle.style.transform = `scale(${targetScale.toFixed(3)})`;
+
+        // sync background breath animation speed: set CSS var --breath-duration to cycleLength seconds (min 4s)
+        try {
+          const durationSec = Math.max(4, Math.round(cycleLength));
+          document.documentElement.style.setProperty('--breath-duration', `${durationSec}s`);
+          if(!pageEl.classList.contains('breathing')) pageEl.classList.add('breathing');
+        } catch(e){}
+
+        // stop when finished
+        if(totalLeft !== Infinity && totalLeft <= 0){
+          clearInterval(timerInterval); timerInterval = null; startTS = null;
+          statusEl.textContent = 'finished';
+          startBtn.textContent = 'Start';
+          playChime();
+          if(voiceOn) speak('Session finished');
+          circle.classList.remove('glow'); pulse.style.opacity = 0.12; phraseEl.classList.remove('show');
+          return;
+        }
+      }
+
+      // start/pause/stop
+      function startTimer(){
+        const s = readSettings();
+        const cycleLen = s.inh + s.h1 + s.exh + s.h2;
+        if(cycleLen <= 0){ alert('Set at least one positive phase length.'); return; }
+        updateCycleLen(cycleLen);
+
+        startTS = Date.now() - pauseOffset;
+        if(s.total === -1) endTS = Infinity; else endTS = startTS + s.total*1000;
+        paused = false;
+        statusEl.textContent = 'running';
+        startBtn.setAttribute('aria-pressed','true'); startBtn.textContent = 'Stop';
+        circle.classList.add('glow'); pulse.style.opacity = 0.12; phraseEl.classList.add('show');
+
+        if(timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(tick, 120);
+
+        try{ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){}
+        tick();
+      }
+
+      function pauseTimer(){
+        if(!startTS) return;
+        paused = true;
+        statusEl.textContent = 'paused';
+        pauseOffset = Date.now() - startTS;
+        if(timerInterval) clearInterval(timerInterval);
+        synth.cancel();
+        pulse.style.opacity = 0.06;
+      }
+
+      function stopTimer(){
+        if(timerInterval) clearInterval(timerInterval);
+        timerInterval = null;
+        startTS = null; endTS = null; paused = false; pauseOffset = 0; lastPhaseIndex = -1;
+        startBtn.textContent = 'Start'; startBtn.setAttribute('aria-pressed','false');
+        statusEl.textContent = 'stopped';
+        phaseLabel.textContent = '—'; phaseTime.textContent = '0s'; totalTimeEl.textContent = '0s';
+        phraseEl.textContent = 'Welcome — set your timings and press Start'; phraseEl.classList.remove('show');
+        circle.style.transform = 'scale(0.95)'; circle.classList.remove('glow'); pulse.style.opacity = 0.12;
+        playChime();
+      }
+
+      // events
+      startBtn.addEventListener('click', ()=> {
+        if(statusEl.textContent === 'running') stopTimer();
+        else if(statusEl.textContent === 'paused') startTimer();
+        else { pauseOffset = 0; startTimer(); }
+      });
+
+      pauseBtn.addEventListener('click', ()=> {
+        if(statusEl.textContent === 'running') pauseTimer();
+        else if(statusEl.textContent === 'paused') startTimer();
+      });
+      resetBtn.addEventListener('click', ()=> { stopTimer(); });
+
+      // switch visuals
+      function setSwitchVisual(toggleEl, on){
+        const sw = toggleEl.querySelector('.switch');
+        if(!sw) return;
+        if(on) sw.classList.add('on'); else sw.classList.remove('on');
+        toggleEl.setAttribute('aria-pressed', !!on);
+      }
+      setSwitchVisual(beepToggle, true); setSwitchVisual(voiceToggle, false);
+
+      beepToggle.addEventListener('click', ()=> { beepOn = !beepOn; setSwitchVisual(beepToggle, beepOn); });
+      voiceToggle.addEventListener('click', ()=> { voiceOn = !voiceOn; setSwitchVisual(voiceToggle, voiceOn); if(!voiceOn) synth.cancel(); });
+
+      // keyboard
+      window.addEventListener('keydown', (e)=>{
+        if(e.key === ' ') { e.preventDefault(); startBtn.click(); }
+        if(e.key === 'r' || e.key === 'R') { e.preventDefault(); resetBtn.click(); }
+      });
+
+      // live update cycle length when inputs change
+      [inhaleEl, hold1El, exhaleEl, hold2El].forEach(el => el.addEventListener('input', ()=>{
+        const s = readSettings(); updateCycleLen(s.inh + s.h1 + s.exh + s.h2);
+      }));
+      totalSelect.addEventListener('change', ()=> customTotalEl.value = '');
+
+      // theme toggle (dark default)
+      let lightMode = false;
+      themeToggle.addEventListener('click', ()=>{
+        lightMode = !lightMode;
+        if(lightMode){
+          document.documentElement.style.setProperty('--bg-a','#EAF8E7');
+          document.documentElement.style.setProperty('--bg-b','#F3FFF6');
+          document.documentElement.style.setProperty('--text-light','#023336');
+          document.documentElement.style.setProperty('--muted','rgba(2,51,54,0.78)');
+          document.documentElement.style.setProperty('--card-bg','rgba(2,51,54,0.03)');
+          themeToggle.textContent = '☀️';
+          // subtle color fixes for inputs and labels
+          document.querySelectorAll('input, select').forEach(i => i.style.color = 'var(--text-light)');
+        } else {
+          document.documentElement.style.setProperty('--bg-a','#012421');
+          document.documentElement.style.setProperty('--bg-b','#003733');
+          document.documentElement.style.setProperty('--text-light','#EAF8E7');
+          document.documentElement.style.setProperty('--muted','rgba(234,248,231,0.78)');
+          document.documentElement.style.setProperty('--card-bg','rgba(255,255,255,0.02)');
+          themeToggle.textContent = '🌙';
+          document.querySelectorAll('input, select').forEach(i => i.style.color = 'var(--text-light)');
+        }
+      });
+
+      // ensure initial UI values
+      updateCycleLen( Number(inhaleEl.value) + Number(hold1El.value) + Number(exhaleEl.value) + Number(hold2El.value) );
+
+      // spawn small particles continuously near circle center for ambiance
+      setInterval(()=> {
+        const rect = document.querySelector('.circle-wrap').getBoundingClientRect();
+        const cx = rect.left + rect.width/2;
+        const cy = rect.top + rect.height/2;
+        spawnParticle(cx + (Math.random()-0.5)*40, cy + (Math.random()-0.5)*40);
+      }, 300);
+
+      // ensure reduced motion respected
+      if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        document.querySelectorAll('.breath-circle, .pulse-ring, .breath-circle').forEach(n => n.style.transition = 'none');
+        document.documentElement.style.setProperty('--breath-duration','0s');
+      }
+
+    })();
+
+    // kick off visuals after DOM loaded
+    window.addEventListener('load', () => {
+      resizeCanvases();
+      initStars();
+      drawStars();
+      startAnimationLoops();
+    });
+
+  </script>
 </body>
 </html>
