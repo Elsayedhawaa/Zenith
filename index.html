@@ -5,37 +5,425 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Zenith Breathing App</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- put the same CSS as previous response (see previous answer) -->
-<!-- (You can copy the CSS part from the previous message) -->
-<!-- ... -->
+<style>
+:root {
+  --accent-1: #293855;
+  --accent-2: #4165D5;
+  --accent-3: #F1AC20;
+  --accent-4: #C3E8C9;
+  --gradient-button: linear-gradient(110deg, #4165D5 70%, #F1AC20 100%);
+  --gradient-input: linear-gradient(90deg, #C3E8C9 70%, #4165D5 100%);
+  --gradient-bg: linear-gradient(160deg, #C3E8C9 60%, #4165D5 130%);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', system-ui, Arial, sans-serif;
+  background: var(--gradient-bg);
+  color: var(--accent-1);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+body.dark {
+  background: linear-gradient(160deg, #293855 60%, #4165D5 130%);
+  color: #F1AC20;
+}
+
+.app {
+  max-width: 440px;
+  margin: 48px auto 0 auto;
+  border-radius: 34px;
+  box-shadow: 0 2px 36px #29385520;
+  background: rgba(255,255,255, 0.68);
+  padding: 32px 22px 28px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 44px;
+  min-height: 82vh;
+  position: relative;
+}
+
+body.dark .app {
+  background: rgba(34, 48, 85, 0.85);
+  box-shadow: 0 2px 36px #29385559;
+}
+
+@media (max-width:600px) {
+  .app { max-width: 96vw; padding: 12vw 4vw; }
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -1px;
+  color: var(--accent-1);
+}
+body.dark .title { color: var(--accent-4); }
+
+.subtitle {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--accent-2);
+  text-align: center;
+  margin-top: 7px;
+}
+body.dark .subtitle { color: var(--accent-4); }
+
+.settings-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 6px;
+  margin-top: 18px;
+  justify-content: center;
+}
+
+@media (max-width:600px) {
+  .settings-grid { gap: 10px 2vw; }
+}
+
+.setting-box {
+  flex: 1 0 48%;
+  min-width: 140px;
+  max-width: 210px;
+  background: var(--gradient-input);
+  border-radius: 18px;
+  padding: 16px 13px 14px 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  box-shadow: 0 2px 16px #4165D533;
+}
+
+body.dark .setting-box {
+  background: linear-gradient(90deg, #293855 70%, #4165D5 100%);
+  color: #F1AC20;
+  box-shadow: 0 2px 14px #F1AC2099;
+}
+
+.setting-box label {
+  margin-bottom: 7px;
+  color: var(--accent-2);
+  font-weight: 600;
+  font-size: 1.01em;
+}
+body.dark .setting-box label { color: #C3E8C9; }
+
+input[type=number] {
+  border: none;
+  border-radius: 10px;
+  padding: 13px 10px;
+  font-size: 1.08em;
+  font-weight: 700;
+  background: #fff;
+  color: var(--accent-1);
+  box-shadow: 0 1px 10px #29385510;
+  outline: none;
+  transition: background .19s, color .19s;
+}
+
+body.dark input[type=number] {
+  background: #232c41;
+  color: #F1AC20;
+}
+
+input[type=number]:focus {
+  background: #F1AC20;
+  color: #293855;
+}
+
+body.dark input[type=number]:focus {
+  background: #C3E8C9;
+  color: #293855;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 10px 0;
+}
+
+select {
+  padding: 13px 10px;
+  border-radius: 11px;
+  border: none;
+  background: var(--gradient-input);
+  color: #293855;
+  font-size: 1.09em;
+  font-weight: 700;
+  outline: none;
+}
+body.dark select {
+  background: linear-gradient(90deg, #293855 70%, #4165D5 100%);
+  color: #C3E8C9;
+}
+
+.options {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  margin: 9px 0 6px 0;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--accent-2);
+}
+
+.switch {
+  width: 48px; height: 26px;
+  border-radius: 30px;
+  background: #C3E8C9aa;
+  box-shadow: 0 2px 10px #29385522;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  transition: background .22s;
+  display: flex; align-items: center; 
+}
+.switch.on {
+  background: var(--gradient-button);
+  box-shadow: 0 4px 12px #F1AC2069;
+}
+.knob {
+  position: absolute;
+  left: 4px; top: 3px;
+  width: 19px; height: 19px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 6px #4165D566;
+  transition: left .22s cubic-bezier(.52,1.2,.44,1.05), background .22s;
+}
+.switch.on .knob {
+  left: 25px; background: #4165D5;
+}
+
+.muted-btn, .start-large {
+  font-weight: 700;
+  font-size: 1.06em;
+  border: none;
+  border-radius: 22px;
+  box-shadow: 0 3px 14px #4165D533;
+  background: var(--gradient-button);
+  color: #fff;
+  padding: 16px 28px;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: background .23s, box-shadow .21s, transform .15s;
+}
+.start-large {
+  font-size: 1.16em;
+  padding: 19px 44px;
+  border-radius: 38px;
+  margin-top: 13px;
+  animation: breathebtn 3s ease-in-out infinite;
+}
+@keyframes breathebtn {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.05); box-shadow: 0 10px 34px #F1AC2055; }
+  100% { transform: scale(1); }
+}
+.muted-btn:hover, .start-large:hover {
+  background: linear-gradient(110deg, #F1AC20 55%, #4165D5 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px #F1AC2073;
+}
+
+.meta-row, .hint {
+  text-align: center;
+  font-size: 1.04em;
+  color: var(--accent-2);
+  margin-top: 4px;
+}
+
+body.dark .meta-row, body.dark .hint {
+  color: #C3E8C9;
+}
+
+.visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.circle-wrap {
+  width: 180px;
+  height: 180px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.15;
+  border: 3px solid #4165D566;
+  box-shadow: 0 12px 24px #4165D533 inset;
+  transition: transform .4s, opacity .4s;
+  transform: scale(0.95);
+}
+
+.breath-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--gradient-button);
+  box-shadow: 0 18px 50px #4165D588;
+  transition: transform .56s cubic-bezier(.2,.9,.2,1), box-shadow .36s;
+  will-change: transform, box-shadow;
+  color: #fff;
+}
+.breath-circle.glow {
+  box-shadow: 0 30px 75px #4165D5bb, 0 8px 30px #F1AC20cc;
+}
+.phase-label {
+  font-size: 1.15rem; font-weight: 700; color: #fff; opacity: 0.94; text-shadow: 0 2px 5px #4165D566; padding-top: 10px;
+}
+.big-number {
+  font-size: 2.3rem; font-weight: 900; color: #fff; letter-spacing: -1.0px; text-shadow: 0 6px 14px #F1AC2088; line-height: 1.1;
+  margin-bottom: -3px;
+}
+.phrase {
+  font-size: 1.1rem;
+  padding: 11px 18px;
+  border-radius: 19px;
+  background: var(--gradient-button);
+  color: #fff;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  box-shadow: 0 2px 14px #29385539;
+  min-height: 40px;
+  text-align: center;
+  transition: opacity .27s, transform .24s;
+}
+.phrase.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.start-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 15px;
+}
+.theme-btn {
+  position: fixed;
+  top: 16px; right: 18px; z-index: 99;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--gradient-button);
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 2px 14px #4165D588;
+  transition: background .18s, color .18s, box-shadow .18s;
+}
+.theme-btn:hover {
+  background: linear-gradient(100deg, #F1AC20 60%, #4165D5 100%);
+  color: #fff;
+  box-shadow: 0 2px 24px #F1AC2073;
+}
+</style>
 </head>
 <body class="dark">
-<div class="stars-bg">
-<svg>
-  <!-- SVG stars code, see previous answer -->
-</svg>
-</div>
 
-<button id="themeBtn" class="theme-btn dark" title="Toggle light/dark" aria-label="Toggle theme">
-  <span class="theme-btn-inner">
-    <span class="theme-sunmoon"></span>
-    <span class="theme-crater"></span>
-    <span class="theme-crater theme-crater2"></span>
-    <span class="theme-crater theme-crater3"></span>
-  </span>
-</button>
+<button id="themeBtn" class="theme-btn" title="Toggle light/dark" aria-label="Toggle theme">🌙</button>
 
 <div class="app" role="application" aria-label="Zenith Breathing App">
-  <!-- identical HTML controls/visual, see previous answer -->
-  <!-- ... -->
+  <div class="title">Zenith Breathing App</div>
+  <div class="subtitle">A calm, private breathing tool — customize seconds, voice, and beep.</div>
+  <div class="settings-grid">
+    <div class="setting-box">
+      <label for="inhale">Inhale (sec)</label>
+      <input id="inhale" type="number" min="0" value="4" />
+    </div>
+    <div class="setting-box">
+      <label for="hold1">Hold after inhale (sec)</label>
+      <input id="hold1" type="number" min="0" value="0" />
+    </div>
+    <div class="setting-box">
+      <label for="exhale">Exhale (sec)</label>
+      <input id="exhale" type="number" min="0" value="6" />
+    </div>
+    <div class="setting-box">
+      <label for="hold2">Hold after exhale (sec)</label>
+      <input id="hold2" type="number" min="0" value="0" />
+    </div>
+  </div>
+  <div>
+    <label for="total" style="font-weight:600;color:var(--accent-2);display:block;margin-top:15px;">Total time</label>
+    <div class="row">
+      <select id="total">
+        <option value="60">1 minute</option>
+        <option value="120" selected>2 minutes</option>
+        <option value="300">5 minutes</option>
+        <option value="600">10 minutes</option>
+        <option value="-1">Repeat indefinitely</option>
+      </select>
+      <input id="customTotal" type="number" min="10" placeholder="Custom sec (optional)" style="flex:1;" />
+    </div>
+  </div>
+  <div class="options">
+    <div class="toggle" title="Toggle beep">
+      <span>Beep</span>
+      <div id="beepSwitch" class="switch on" role="button" aria-pressed="true"><div id="beepKnob" class="knob"></div></div>
+    </div>
+    <div class="toggle" title="Toggle voice">
+      <span>Voice</span>
+      <div id="voiceSwitch" class="switch" role="button" aria-pressed="false"><div id="voiceKnob" class="knob"></div></div>
+    </div>
+  </div>
+  <div class="meta-row">
+    <span>Status: <strong id="status">stopped</strong></span>
+    <span>Cycle length: <strong id="cycleLen">0s</strong></span>
+  </div>
+  <div class="hint">Tip: Press <strong>Start</strong> or hit <strong>Space</strong>. Press <strong>R</strong> to reset.</div>
+  <div class="visual">
+    <div class="circle-wrap">
+      <div id="pulse" class="pulse-ring"></div>
+      <div id="circle" class="breath-circle" tabindex="0" role="img" aria-label="Breathing circle">
+        <div style="text-align:center;">
+          <div class="phase-label" id="phase">—</div>
+          <div class="big-number" id="phaseTime">0s</div>
+          <div style="height:10px;"></div>
+          <div class="small">Total left: <span id="totalTime">0s</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="phrase" id="phrase">Welcome — set your timings and press Start</div>
+    <div class="start-area">
+      <button id="startBtn" class="start-large" aria-pressed="false">Start</button>
+      <div style="display:flex; gap:18px; margin-top:14px;">
+        <button id="pauseBtn" class="muted-btn" title="Pause/resume">Pause</button>
+        <button id="resetBtn" class="muted-btn" title="Reset (R)">Reset</button>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
-// CONTINUE from where previous answer left off!
 const body = document.body;
 const themeBtn = document.getElementById('themeBtn');
-const themeBtnInner = themeBtn.querySelector('.theme-btn-inner');
-const sunMoon = themeBtn.querySelector('.theme-sunmoon');
-
 const inhaleEl = document.getElementById('inhale');
 const hold1El = document.getElementById('hold1');
 const exhaleEl = document.getElementById('exhale');
@@ -57,7 +445,6 @@ const cycleLenEl = document.getElementById('cycleLen');
 const sessionPhrase = document.getElementById('phrase');
 const circle = document.getElementById('circle');
 const pulse = document.getElementById('pulse');
-const orbit = document.querySelector('.orbit');
 
 let beepOn = true;
 let voiceOn = false;
@@ -131,34 +518,29 @@ function speak(text) {
   }
 }
 
-function setKnobVisual(switchEl, on) {
+function setKnobVisual(switchEl, knobEl, on) {
   if(on) switchEl.classList.add('on');
   else switchEl.classList.remove('on');
 }
 
-setKnobVisual(beepSwitch, beepOn);
-setKnobVisual(voiceSwitch, voiceOn);
+setKnobVisual(beepSwitch, beepKnob, beepOn);
+setKnobVisual(voiceSwitch, voiceKnob, voiceOn);
 
 beepSwitch.addEventListener('click', () => {
   beepOn = !beepOn;
-  setKnobVisual(beepSwitch, beepOn);
+  setKnobVisual(beepSwitch, beepKnob, beepOn);
 });
 voiceSwitch.addEventListener('click', () => {
   voiceOn = !voiceOn;
   synth.cancel();
-  setKnobVisual(voiceSwitch, voiceOn);
+  setKnobVisual(voiceSwitch, voiceKnob, voiceOn);
 });
 
 themeBtn.addEventListener('click', () => {
-  const light = body.classList.toggle('light');
-  if(light) {
-    themeBtn.classList.remove('dark');
-    themeBtn.classList.add('light');
-    sunMoon.style.background = '#F1AC20';
+  if(body.classList.contains('light')){
+    body.classList.remove('light'); body.classList.add('dark'); themeBtn.textContent = '🌙';
   } else {
-    themeBtn.classList.add('dark');
-    themeBtn.classList.remove('light');
-    sunMoon.style.background = '#293855';
+    body.classList.remove('dark'); body.classList.add('light'); themeBtn.textContent = '☀️';
   }
 });
 
@@ -172,7 +554,6 @@ function resetUI(){
   circle.classList.remove('glow');
   pulse.style.opacity = 0.13;
   circle.style.transform = 'scale(0.95)';
-  orbit.style.opacity = '0.9';
   lastPhaseIndex = -1;
 }
 resetUI();
@@ -195,7 +576,6 @@ function startTimer(){
 
   circle.classList.add('glow');
   pulse.style.opacity = 0.23;
-  orbit.style.opacity = '1';
   sessionPhrase.classList.add('show');
 
   if(timerInterval) clearInterval(timerInterval);
@@ -212,7 +592,6 @@ function pauseTimer() {
   if(timerInterval) clearInterval(timerInterval);
   synth.cancel();
   pulse.style.opacity = 0.09;
-  orbit.style.opacity = '0.35';
 }
 
 function stopTimer() {
@@ -260,18 +639,6 @@ function tick() {
   const current = phases[phaseIndex];
   const phaseLeft = Math.max(0, current.len - t);
 
-  // Animate orbit halo color and pulse based on phase
-  if(current.name === 'Inhale') {
-    orbit.style.boxShadow = "0 0 30px 8px #F1AC20bb, 0 0 2px 2px #4165D588";
-    orbit.style.opacity = '1.0';
-  } else if(current.name === 'Exhale') {
-    orbit.style.boxShadow = "0 0 24px 6px #4165D5bb, 0 0 1.5px 2px #F1AC2099";
-    orbit.style.opacity = '0.75';
-  } else {
-    orbit.style.boxShadow = "0 0 18px 6px #C3E8C9bb, 0 0 1px 2px #4165D544";
-    orbit.style.opacity = '0.5';
-  }
-
   if(phaseIndex !== lastPhaseIndex){
     playChime();
     if(voiceOn) speak(current.name);
@@ -290,21 +657,18 @@ function tick() {
   let targetScale = 0.95;
   if(current.name === 'Inhale'){
     const progress = current.len > 0 ? (1 - (phaseLeft / current.len)) : 1;
-    targetScale = 0.87 + 0.38 * progress;
-    pulse.style.transform = `scale(${0.97 + 0.35 * progress})`;
-    pulse.style.opacity = (0.16 + 0.18 * progress);
-    circle.style.boxShadow = `0 12px 32px #F1AC20ee, 0 2px 4px #4165D544`;
+    targetScale = 0.82 + 0.38 * progress;
+    pulse.style.transform = `scale(${0.98 + 0.28 * progress})`;
+    pulse.style.opacity = (0.13 + 0.18 * progress);
   } else if(current.name === 'Exhale'){
     const progress = current.len > 0 ? (1 - (phaseLeft / current.len)) : 1;
-    targetScale = 1.08 - 0.32 * progress;
+    targetScale = 1.06 - 0.32 * progress;
     pulse.style.transform = `scale(${1.08 - 0.28 * progress})`;
-    pulse.style.opacity = (0.15 + 0.12 * progress);
-    circle.style.boxShadow = `0 12px 32px #4165D5ee, 0 2px 4px #F1AC2044`;
+    pulse.style.opacity = (0.13 + 0.12 * progress);
   } else {
-    targetScale = 0.93 + 0.06 * Math.sin(performance.now() / 400);
+    targetScale = 0.92 + 0.06 * Math.sin(performance.now() / 400);
     pulse.style.transform = `scale(0.95)`;
-    pulse.style.opacity = 0.14;
-    circle.style.boxShadow = `0 7px 22px #C3E8C9bb, 0 2px 4px #4165D544`;
+    pulse.style.opacity = 0.13;
   }
   circle.style.transform = `scale(${targetScale.toFixed(3)})`;
 
@@ -318,7 +682,6 @@ function tick() {
     if(voiceOn) speak('Session finished');
     circle.classList.remove('glow');
     pulse.style.opacity = 0.13;
-    orbit.style.opacity = "0.6";
     sessionPhrase.classList.remove('show');
   }
 }
