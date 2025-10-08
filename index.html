@@ -7,16 +7,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&display=swap" rel="stylesheet" />
 <style>
   :root{
-    /* Vibrant, saturated palette */
     --ink-dark:#062c23;
     --ink-light:#f6fffb;
 
-    --green-primary:#10b981;  /* emerald */
-    --green-accent:#34d399;   /* mint */
-    --green-deep:#065f46;     /* deep emerald */
+    --green-primary:#10b981;
+    --green-accent:#34d399;
+    --green-deep:#047857;
 
-    --bg-dark-a:#05261f;      /* simplified to avoid “cutout” */
-    --bg-dark-b:#0f3d32;
+    --bg-dark-a:#042019;
+    --bg-dark-b:#064e3b;
     --bg-light-a:#eafff7;
     --bg-light-b:#d8fff0;
 
@@ -29,30 +28,25 @@
     --radius-card:20px;
     --radius-field:14px;
 
-    --breath-duration: 10s;   /* JS syncs to cycle length */
-    --header-height: 88px;    /* used to push content below fixed header */
+    --breath-duration: 10s;
+    --header-height: 88px;
   }
-
   *,*::before,*::after{ box-sizing:border-box; }
   html,body{ height:100%; margin:0; }
 
   body{
     font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
     color:var(--ink-light);
-    /* single smooth gradient to avoid layered “cutout” look */
     background: linear-gradient(135deg,var(--bg-dark-a),var(--bg-dark-b));
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
   }
-
-  /* Subtle global hue/brightness breathing */
   @keyframes bgBreath { 0%{filter:hue-rotate(0) brightness(1);} 50%{filter:hue-rotate(6deg) brightness(1.06);} 100%{filter:hue-rotate(0) brightness(1);} }
   body.breathing{ animation: bgBreath var(--breath-duration) linear infinite; }
 
-  /* Full-page stars behind content, non-blocking */
   .sky{
     position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:0;
-    pointer-events:none; opacity:.28; filter: blur(.6px);
+    pointer-events:none; opacity:.32; filter: blur(.6px);
     background:
       radial-gradient(circle at 25% 15%, #bbffe833 1.5px, transparent 2px),
       radial-gradient(circle at 78% 38%, #eafff64d 1.7px, transparent 2.4px),
@@ -67,12 +61,11 @@
     100%{background-position:700px 520px,380px 300px,560px 380px,320px 240px,200px 190px;}
   }
 
-  /* Fixed, centered header (logo + name), no overlap with content */
+  /* Fix brand header center and spacing */
   .site-header{
-    position:fixed; top:0; left:0; right:0; z-index:12;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 12;
     height: var(--header-height);
-    display:flex; align-items:center; justify-content:center;
-    padding:10px 14px;
+    display: flex; align-items: center; justify-content: center;
     background: var(--card-dark);
     border-bottom: 3px solid var(--border-dark);
     box-shadow: 0 16px 44px rgba(16,185,129,.55), 0 10px 30px rgba(6,44,35,.55);
@@ -83,22 +76,25 @@
     box-shadow: 0 10px 34px rgba(6,44,35,.22), 0 12px 28px rgba(16,185,129,.28);
   }
 
-  .brand{
-    display:flex; align-items:center; gap:12px;
+  /* Brand container */
+  .brand {
+    display:flex; align-items:center; gap:14px;
   }
   .brand-name{
-    font-weight:900; font-size:20px; letter-spacing:.35px;
-    color:var(--ink-light);
-    text-shadow: 0 2px 8px rgba(16,185,129,.8);
+    font-weight:900; font-size:22px; letter-spacing:.35px;
+    color: var(--ink-light);
+    text-shadow: 0 2px 8px rgba(16,185,129,.85);
+    user-select:none;
   }
-  /* Light theme: make brand green for visibility as requested */
   body.light .brand-name{
     color: var(--green-primary);
-    text-shadow: none;
+    text-shadow:none;
   }
 
-  /* New animated SVG logo (leaf pulse + ring draw) */
-  .brand-logo{ width:40px; height:40px; }
+  /* New center animated SVG logo */
+  .brand-logo{
+    width:40px; height:40px;
+  }
   .ring{
     stroke:#a7f3d0; stroke-width:3; fill:none; stroke-linecap:round;
     stroke-dasharray:126; stroke-dashoffset:126; animation: ringDraw 2s ease forwards 0.2s;
@@ -106,213 +102,425 @@
   }
   @keyframes ringDraw { to { stroke-dashoffset:0; } }
   .leaf{
-    fill: url(#gradLeaf); transform-origin: 20px 20px; animation: leafPulse 2.6s ease-in-out infinite;
+    fill: url(#gradLeaf);
+    transform-origin: 20px 20px;
+    animation: leafPulse 2.6s ease-in-out infinite;
   }
   @keyframes leafPulse { 0%,100%{transform: scale(1);} 50%{transform: scale(1.08);} }
 
-  /* Theme button at top-right */
+  /* Theme toggle top right */
   .theme-btn{
-    position:fixed; top:12px; right:12px; z-index:13;
-    width:50px; height:50px; display:grid; place-items:center;
-    border-radius:14px; color:var(--ink-light); cursor:pointer;
+    position: fixed; top:12px; right:12px; z-index: 13;
+    width: 50px; height: 50px; display: grid; place-items: center;
+    border-radius: 14px; color: var(--ink-light); cursor: pointer;
     background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.07));
-    border:3px solid var(--green-accent);
+    border: 3px solid var(--green-accent);
     box-shadow: 0 12px 30px rgba(0,0,0,.38);
     transition: transform .18s, box-shadow .22s, filter .2s;
   }
-  .theme-btn:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.45); filter:saturate(1.1); }
-
-  /* Main app content pushed below fixed header to avoid intersection */
-  .app{
-    position:relative; z-index:1;
-    width:min(1100px, 94vw);
-    margin: calc(var(--header-height) + 16px) auto 28px;
-    display:flex; flex-direction:column; gap:18px;
+  .theme-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(0,0,0,.45);
+    filter: saturate(1.1);
   }
 
-  /* Solid cards (bold) */
+  /* App container shifted below header */
+  .app{
+    position: relative; z-index: 1;
+    width: min(1100px, 94vw);
+    margin: calc(var(--header-height) + 14px) auto 28px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+
+  /* Solid cards */
   .card{
+    position: relative;
     background: var(--card-dark);
     border: 3px solid var(--border-dark);
     border-radius: var(--radius-card);
     box-shadow: 0 22px 70px rgba(16,185,129,.7), 0 12px 36px rgba(6,44,35,.6);
+    overflow: visible;
   }
   body.light .card{
     background: var(--card-light);
     border-color: var(--border-light);
-    box-shadow: 0 18px 54px rgba(6,44,35,.22), 0 12px 30px rgba(16,185,129,.26);
+    box-shadow: 0 18px 54px rgba(6,44,35,.25), 0 12px 30px rgba(16,185,129,.33);
   }
 
-  /* Visual section */
-  .visual{ order:-1; padding:18px 16px; display:flex; flex-direction:column; align-items:center; gap:12px; }
-  .circle-wrap{ position:relative; width:min(520px,95%); aspect-ratio:1/1; min-width:260px; display:grid; place-items:center; padding:12px; }
-  .bubbles{ position:absolute; inset:12px; z-index:1; pointer-events:none; }
-  .bubble{
-    position:absolute; bottom:-40px; border-radius:50%;
+  /* Visual panel */
+  .visual{
+    order: -1; padding: 18px 16px 18px;
+    display: flex; flex-direction: column; align-items: center; gap: 12px;
+  }
+  .circle-wrap{
+    position: relative; width: min(520px, 95%); aspect-ratio: 1 / 1; min-width: 260px;
+    display: grid; place-items: center; padding: 12px;
+  }
+  .bubbles { position: absolute; inset: 12px; z-index: 1; pointer-events: none; }
+  .bubble {
+    position: absolute; bottom: -40px; border-radius: 50%;
     background: radial-gradient(circle at 32% 28%, rgba(225,255,240,.95), rgba(200,255,235,.32));
     box-shadow: 0 10px 20px rgba(16,185,129,.34);
-    filter: blur(.2px); opacity:.28; animation: floatUp linear forwards; pointer-events:none;
+    filter: blur(.2px); opacity: .28;
+    animation: floatUp linear forwards;
+    pointer-events:none;
   }
   @keyframes floatUp {
-    0%{ transform: translateY(0) scale(.9); opacity:0; }
-    12%{ opacity:.32; }
-    90%{ opacity:.18; }
-    100%{ transform: translateY(-120%) scale(1.06); opacity:0; }
+    0% { transform: translateY(0) scale(.9); opacity: 0; }
+    12%{ opacity: .32; }
+    90%{ opacity: .18; }
+    100% { transform: translateY(-120%) scale(1.06); opacity: 0; }
   }
-  .pulse{
-    position:absolute; inset:12px; border-radius:50%; pointer-events:none; z-index:2;
-    border:4px solid rgba(167,243,208,.46);
+  .pulse {
+    position: absolute; inset: 12px; border-radius: 50%; pointer-events: none; z-index: 2;
+    border: 4px solid rgba(167,243,208,.46);
     box-shadow: inset 0 30px 90px rgba(6,44,35,.42), 0 0 42px rgba(16,185,129,.48), 0 0 100px rgba(52,211,153,.6);
-    opacity:.26; transform: scale(.96);
+    opacity: .26;
+    transform: scale(.96);
     transition: transform .4s ease, opacity .4s ease;
   }
-  .orbit{
-    position:absolute; inset:12px; border-radius:50%; pointer-events:none; z-index:2;
+  .orbit {
+    position: absolute; inset: 12px; border-radius: 50%; pointer-events: none; z-index: 2;
     box-shadow: 0 0 30px rgba(52,211,153,.36), 0 0 5px rgba(167,243,208,.40);
-    animation: orbit 7.2s linear infinite; opacity:.8;
+    animation: orbit 7.2s linear infinite;
+    opacity: .8;
   }
-  @keyframes orbit { to{ transform: rotate(360deg);} }
+  @keyframes orbit { to { transform: rotate(360deg); } }
 
-  .circle{
-    position:relative; z-index:3; width:70%; min-width:220px; aspect-ratio:1/1; border-radius:50%;
-    display:grid; place-items:center; text-align:center; color:var(--ink-light);
+  .circle {
+    position: relative; z-index: 3; width: 70%; min-width: 220px; aspect-ratio: 1 / 1; border-radius: 50%;
+    display: grid; place-items: center; text-align: center; color: var(--ink-light);
     background:
       radial-gradient(ellipse at 30% 22%, rgba(52,211,153,.55), rgba(16,185,129,.32) 60%, rgba(6,44,35,.10) 100%),
       conic-gradient(from 220deg, rgba(16,185,129,.82), rgba(52,211,153,.62), rgba(16,185,129,.82));
     border: 3px solid #a7f3d0;
-    box-shadow: 0 46px 140px rgba(16,185,129,.72), 0 18px 48px rgba(6,44,35,.58), inset 0 0 34px rgba(255,255,255,.32);
+    box-shadow: 0 60px 160px rgba(16,185,129,.82), 0 28px 72px rgba(6,44,35,.70), inset 0 0 40px rgba(255,255,255,.38);
     transition: transform 560ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms;
     will-change: transform;
   }
-  .circle.glow{ box-shadow: 0 60px 160px rgba(16,185,129,.82), 0 28px 72px rgba(6,44,35,.70), inset 0 0 40px rgba(255,255,255,.38); }
+  .circle.glow{ box-shadow: 0 68px 180px var(--green-primary), 0 32px 86px rgba(6,44,35,.70), inset 0 0 44px rgba(255,255,255,.44); }
 
-  .phase{ font-weight:900; font-size:clamp(18px,2.5vw,22px); letter-spacing:.4px; text-shadow:0 2px 12px rgba(0,0,0,.3); }
-  .big{ font-weight:900; font-size:clamp(48px,7vw,68px); letter-spacing:-.94px; color:#053a2d; text-shadow:0 12px 36px rgba(167,243,208,.9); }
-  body.light .big{ color:#072f26; }
-  .tiny{ font-weight:800; font-size:15px; color:#e9fff7; opacity:.98; }
-  body.light .tiny{ color:#08482d; }
-
-  .phrase{
-    font-size:clamp(14px, 2.2vw, 18px); font-weight:900; color:white;
-    background: linear-gradient(120deg, var(--green-accent), var(--green-primary));
-    padding: 12px 20px; border-radius:999px; box-shadow: 0 14px 44px rgba(16,185,129,.38);
-    opacity:0; transform:translateY(8px); transition:opacity 260ms, transform 260ms;
+  .phase {
+    font-weight: 900;
+    font-size: clamp(18px, 2.5vw, 22px);
+    letter-spacing: .4px;
+    text-shadow: 0 2px 12px rgba(0,0,0,.3);
   }
-  .phrase.show{ opacity:1; transform:none; }
+  .big {
+    font-weight: 900;
+    font-size: clamp(48px, 7vw, 68px);
+    letter-spacing: -.94px;
+    color: #053a2d;
+    text-shadow: 0 12px 36px rgba(167,243,208,.9);
+  }
+  body.light .big { color: #072f26; }
+  .tiny {
+    font-weight: 800;
+    font-size: 15px;
+    color: #e9fff7;
+    opacity: .98;
+  }
+  body.light .tiny { color: #08482d; }
 
-  .actions{ display:flex; gap:14px; align-items:center; justify-content:center; margin-top:8px; flex-wrap:wrap; }
-  .btn{
-    border:3px solid var(--green-accent); border-radius:44px; padding:14px 30px; font-weight:900; cursor:pointer; color:#062c23;
+  .phrase {
+    font-size: clamp(14px, 2.2vw, 18px);
+    font-weight: 900;
+    color: white;
+    background: linear-gradient(120deg, var(--green-accent), var(--green-primary));
+    padding: 12px 20px;
+    border-radius: 999px;
+    box-shadow: 0 14px 44px rgba(16,185,129,.38);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 260ms ease, transform 260ms ease;
+  }
+  .phrase.show {
+    opacity: 1;
+    transform: none;
+  }
+
+  .actions {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    border: 3px solid var(--green-accent);
+    border-radius: 44px;
+    padding: 14px 30px;
+    font-weight: 900;
+    cursor: pointer;
+    color: #062c23;
     background: linear-gradient(120deg, #a7f3d0, #34d399);
     box-shadow: 0 18px 44px rgba(16,185,129,.34);
-    transition: transform .18s, box-shadow .28s, filter .28s, background .28s;
+    transition: transform 0.18s ease, box-shadow 0.28s ease, filter 0.28s ease, background 0.28s ease;
   }
-  .btn:hover{ transform: translateY(-3px); box-shadow: 0 28px 66px rgba(16,185,129,.52); filter:saturate(1.12); background: linear-gradient(120deg, #34d399, #10b981); }
-  .btn.alt{ color:var(--ink-light); background: linear-gradient(120deg,#10b981,#0ea5a3); border-color:#10b981; }
-  .btn.alt:hover{ background: linear-gradient(120deg,#0ea5a3,#10b981); }
+  .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 28px 66px rgba(16,185,129,.52);
+    filter: saturate(1.12);
+    background: linear-gradient(120deg, #34d399, #10b981);
+  }
+  .btn.alt {
+    color: var(--ink-light);
+    background: linear-gradient(120deg, #10b981, #0ea5a3);
+    border-color: #10b981;
+  }
+  .btn.alt:hover {
+    background: linear-gradient(120deg, #0ea5a3, #10b981);
+  }
 
-  /* Controls section */
-  .controls{ padding:18px 16px 20px; display:flex; flex-direction:column; gap:14px; }
-  .grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
-  .field{ display:flex; flex-direction:column; gap:8px; padding:12px; border-radius: var(--radius-field); background: var(--card-dark); border:3px solid var(--border-dark); box-shadow: 0 14px 48px rgba(16,185,129,.5), 0 6px 24px rgba(6,44,35,.5); }
-  body.light .field{ background: var(--card-light); border-color: var(--border-light); box-shadow: 0 14px 48px rgba(6,44,35,.2), 0 8px 28px rgba(16,185,129,.28); }
-  label{ font-size:14px; font-weight:900; color:#bbffe9; letter-spacing:.28px; }
-  body.light label{ color:#0b3a29; }
+  /* Controls */
+  .controls {
+    padding: 18px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border-radius: var(--radius-field);
+    background: var(--card-dark);
+    border: 3px solid var(--border-dark);
+    box-shadow: 0 14px 48px rgba(16,185,129,.5), 0 6px 24px rgba(6,44,35,.5);
+  }
+  body.light .field {
+    background: var(--card-light);
+    border-color: var(--border-light);
+    box-shadow: 0 14px 48px rgba(6,44,35,.25), 0 8px 28px rgba(16,185,129,.35);
+  }
+  label {
+    font-size: 14px;
+    font-weight: 900;
+    color: #bbffe9;
+    letter-spacing: .28px;
+  }
+  body.light label {
+    color: #0b3a29;
+  }
 
-  input[type=number], select{
-    border:3px solid var(--green-accent);
+  input[type=number], select {
+    border: 3px solid var(--green-accent);
     background: var(--card-dark);
     color: var(--ink-light);
-    padding:14px 18px;
+    padding: 14px 18px;
     border-radius: var(--radius-field);
-    font-weight:900; font-size:16px;
-    outline:none; transition: border-color .25s, background .25s, color .25s;
-    -webkit-appearance:none; appearance:none; filter:saturate(1.1);
+    font-weight: 900;
+    font-size: 16px;
+    outline: none;
+    transition: border-color .25s ease, background .25s ease, color .25s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    filter: saturate(1.1);
   }
-  input[type=number]::placeholder{ color: #bdfff2; opacity:.75; }
-  input[type=number]:focus-visible, select:focus-visible{ outline: 3px solid var(--green-accent); outline-offset: 4px; }
-  body.light input[type=number], body.light select{ background: var(--card-light); color: var(--ink-dark); border-color: var(--green-primary); }
-
-  .row{ display:flex; align-items:center; gap:14px; }
-  .row > select{ min-width:180px; }
-
-  .options{ display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
-  .toggle{ cursor:pointer; user-select:none; color:#bbffe9; font-weight:900; display:flex; align-items:center; gap: 12px; }
-  body.light .toggle{ color:#0b3a29; }
-
-  /* Switch alignment fix: knob centered vertically and moves to exact end */
-  .switch{
-    position: relative; width: 64px; height: 36px; border-radius:9999px; padding: 0 6px;
-    display:flex; align-items:center; background: var(--card-dark); border: 3px solid var(--green-accent);
-    box-shadow: 0 14px 32px rgba(16,185,129,.38); transition: all .28s ease;
+  input[type=number]::placeholder {
+    color: #bdfff2;
+    opacity: .75;
   }
-  body.light .switch{ background: var(--card-light); border-color: var(--green-primary); box-shadow: 0 8px 28px rgba(16,185,129,.12); }
+  input[type=number]:focus-visible, select:focus-visible {
+    outline: 3px solid var(--green-accent);
+    outline-offset: 4px;
+  }
+  body.light input[type=number], body.light select {
+    background: var(--card-light);
+    color: var(--ink-dark);
+    border-color: var(--green-primary);
+  }
 
-  .knob{
-    position:absolute; top:50%; left:6px; transform: translateY(-50%);
-    width:28px; height:28px; background:#f6fffb; border-radius:50%; box-shadow:0 0 18px rgba(0,0,0,.3);
-    transition: left .25s ease;
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
-  .switch.on{
-    background: var(--green-primary); border-color: var(--green-primary);
+  .row > select {
+    min-width: 180px;
   }
-  .switch.on .knob{
+
+  .options {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .toggle {
+    cursor: pointer;
+    user-select: none;
+    color: #bbffe9;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  body.light .toggle {
+    color: #0b3a29;
+  }
+
+  .switch {
+    width: 62px;
+    height: 32px;
+    background: var(--card-dark);
+    border-radius: 9999px;
+    padding: 6px;
+    border: 3px solid var(--green-accent);
+    position: relative;
+    box-shadow: 0 14px 32px rgba(16,185,129,.38);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+  }
+  body.light .switch {
+    background: var(--card-light);
+    border-color: var(--green-primary);
+    box-shadow: 0 8px 28px rgba(16,185,129,.12);
+  }
+  .knob {
+    width: 28px;
+    height: 28px;
+    background: #f6fffb;
+    border-radius: 50%;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    transform: translateY(-50%);
+    transition: left 0.25s ease;
+  }
+  .switch.on {
+    border-color: var(--green-primary);
+    background: var(--green-primary);
+    box-shadow: 0 20px 56px rgba(16,185,129,0.64);
+    justify-content: flex-end;
+  }
+  .switch.on .knob {
     left: calc(100% - 6px - 28px);
   }
 
-  .meta{ font-weight:900; color:#b4ffee; display:flex; justify-content:space-between; font-size:14px; }
-  body.light .meta{ color:#0a3a2e; }
-  .hint{ font-weight:900; color:#a4ffd5; font-size:13px; }
-  body.light .hint{ color:#0a3a2e; }
-
-  /* Select options text black fallback */
-  option{ color:#000; background:#fff; }
-  select.open{ color:#000 !important; background:#fff !important; }
-
-  /* Light mode body */
-  body.light{ color:var(--ink-dark); background: linear-gradient(135deg,var(--bg-light-a),var(--bg-light-b)); }
-
-  /* Footer legal */
-  .site-footer{
-    text-align:center; color:#c8ffec; font-weight:800; font-size:13px;
-    padding: 16px 10px; opacity:.95;
+  .meta {
+    font-weight: 900;
+    color: #b4ffee;
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
   }
-  body.light .site-footer{ color:#095443; }
+  body.light .meta {
+    color: #0a3a2e;
+  }
+  .hint {
+    font-weight: 900;
+    color: #a4ffd5;
+    font-size: 13px;
+  }
+  body.light .hint {
+    color: #0a3a2e;
+  }
+
+  /* Select options black text fallback */
+  option {
+    color: #000;
+    background: #fff;
+  }
+  select.open {
+    color: #000 !important;
+    background: #fff !important;
+  }
+
+  body.light {
+    color: var(--ink-dark);
+    background: linear-gradient(
+      135deg,
+      var(--bg-light-a),
+      var(--bg-light-b)
+    );
+  }
+  body.light .site-header,
+  body.light .card {
+    background: var(--card-light);
+    border-color: var(--border-light);
+    box-shadow: 0 16px 54px rgba(6, 44, 35, 0.25),
+      0 12px 34px rgba(16, 185, 129, 0.32);
+  }
+  body.light .pulse {
+    border-color: var(--green-primary);
+    box-shadow: inset 0 28px 80px rgba(6, 44, 35, 0.38),
+      0 0 40px var(--green-accent),
+      0 0 112px rgba(52, 211, 153, 0.45);
+    opacity: 0.26;
+  }
+  body.light .orbit {
+    box-shadow: 0 0 38px rgba(52, 211, 153, 0.4), 0 0 6px rgba(20, 250, 200, 0.52);
+  }
+  body.light .circle.glow {
+    box-shadow: 0 68px 180px var(--green-primary), 0 32px 86px rgba(6, 44, 35, 0.7),
+      inset 0 0 44px rgba(255, 255, 255, 0.44);
+  }
+
+  /* Footer */
+  .site-footer {
+    text-align: center;
+    padding: 16px 10px;
+    font-weight: 800;
+    font-size: 14px;
+    color: #b4ffee;
+    user-select: none;
+  }
+  body.light .site-footer {
+    color: var(--green-primary);
+  }
 
   /* Responsive */
-  @media (max-width:760px){
-    .actions{ flex-wrap:wrap; }
+  @media (max-width: 720px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .actions {
+      flex-wrap: wrap;
+    }
+    .brand-name {
+      display: none;
+    }
   }
 
   /* Reduced motion */
-  @media (prefers-reduced-motion: reduce){
-    *{ animation:none !important; transition:none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
   }
 </style>
 </head>
 <body class="breathing">
   <div class="sky" aria-hidden="true"></div>
 
-  <!-- Centered header with new animated logo -->
-  <header class="site-header" role="banner" aria-label="Zenith header">
+  <header class="site-header" role="banner" aria-label="Zenith Branding and Controls">
     <div class="brand">
-      <svg class="brand-logo" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <svg class="brand-logo" viewBox="0 0 40 40" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="gradLeaf" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#34d399"/>
-            <stop offset="100%" stop-color="#10b981"/>
+            <stop offset="0%" stop-color="#34d399" />
+            <stop offset="100%" stop-color="#10b981" />
           </linearGradient>
         </defs>
-        <circle class="ring" cx="20" cy="20" r="16"/>
-        <path class="leaf" d="M20 9 C26 12, 29 18, 20 30 C11 18, 14 12, 20 9 Z"/>
+        <circle class="ring" cx="20" cy="20" r="16" />
+        <path class="leaf" d="M20 9 C26 12, 29 18, 20 30 C11 18, 14 12, 20 9 Z" />
       </svg>
       <div class="brand-name">Zenith</div>
     </div>
     <button id="themeBtn" class="theme-btn" aria-label="Toggle theme" title="Toggle light/dark">🌙</button>
   </header>
 
-  <main class="app" role="main" aria-label="Zenith breathing app">
-    <!-- Visual -->
+  <main class="app" role="main" aria-label="Zenith breathing control interface">
     <section class="card visual" aria-label="Breathing visual">
       <div class="circle-wrap" id="circleWrap">
         <div class="bubbles" id="bubbles"></div>
@@ -339,7 +547,6 @@
       </div>
     </section>
 
-    <!-- Controls -->
     <section class="card controls" aria-label="Controls">
       <div class="grid">
         <div class="field">
@@ -363,18 +570,18 @@
       <div>
         <label for="total" style="font-size:13px; font-weight:900; color:#bbffea;">Total time</label>
         <div class="row">
-          <select id="total" aria-label="Total time">
+          <select id="total" aria-label="Total session length">
             <option value="60">1 minute</option>
             <option value="120" selected>2 minutes</option>
             <option value="300">5 minutes</option>
             <option value="600">10 minutes</option>
             <option value="-1">Repeat indefinitely</option>
           </select>
-          <input id="customTotal" type="number" min="10" placeholder="Custom sec (optional)" style="flex:1;" />
+          <input id="customTotal" type="number" min="10" placeholder="Custom sec (optional)" style="flex:1" />
         </div>
       </div>
 
-      <div class="options" role="group" aria-label="Options">
+      <div class="options" role="group" aria-label="Options toggles">
         <div id="beepToggle" class="toggle" role="button" aria-pressed="true" tabindex="0">
           <span>Beep</span>
           <div class="switch on"><div class="knob"></div></div>
@@ -442,295 +649,395 @@
 
   let pageHidden = false;
 
-  let ctx, w=0, h=0, rafId=null;
-  const particles = [];
-
-  /* Audio chime (Web Audio API) */
   let audioCtx = null;
-  function chime(){
-    if(!beepOn) return;
-    try{
+  function chime() {
+    if (!beepOn) return;
+    try {
       audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
       const now = audioCtx.currentTime;
       const o1 = audioCtx.createOscillator();
       const o2 = audioCtx.createOscillator();
-      const g  = audioCtx.createGain();
-      const f  = audioCtx.createBiquadFilter();
-      f.type='lowpass'; f.frequency.value=2300;
-      o1.type='sine'; o2.type='sine';
-      o1.frequency.value=880; o2.frequency.value=1320;
-      o1.connect(g); o2.connect(g); g.connect(f); f.connect(audioCtx.destination);
+      const g = audioCtx.createGain();
+      const f = audioCtx.createBiquadFilter();
+      f.type = "lowpass";
+      f.frequency.value = 2300;
+      o1.type = "sine";
+      o2.type = "sine";
+      o1.frequency.value = 880;
+      o2.frequency.value = 1320;
+      o1.connect(g);
+      o2.connect(g);
+      g.connect(f);
+      f.connect(audioCtx.destination);
       g.gain.setValueAtTime(0.0001, now);
       g.gain.exponentialRampToValueAtTime(0.085, now + 0.03);
       g.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
-      o1.start(now); o2.start(now); o1.stop(now + 1.02); o2.stop(now + 1.02);
-    }catch(e){}
+      o1.start(now);
+      o2.start(now);
+      o1.stop(now + 1.02);
+      o2.stop(now + 1.02);
+    } catch (e) {}
   }
 
-  /* Voice cues */
   const synth = window.speechSynthesis;
-  function speak(text){
-    if(!voiceOn) return;
-    if(!('speechSynthesis' in window)) return;
-    try{
+  function speak(text) {
+    if (!voiceOn) return;
+    if (!("speechSynthesis" in window)) return;
+    try {
       synth.cancel();
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US'; u.rate = 0.95;
+      u.lang = "en-US";
+      u.rate = 0.95;
       synth.speak(u);
-    }catch(e){}
+    } catch (e) {}
   }
 
-  function readSettings(){
-    const inh = Math.max(0, Number(inhaleEl.value)||0);
-    const h1  = Math.max(0, Number(hold1El.value)||0);
-    const exh = Math.max(0, Number(exhaleEl.value)||0);
-    const h2  = Math.max(0, Number(hold2El.value)||0);
+  function readSettings() {
+    const inh = Math.max(0, Number(inhaleEl.value) || 0);
+    const h1 = Math.max(0, Number(hold1El.value) || 0);
+    const exh = Math.max(0, Number(exhaleEl.value) || 0);
+    const h2 = Math.max(0, Number(hold2El.value) || 0);
     let total = Number(totalSel.value);
-    const custom = Number(customTotalEl.value)||0;
-    if(custom>=10) total = custom;
-    return {inh,h1,exh,h2,total};
+    const custom = Number(customTotalEl.value) || 0;
+    if (custom >= 10) total = custom;
+    return { inh, h1, exh, h2, total };
   }
-  function fmt(s){ s=Math.max(0,Math.round(s)); return (s<60)? s+'s' : (Math.floor(s/60)+'m '+(s%60)+'s'); }
-  function updateCycleDisplay(len){
-    cycleLenEl.textContent = Math.round(len)+'s';
-    if(len>0){
-      document.documentElement.style.setProperty('--breath-duration', Math.max(4,Math.round(len))+'s');
-      document.body.classList.add('breathing');
+  function fmt(s) {
+    s = Math.max(0, Math.round(s));
+    return s < 60 ? s + "s" : Math.floor(s / 60) + "m " + (s % 60) + "s";
+  }
+  function updateCycleDisplay(len) {
+    cycleLenEl.textContent = Math.round(len) + "s";
+    if (len > 0) {
+      document.documentElement.style.setProperty(
+        "--breath-duration",
+        Math.max(4, Math.round(len)) + "s"
+      );
+      document.body.classList.add("breathing");
     }
   }
-
-  function showPhrase(name){
-    const map = { Inhale:'Inhale deeply…', Hold:'Hold gently…', Exhale:'Exhale slowly…' };
-    phrase.classList.remove('show');
-    setTimeout(()=>{ phrase.textContent = map[name] || 'Hold gently…'; phrase.classList.add('show'); },120);
+  function showPhrase(name) {
+    const map = {
+      Inhale: "Inhale deeply…",
+      Hold: "Hold gently…",
+      Exhale: "Exhale slowly…",
+    };
+    phrase.classList.remove("show");
+    setTimeout(() => {
+      phrase.textContent = map[name] || "Hold gently…";
+      phrase.classList.add("show");
+    }, 120);
   }
 
-  function resizeCanvas(){
+  let ctx,
+    w = 0,
+    h = 0,
+    rafId = null;
+  const particles = [];
+  function resizeCanvas() {
     const r = circleWrap.getBoundingClientRect();
-    w = Math.floor(r.width - 24);
-    h = Math.floor(r.height - 24);
-    trailCanvas.width = w; trailCanvas.height = h;
-    ctx = trailCanvas.getContext('2d');
-    trailCanvas.style.left = '12px';
-    trailCanvas.style.top  = '12px';
+    w = Math.floor(r.width - 20);
+    h = Math.floor(r.height - 20);
+    trailCanvas.width = w;
+    trailCanvas.height = h;
+    ctx = trailCanvas.getContext("2d");
+    trailCanvas.style.left = "10px";
+    trailCanvas.style.top = "10px";
   }
-  window.addEventListener('resize', resizeCanvas, {passive:true});
+  window.addEventListener("resize", resizeCanvas, { passive: true });
   resizeCanvas();
 
-  function emitParticles(){
-    if(pageHidden || !ctx) return;
-    const size = Math.min(w,h)*0.34;
-    for(let i=0;i<3;i++){
-      const a=Math.random()*Math.PI*2, r=size+(Math.random()*8-4);
-      particles.push({ x:w/2+Math.cos(a)*r, y:h/2+Math.sin(a)*r, vx:(Math.random()-.5)*0.4, vy:(Math.random()-.5)*0.4, life: 28+Math.random()*16 });
+  function emitParticles() {
+    if (pageHidden) return;
+    const size = Math.min(w, h) * 0.34;
+    for (let i = 0; i < 3; i++) {
+      const a = Math.random() * Math.PI * 2,
+        r = size + (Math.random() * 8 - 4);
+      particles.push({
+        x: w / 2 + Math.cos(a) * r,
+        y: h / 2 + Math.sin(a) * r,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        life: 28 + Math.random() * 16,
+      });
     }
   }
-  function stepParticles(){
-    if(!ctx){ rafId=requestAnimationFrame(stepParticles); return; }
-    ctx.globalCompositeOperation='destination-out';
-    ctx.fillStyle='rgba(0,0,0,.10)';
-    ctx.fillRect(0,0,w,h);
-    ctx.globalCompositeOperation='lighter';
-    for(let i=particles.length-1;i>=0;i--){
-      const p=particles[i];
-      p.x+=p.vx; p.y+=p.vy; p.vx*=.985; p.vy*=.985; p.life--;
-      const a=Math.max(0,p.life/40);
-      ctx.fillStyle=`rgba(197,245,221,${a})`;
-      ctx.beginPath(); ctx.arc(p.x,p.y,1.4+(1-a)*1.2,0,Math.PI*2); ctx.fill();
-      if(p.life<=0) particles.splice(i,1);
+  function stepParticles() {
+    if (!ctx) {
+      rafId = requestAnimationFrame(stepParticles);
+      return;
     }
-    rafId=requestAnimationFrame(stepParticles);
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.fillStyle = "rgba(0,0,0,.10)";
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalCompositeOperation = "lighter";
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vx *= 0.985;
+      p.vy *= 0.985;
+      p.life--;
+      const a = Math.max(0, p.life / 40);
+      ctx.fillStyle = `rgba(197,245,221,${a})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.4 + (1 - a) * 1.2, 0, Math.PI * 2);
+      ctx.fill();
+      if (p.life <= 0) particles.splice(i, 1);
+    }
+    rafId = requestAnimationFrame(stepParticles);
   }
-  rafId=requestAnimationFrame(stepParticles);
+  rafId = requestAnimationFrame(stepParticles);
 
-  let bubbleInt=null;
-  function startBubbles(){
-    if(bubbleInt) return;
-    bubbleInt=setInterval(()=>{
-      if(pageHidden) return;
-      const b=document.createElement('div'); b.className='bubble';
-      const s=8+Math.random()*16; b.style.width=s+'px'; b.style.height=s+'px';
-      b.style.left=(Math.random()*86+7)+'%'; b.style.animationDuration=(7+Math.random()*7)+'s';
+  let bubbleInt = null;
+  function startBubbles() {
+    if (bubbleInt) return;
+    bubbleInt = setInterval(() => {
+      if (pageHidden) return;
+      const b = document.createElement("div");
+      b.className = "bubble";
+      const s = 8 + Math.random() * 16;
+      b.style.width = s + "px";
+      b.style.height = s + "px";
+      b.style.left = Math.random() * 86 + 7 + "%";
+      b.style.animationDuration = 7 + Math.random() * 7 + "s";
       bubblesBox.appendChild(b);
-      setTimeout(()=>b.remove(),14000);
-    },1500);
+      setTimeout(() => b.remove(), 14000);
+    }, 1500);
   }
-  function stopBubbles(){ clearInterval(bubbleInt); bubbleInt=null; }
+  function stopBubbles() {
+    clearInterval(bubbleInt);
+    bubbleInt = null;
+  }
 
-  function startTimer(){
-    const s=readSettings(); const cycleLen=s.inh+s.h1+s.exh+s.h2;
-    if(cycleLen<=0){ alert('Set at least one positive phase length.'); return; }
+  function startTimer() {
+    const s = readSettings();
+    const cycleLen = s.inh + s.h1 + s.exh + s.h2;
+    if (cycleLen <= 0) {
+      alert("Set at least one positive phase length.");
+      return;
+    }
     updateCycleDisplay(cycleLen);
-    startTS=Date.now()-pauseOffset; endTS=(s.total===-1)?Infinity:startTS+s.total*1000;
-    statusEl.textContent='running'; startBtn.textContent='Stop'; startBtn.setAttribute('aria-pressed','true');
-    circle.classList.add('glow'); phrase.classList.add('show');
-    if(timerInterval) clearInterval(timerInterval);
-    timerInterval=setInterval(tick,120);
-    try{ audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+    startTS = Date.now() - pauseOffset;
+    endTS = s.total === -1 ? Infinity : startTS + s.total * 1000;
+    statusEl.textContent = "running";
+    startBtn.textContent = "Stop";
+    startBtn.setAttribute("aria-pressed", "true");
+    circle.classList.add("glow");
+    phrase.classList.add("show");
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(tick, 120);
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    } catch (e) {}
     tick();
   }
-  function pauseTimer(){
-    if(!startTS) return;
-    pauseOffset=Date.now()-startTS;
-    statusEl.textContent='paused';
-    if(timerInterval) clearInterval(timerInterval);
-    pulse.style.opacity=.24;
+  function pauseTimer() {
+    if (!startTS) return;
+    pauseOffset = Date.now() - startTS;
+    statusEl.textContent = "paused";
+    if (timerInterval) clearInterval(timerInterval);
+    pulse.style.opacity = 0.24;
     synth.cancel();
   }
-  function stopTimer(){
-    if(timerInterval) clearInterval(timerInterval);
-    timerInterval=null; startTS=null; endTS=null; pauseOffset=0; lastPhaseIndex=-1;
-    statusEl.textContent='stopped';
-    startBtn.textContent='Start';
-    startBtn.setAttribute('aria-pressed','false');
-    phaseEl.textContent='—';
-    phaseTimeEl.textContent='0s';
-    totalTimeEl.textContent='0s';
-    phrase.textContent='Welcome — set your timings and press Start';
-    phrase.classList.remove('show');
-    circle.style.transform='scale(.95)';
-    circle.classList.remove('glow');
-    pulse.style.opacity=.26;
+  function stopTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = null;
+    startTS = null;
+    endTS = null;
+    pauseOffset = 0;
+    lastPhaseIndex = -1;
+    statusEl.textContent = "stopped";
+    startBtn.textContent = "Start";
+    startBtn.setAttribute("aria-pressed", "false");
+    phaseEl.textContent = "—";
+    phaseTimeEl.textContent = "0s";
+    totalTimeEl.textContent = "0s";
+    phrase.textContent = "Welcome — set your timings and press Start";
+    phrase.classList.remove("show");
+    circle.style.transform = "scale(.95)";
+    circle.classList.remove("glow");
+    pulse.style.opacity = 0.22;
     chime();
   }
-  function tick(){
-    const s=readSettings();
-    const phases=[{name:'Inhale',len:s.inh},{name:'Hold',len:s.h1},{name:'Exhale',len:s.exh},{name:'Hold',len:s.h2}];
-    const cycleLen=phases.reduce((a,b)=>a+b.len,0);
-    if(cycleLen<=0){ stopTimer(); return; }
-
-    const now=Date.now();
-    const elapsed=(now-startTS)/1000;
-    const totalLeft=(endTS===Infinity)?Infinity:Math.max(0,Math.round((endTS-now)/1000));
-
-    let t=elapsed%cycleLen, idx=0;
-    for(let i=0;i<phases.length;i++){
-      if(t<=phases[i].len){ idx=i; break; }
-      t-=phases[i].len;
-      if(i===phases.length-1) idx=phases.length-1;
+  function tick() {
+    const s = readSettings();
+    const phases = [
+      { name: "Inhale", len: s.inh },
+      { name: "Hold", len: s.h1 },
+      { name: "Exhale", len: s.exh },
+      { name: "Hold", len: s.h2 },
+    ];
+    const cycleLen = phases.reduce((a, b) => a + b.len, 0);
+    if (cycleLen <= 0) {
+      stopTimer();
+      return;
     }
-    const cur=phases[idx];
-    const left=Math.max(0,cur.len-t);
-
-    if(idx!==lastPhaseIndex){
+    const now = Date.now(),
+      elapsed = (now - startTS) / 1000,
+      totalLeft =
+        endTS === Infinity ? Infinity : Math.max(0, Math.round((endTS - now) / 1000));
+    let t = elapsed % cycleLen,
+      idx = 0;
+    for (let i = 0; i < phases.length; i++) {
+      if (t <= phases[i].len) {
+        idx = i;
+        break;
+      }
+      t -= phases[i].len;
+      if (i === phases.length - 1) idx = phases.length - 1;
+    }
+    const cur = phases[idx],
+      left = Math.max(0, cur.len - t);
+    if (idx !== lastPhaseIndex) {
       chime();
       speak(cur.name);
       showPhrase(cur.name);
-      lastPhaseIndex=idx;
+      lastPhaseIndex = idx;
       emitParticles();
     }
-
-    phaseEl.textContent=cur.name;
-    phaseTimeEl.textContent=Math.ceil(left)+'s';
-    totalTimeEl.textContent=(totalLeft===Infinity)?'— (indefinite)':fmt(totalLeft);
-
-    let scale=.95;
-    if(cur.name==='Inhale'){
-      const p=cur.len?(1-left/cur.len):1;
-      scale=.80+.42*p;
-      pulse.style.transform=`scale(${.98+.32*p})`;
-      pulse.style.opacity=(.26+.18*p);
-    }else if(cur.name==='Exhale'){
-      const p=cur.len?(1-left/cur.len):1;
-      scale=1.10-.36*p;
-      pulse.style.transform=`scale(${1.10-.30*p})`;
-      pulse.style.opacity=(.22+.14*p);
-    }else{
-      scale=.92+.06*Math.sin(performance.now()/380);
-      pulse.style.transform='scale(.96)';
-      pulse.style.opacity=.26;
+    phaseEl.textContent = cur.name;
+    phaseTimeEl.textContent = Math.ceil(left) + "s";
+    totalTimeEl.textContent =
+      totalLeft === Infinity ? "— (indefinite)" : fmt(totalLeft);
+    let scale = 0.95;
+    if (cur.name === "Inhale") {
+      const p = cur.len ? 1 - left / cur.len : 1;
+      scale = 0.8 + 0.42 * p;
+      pulse.style.transform = `scale(${0.98 + 0.32 * p})`;
+      pulse.style.opacity = 0.22 + 0.22 * p;
+    } else if (cur.name === "Exhale") {
+      const p = cur.len ? 1 - left / cur.len : 1;
+      scale = 1.1 - 0.36 * p;
+      pulse.style.transform = `scale(${1.1 - 0.3 * p})`;
+      pulse.style.opacity = 0.2 + 0.16 * p;
+    } else {
+      scale = 0.92 + 0.06 * Math.sin(performance.now() / 380);
+      pulse.style.transform = "scale(0.96)";
+      pulse.style.opacity = 0.22;
     }
-    circle.style.transform=`scale(${scale.toFixed(3)})`;
-
-    if(totalLeft!==Infinity && totalLeft<=0){
+    circle.style.transform = `scale(${scale.toFixed(3)})`;
+    if (totalLeft !== Infinity && totalLeft <= 0) {
       clearInterval(timerInterval);
-      timerInterval=null;
-      startTS=null;
-      statusEl.textContent='finished';
-      startBtn.textContent='Start';
+      timerInterval = null;
+      startTS = null;
+      statusEl.textContent = "finished";
+      startBtn.textContent = "Start";
       chime();
-      speak('Session finished');
-      circle.classList.remove('glow');
-      pulse.style.opacity=.26;
-      phrase.classList.remove('show');
+      speak("Session finished");
+      circle.classList.remove("glow");
+      pulse.style.opacity = 0.22;
+      phrase.classList.remove("show");
     }
   }
 
-  function wireKey(el, handler){
-    el.addEventListener('keydown',(e)=>{
-      if(e.key===' '||e.key==='Enter'){ e.preventDefault(); handler(); }
+  function wireKey(el, handler) {
+    el.addEventListener("keydown", (e) => {
+      if (e.key === " " || e.key === "Enter") {
+        e.preventDefault();
+        handler();
+      }
     });
   }
-  wireKey(startBtn, ()=>startBtn.click());
-  wireKey(pauseBtn, ()=>pauseBtn.click());
-  wireKey(resetBtn, ()=>resetBtn.click());
-  wireKey(beepToggle, ()=>beepToggle.click());
-  wireKey(voiceToggle, ()=>voiceToggle.click());
+  wireKey(startBtn, () => startBtn.click());
+  wireKey(pauseBtn, () => pauseBtn.click());
+  wireKey(resetBtn, () => resetBtn.click());
+  wireKey(beepToggle, () => beepToggle.click());
+  wireKey(voiceToggle, () => voiceToggle.click());
 
-  startBtn.addEventListener('click', ()=>{
-    if(statusEl.textContent==='running') stopTimer();
-    else if(statusEl.textContent==='paused') startTimer();
-    else { pauseOffset=0; startTimer(); }
+  startBtn.addEventListener("click", () => {
+    if (statusEl.textContent === "running") stopTimer();
+    else if (statusEl.textContent === "paused") startTimer();
+    else {
+      pauseOffset = 0;
+      startTimer();
+    }
   });
-  pauseBtn.addEventListener('click', ()=>{
-    if(statusEl.textContent==='running') pauseTimer();
-    else if(statusEl.textContent==='paused') startTimer();
+  pauseBtn.addEventListener("click", () => {
+    if (statusEl.textContent === "running") pauseTimer();
+    else if (statusEl.textContent === "paused") startTimer();
   });
-  resetBtn.addEventListener('click', stopTimer);
+  resetBtn.addEventListener("click", stopTimer);
 
-  function setSwitch(el,on){
-    const sw=el.querySelector('.switch');
-    el.setAttribute('aria-pressed', on?'true':'false');
-    sw.classList.toggle('on', !!on);
+  function setSwitch(el, on) {
+    const sw = el.querySelector(".switch");
+    el.setAttribute("aria-pressed", on ? "true" : "false");
+    sw.classList.toggle("on", !!on);
   }
   setSwitch(beepToggle, true);
   setSwitch(voiceToggle, false);
-
-  beepToggle.addEventListener('click', ()=>{ beepOn=!beepOn; setSwitch(beepToggle,beepOn); });
-  voiceToggle.addEventListener('click', ()=>{ voiceOn=!voiceOn; setSwitch(voiceToggle,voiceOn); if(!voiceOn) synth.cancel(); });
-
-  window.addEventListener('keydown', (e)=>{
-    if(e.key===' '){ e.preventDefault(); startBtn.click(); }
-    if(e.key==='r'||e.key==='R'){ e.preventDefault(); resetBtn.click(); }
+  beepToggle.addEventListener("click", () => {
+    beepOn = !beepOn;
+    setSwitch(beepToggle, beepOn);
+  });
+  voiceToggle.addEventListener("click", () => {
+    voiceOn = !voiceOn;
+    setSwitch(voiceToggle, voiceOn);
+    if (!voiceOn) synth.cancel();
   });
 
-  [inhaleEl,hold1El,exhaleEl,hold2El].forEach(el=> el.addEventListener('input', ()=>{
-    const s=readSettings(); updateCycleDisplay(s.inh+s.h1+s.exh+s.h2);
-  }));
-  totalSel.addEventListener('change', ()=> customTotalEl.value='');
-
-  themeBtn.addEventListener('click', ()=>{
-    const light = !document.body.classList.contains('light');
-    document.body.classList.toggle('light', light);
-    themeBtn.textContent = light ? '☀️' : '🌙';
-    const color = light ? '#0d3b2f' : '#f6fffb';
-    [totalSel, inhaleEl, hold1El, exhaleEl, hold2El, customTotalEl].forEach(el => { el.style.color = color; });
+  window.addEventListener("keydown", (e) => {
+    if (e.key === " ") {
+      e.preventDefault();
+      startBtn.click();
+    }
+    if (e.key === "r" || e.key === "R") {
+      e.preventDefault();
+      resetBtn.click();
+    }
   });
 
-  function setSelectOpen(open){
-    if(open){
-      totalSel.classList.add('open');
-      totalSel.style.color='#000';
-      totalSel.style.background='#fff';
-    }else{
-      totalSel.classList.remove('open');
-      const light = document.body.classList.contains('light');
-      totalSel.style.color = light ? '#0d3b2f' : '#f6fffb';
-      totalSel.style.background = light ? '#fff' : '#0b2e29';
+  [inhaleEl, hold1El, exhaleEl, hold2El].forEach((el) =>
+    el.addEventListener("input", () => {
+      const s = readSettings();
+      updateCycleDisplay(s.inh + s.h1 + s.exh + s.h2);
+    })
+  );
+  totalSel.addEventListener("change", () => (customTotalEl.value = ""));
+
+  themeBtn.addEventListener("click", () => {
+    const light = !document.body.classList.contains("light");
+    document.body.classList.toggle("light", light);
+    themeBtn.textContent = light ? "☀️" : "🌙";
+    const color = light ? "#0d3b2f" : "#f6fffb";
+    [totalSel, inhaleEl, hold1El, exhaleEl, hold2El, customTotalEl].forEach((el) => {
+      el.style.color = color;
+    });
+  });
+
+  function setSelectOpen(open) {
+    if (open) {
+      totalSel.classList.add("open");
+      totalSel.style.color = "#000";
+      totalSel.style.background = "#fff";
+    } else {
+      totalSel.classList.remove("open");
+      const light = document.body.classList.contains("light");
+      totalSel.style.color = light ? "#0d3b2f" : "#f6fffb";
+      totalSel.style.background = light ? "#fff" : "#0b2f26";
     }
   }
-  totalSel.addEventListener('focus', ()=> setSelectOpen(true));
-  totalSel.addEventListener('mousedown', ()=> setSelectOpen(true));
-  totalSel.addEventListener('change', ()=> setSelectOpen(false));
-  totalSel.addEventListener('blur', ()=> setSelectOpen(false));
+  totalSel.addEventListener("focus", () => setSelectOpen(true));
+  totalSel.addEventListener("mousedown", () => setSelectOpen(true));
+  totalSel.addEventListener("change", () => setSelectOpen(false));
+  totalSel.addEventListener("blur", () => setSelectOpen(false));
 
-  function onVisibility(){ pageHidden = document.visibilityState!=='visible'; if(pageHidden) stopBubbles(); else startBubbles(); }
-  document.addEventListener('visibilitychange', onVisibility); onVisibility();
+  function onVisibility() {
+    pageHidden = document.visibilityState !== "visible";
+    if (pageHidden) stopBubbles();
+    else startBubbles();
+  }
+  document.addEventListener("visibilitychange", onVisibility);
+  onVisibility();
 
-  const s0=readSettings();
-  updateCycleDisplay(s0.inh+s0.h1+s0.exh+s0.h2);
-  setTimeout(()=> startBtn.focus({preventScroll:true}), 700);
+  const s0 = readSettings();
+  updateCycleDisplay(s0.inh + s0.h1 + s0.exh + s0.h2);
+  setTimeout(() => startBtn.focus({ preventScroll: true }), 700);
 })();
 </script>
+
+<footer class="site-footer" role="contentinfo">
+  © 2025 Zenith. All rights reserved.
+</footer>
 </body>
 </html>
