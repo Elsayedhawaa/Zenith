@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pace Breathing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dark-bg: #023336;
+      --dark-text: #EAF8E7;
+      --light-bg: #EAF8E7;
+      --light-text: #023336;
+      --accent1: #4DA564;
+      --accent2: #C1E6BA;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    body.dark {
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    body.light {
+      background-color: var(--light-bg);
+      color: var(--light-text);
+    }
+
+    h1 {
+      font-size: 2.2em;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    #breathing-circle {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 6px solid var(--accent1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px;
+      transition: transform 4s ease-in-out;
+    }
+
+    #breathing-circle.expand {
+      transform: scale(1.4);
+    }
+
+    #phase {
+      font-size: 1.3em;
+      font-weight: 500;
+    }
+
+    #start-btn {
+      background: linear-gradient(135deg, #4DA564, #028a78);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 15px 40px;
+      font-size: 1.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+      margin-top: 25px;
+    }
+
+    #start-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.8em;
+      transition: transform 0.3s;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    #time-display {
+      font-size: 1.1em;
+      margin-top: 10px;
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body class="dark">
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
+  <h1>Pace Breathing</h1>
+  <div id="breathing-circle">
+    <span id="phase">Ready</span>
+  </div>
+  <div id="time-display"></div>
+  <button id="start-btn">Start</button>
+
+  <script>
+    const body = document.body;
+    const themeToggle = document.getElementById('theme-toggle');
+    const circle = document.getElementById('breathing-circle');
+    const phase = document.getElementById('phase');
+    const timeDisplay = document.getElementById('time-display');
+    const startBtn = document.getElementById('start-btn');
+    const synth = window.speechSynthesis;
+
+    let breathing = false;
+
+    const phases = [
+      { name: "Inhale", duration: 4000 },
+      { name: "Hold", duration: 4000 },
+      { name: "Exhale", duration: 4000 },
+      { name: "Hold", duration: 4000 }
+    ];
+
+    let currentPhase = 0;
+    let timeLeft = 0;
+    let timer = null;
+
+    themeToggle.addEventListener('click', () => {
+      if (body.classList.contains('dark')) {
+        body.classList.replace('dark', 'light');
+        themeToggle.textContent = '☀️';
+      } else {
+        body.classList.replace('light', 'dark');
+        themeToggle.textContent = '🌙';
+      }
+    });
+
+    startBtn.addEventListener('click', () => {
+      if (breathing) {
+        stopBreathing();
+      } else {
+        startBreathing();
+      }
+    });
+
+    function startBreathing() {
+      breathing = true;
+      startBtn.textContent = "Stop";
+      nextPhase();
+    }
+
+    function stopBreathing() {
+      breathing = false;
+      clearTimeout(timer);
+      phase.textContent = "Ready";
+      circle.classList.remove('expand');
+      timeDisplay.textContent = "";
+      startBtn.textContent = "Start";
+    }
+
+    function speak(text) {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "en-US";
+      synth.speak(utter);
+    }
+
+    function nextPhase() {
+      if (!breathing) return;
+      const current = phases[currentPhase];
+      phase.textContent = current.name;
+      timeLeft = current.duration / 1000;
+      if (current.name === "Inhale") circle.classList.add('expand');
+      else if (current.name === "Exhale") circle.classList.remove('expand');
+
+      speak(current.name);
+
+      updateTimeDisplay();
+      timer = setInterval(() => {
+        if (!breathing) {
+          clearInterval(timer);
+          return;
+        }
+        timeLeft--;
+        updateTimeDisplay();
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          currentPhase = (currentPhase + 1) % phases.length;
+          nextPhase();
+        }
+      }, 1000);
+    }
+
+    function updateTimeDisplay() {
+      timeDisplay.textContent = `Time left: ${timeLeft}s`;
+    }
+  </script>
+</body>
+</html>
