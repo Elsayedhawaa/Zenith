@@ -29,6 +29,77 @@
     --radius-field:14px;
 
     --breath-duration: 10s;
+    /* Fix brandbar spacing and prevent overlap */
+.site-header{
+  position:fixed; top:12px; left:12px; right:12px; z-index:12;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:10px 24px;
+  background: var(--card-dark);
+  border-radius: var(--radius-card);
+  border: 3px solid var(--border-dark);
+  box-shadow: 0 20px 54px rgba(16,185,129,.80), 0 9px 24px rgba(6,44,35,.70);
+}
+body.light .site-header {
+  background: var(--card-light);
+  border-color: var(--border-light);
+  box-shadow: 0 14px 42px rgba(6,44,35,.32), 0 10px 28px rgba(16,185,129,.40);
+}
+
+/* Add margin below brandbar to separate from content */
+.app{
+  margin: 110px auto 28px; /* 110px leaves more space to prevent overlap */
+  /* other unchanged */
+}
+
+/* Align toggle switches knob in center vertically and horizontally */
+.switch {
+  display: flex; 
+  align-items: center; /* vertical centering */
+  cursor: pointer;
+  justify-content: flex-start;
+  border-radius: 9999px;
+  width: 64px;
+  height: 36px;
+  padding: 6px;
+  border: 3px solid var(--green-accent);
+  position: relative;
+  background: var(--card-dark);
+  box-shadow: 0 14px 32px rgba(16,185,129,0.38);
+  transition: all 0.28s ease;
+}
+body.light .switch {
+  background: var(--card-light);
+  border-color: var(--green-primary);
+  box-shadow: 0 8px 28px rgba(16,185,129,0.12);
+}
+.knob {
+  width: 28px;
+  height: 28px;
+  background: #f6fffb;
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(0,0,0,0.3);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 6px;
+  transition: transform 0.28s ease;
+}
+.switch.on {
+  border-color: var(--green-primary);
+  background: var(--green-primary);
+  box-shadow: 0 20px 56px rgba(16,185,129,0.64);
+  justify-content: flex-end;
+}
+.switch.on .knob {
+  transform: translate(calc(-50% + 26px), -50%);
+}
+
+/* Fix .brand-name color in light mode */
+body.light .brand-name {
+  color: var(--green-primary);
+  text-shadow: none;
+}
+
   }
   *,*::before,*::after{ box-sizing:border-box; }
   html,body{ height:100%; margin:0; }
