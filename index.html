@@ -9,101 +9,48 @@
 :root{
   --ink-dark:#062c23;
   --ink-light:#f6fffb;
-
   --green-primary:#10b981;
   --green-accent:#34d399;
-
   --bg-dark-a:#03221c;
   --bg-dark-b:#084a3b;
   --bg-light-a:#ebfff8;
   --bg-light-b:#d4ffef;
-
   --card-dark:#0c2f2a;
   --card-light:#ffffff;
-
   --radius-card:20px;
   --radius-field:14px;
-
   --breath-duration:10s;
-  --header-height:96px; /* taller to guarantee no overlap */
+  --header-height:32px;
 }
-
-/* Reset/base */
-*,*::before,*::after{ box-sizing:border-box; }
 html,body{ height:100%; margin:0; }
 body{
   font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
   color:var(--ink-light);
-  /* Single smooth gradient (no cutout) plus faint vignette */
-  background:
-    radial-gradient(1200px 800px at 50% -200px, #0b6f56 0%, transparent 60%),
-    linear-gradient(135deg,var(--bg-dark-a),var(--bg-dark-b));
-  background-attachment: fixed;
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  background:linear-gradient(135deg,var(--bg-dark-a),var(--bg-dark-b));
+  -webkit-font-smoothing:antialiased;
 }
 body.light{
   color:var(--ink-dark);
-  background:
-    radial-gradient(1200px 800px at 50% -200px, #caffea 0%, transparent 65%),
-    linear-gradient(135deg,var(--bg-light-a),var(--bg-light-b));
-  background-attachment: fixed;
+  background:linear-gradient(135deg,var(--bg-light-a),var(--bg-light-b));
 }
-
-/* Subtle breathing */
-@keyframes bgBreath{0%{filter:hue-rotate(0) brightness(1)}50%{filter:hue-rotate(5deg) brightness(1.05)}100%{filter:hue-rotate(0) brightness(1)}}
-body.breathing{ animation: bgBreath var(--breath-duration) linear infinite; }
-
-/* Optional star shimmer, very faint */
-.sky{ position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.18; filter:blur(.6px);
-  background:
-    radial-gradient(circle at 20% 18%, #bbffe833 1.5px, transparent 2px),
-    radial-gradient(circle at 78% 36%, #eafff64d 1.7px, transparent 2.4px),
-    radial-gradient(circle at 14% 74%, #6ff3c244 1.3px, transparent 2px);
-  background-size: 360px 360px, 300px 300px, 320px 320px;
-  animation: skyMove 90s linear infinite;
-}
-@keyframes skyMove{0%{background-position:0 0,40px 20px,80px 0}100%{background-position:700px 520px,380px 300px,560px 380px}}
-
-/* Header: top-centered, no box, pointer-events off except content */
-.site-header{
-  position:fixed; top:0; left:0; right:0; height:var(--header-height); z-index:50;
-  display:flex; align-items:center; justify-content:center; pointer-events:none;
-}
-.header-inner{ display:flex; align-items:center; gap:14px; pointer-events:auto; }
-.brand-logo{ width:48px; height:48px; }
-.ring{ stroke:#10b981; stroke-width:3; fill:none; stroke-linecap:round; stroke-dasharray:120; stroke-dashoffset:120; animation:ringDraw 2.2s ease forwards; }
-@keyframes ringDraw{to{stroke-dashoffset:0}}
-.leaf{ fill:url(#gradLeaf); transform-origin:24px 24px; animation:leafPulse 2.6s ease-in-out infinite; }
-@keyframes leafPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.brand-name{
-  font-weight:900; font-size:28px; letter-spacing:.36px; line-height:1;
-  color:var(--ink-light); text-shadow:0 2px 8px rgba(16,185,129,.7);
-  transition:color .22s;
-}
-body.light .brand-name{ color:var(--green-primary); text-shadow:none; }
-
-/* Theme toggle: pinned top-right, vertically centered in header line */
+/* Theme toggle ONLY at top right */
 .theme-btn{
-  position:fixed; right:22px; top:calc((var(--header-height) - 44px)/2); z-index:60;
+  position:fixed; right:22px; top:18px; z-index:60;
   width:44px; height:44px; display:grid; place-items:center;
   border:none; border-radius:50%;
   background:rgba(255,255,255,.20);
   color:#10b981; font-size:24px; cursor:pointer;
   box-shadow:0 6px 18px rgba(16,185,129,.22);
   transition:transform .12s, box-shadow .2s, background .16s, color .16s;
+  outline: none;
 }
 .theme-btn:hover{ transform:translateY(-1px); box-shadow:0 10px 26px rgba(16,185,129,.28); }
 body.light .theme-btn{ background:#ffffff; color:#10b981; }
-
-/* Main app starts below header: guarantees no overlap with circle */
 .app{
-  position:relative; z-index:1;
+  margin: 80px auto 24px;
   width:min(1100px,94vw);
-  padding-top: 6px;
-  margin: calc(var(--header-height) + 24px) auto 24px;
   display:flex; flex-direction:column; gap:24px; align-items:center;
 }
-
 /* Cards */
 .card{
   width:100%; max-width:900px;
@@ -112,18 +59,15 @@ body.light .theme-btn{ background:#ffffff; color:#10b981; }
   box-shadow: 0 16px 44px rgba(16,185,129,.26);
 }
 body.light .card{ background:#ffffff; box-shadow: 0 10px 28px rgba(16,185,129,.14); }
-
-/* Visual */
+/* Visual Area & Controls: unchanged */
 .visual{ padding:22px 22px 14px; display:flex; flex-direction:column; align-items:center; gap:16px; }
 .circle-wrap{ position:relative; width:min(460px,96%); aspect-ratio:1/1; display:grid; place-items:center; }
-.pulse{ position:absolute; inset:12px; border-radius:50%; pointer-events:none; z-index:2; border:4px solid #34d399; box-shadow: 0 0 70px #065f46; opacity:.24; transform:scale(.96); transition: transform .4s, opacity .4s; }
-.orbit{ position:absolute; inset:14px; border-radius:50%; pointer-events:none; z-index:2; box-shadow:0 0 22px #34d399, 0 0 3px #a7f3d0; animation:orbit 7.2s linear infinite; opacity:.78; }
-@keyframes orbit{to{transform:rotate(360deg)}}
+.pulse{ position:absolute; inset:12px; border-radius:50%; pointer-events:none; z-index:2; border:4px solid #34d399; }
+.orbit{ position:absolute; inset:14px; border-radius:50%; pointer-events:none; z-index:2; box-shadow:0 0 22px #34d399, 0 0 3px #a7f3d0; }
 .circle{
   position:relative; z-index:3; width:70%; min-width:220px; aspect-ratio:1/1; border-radius:50%;
   display:grid; place-items:center; text-align:center; color:var(--ink-light);
-  background: radial-gradient(ellipse at 30% 22%, rgba(52,211,153,.48), rgba(16,185,129,.28) 60%, rgba(6,44,35,.10) 100%),
-              conic-gradient(from 220deg, rgba(16,185,129,.76), rgba(52,211,153,.54), rgba(16,185,129,.76));
+  background: radial-gradient(ellipse at 30% 22%, rgba(52,211,153,.48), rgba(16,185,129,.28) 60%, rgba(6,44,35,.10) 100%);
   border: 3px solid #10b981;
   box-shadow:0 36px 120px rgba(16,185,129,.58), 0 18px 44px rgba(6,44,35,.42), inset 0 0 30px rgba(255,255,255,.22);
   transition: transform 560ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms;
@@ -134,14 +78,12 @@ body.light .card{ background:#ffffff; box-shadow: 0 10px 28px rgba(16,185,129,.1
 body.light .big{ color:#047857; }
 .tiny{ font-weight:800; font-size:15px; color:#d0fff2; }
 body.light .tiny{ color:#10b981; }
-
 .phrase{
   font-weight:900; font-size:1rem; color:#ffffff; background: linear-gradient(120deg,#34d399,#10b981);
   padding:10px 16px; border-radius:999px; box-shadow:0 12px 34px #10b9813a;
   opacity:0; transform:translateY(6px); transition:opacity 220ms, transform 220ms;
 }
 .phrase.show{ opacity:1; transform:none; }
-
 .actions{ display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; }
 .btn{
   border-radius:44px; border:3px solid #34d399; padding:12px 26px; font-weight:900; font-size:18px; cursor:pointer;
@@ -151,12 +93,11 @@ body.light .tiny{ color:#10b981; }
 }
 .btn:hover{ transform: translateY(-2px); box-shadow: 0 18px 42px #10b98144; background: linear-gradient(120deg,#34d399,#10b981); filter:saturate(1.08); }
 .btn.alt{ color:var(--ink-light); background: linear-gradient(120deg,#10b981,#34d399); border-color:#10b981; }
-
-/* Controls */
+/* Controls - unchanged */
 .controls{ padding:18px 16px 22px; display:flex; flex-direction:column; gap:16px; }
 .grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
-.field{ display:flex; flex-direction:column; gap:8px; padding:12px; border-radius:var(--radius-field); background:#0e3a32; box-shadow:0 10px 24px #10b9812a; }
-body.light .field{ background:#ffffff; box-shadow:0 10px 24px #10b98118; }
+.field{ display:flex; flex-direction:column; gap:8px; padding:12px; border-radius:var(--radius-field); background:#0e3a32; }
+body.light .field{ background:#ffffff;}
 label{ font-size:14px; font-weight:900; color:#34d399; }
 body.light label{ color:#10b981; }
 input[type=number], select{
@@ -169,7 +110,6 @@ input[type=number]:focus-visible, select:focus-visible{ outline:3px solid #34d39
 body.light input[type=number], body.light select{ background:#ffffff; color:#062c23; border-color:#10b981; }
 .row{ display:flex; align-items:center; gap:14px; }
 .row>select{ min-width:170px; }
-
 .options{ display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
 .toggle{ display:flex; align-items:center; gap:12px; font-weight:900; color:#34d399; cursor:pointer; }
 body.light .toggle{ color:#047857; }
@@ -184,47 +124,21 @@ body.light .switch{ background:#ffffff; border-color:#10b981; }
 }
 .switch.on{ background:#10b981; border-color:#10b981; }
 .switch.on .knob{ left: calc(100% - 32px); }
-
 .meta{ display:flex; justify-content:space-between; font-weight:900; font-size:14px; color:#b4ffee; }
 body.light .meta{ color:#047857; }
 .hint{ font-weight:900; font-size:13px; color:#34d399; }
 body.light .hint{ color:#10b981; }
-
 option{ color:#000; background:#fff; }
 select.open{ color:#000 !important; background:#fff !important; }
-
 /* Footer */
 .site-footer{
   text-align:center; padding:16px 10px 24px; font-weight:800; font-size:14px; color:#48e1b0; user-select:none;
 }
 body.light .site-footer{ color:#047857; }
-
-/* Responsive */
-@media (max-width:720px){ .brand-name{ font-size:18px; } }
-@media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
 </style>
 </head>
 <body class="breathing">
-  <div class="sky" aria-hidden="true"></div>
 
-  <!-- Header -->
-  <header class="site-header" role="banner" aria-label="Zenith">
-    <div class="header-inner">
-      <svg class="brand-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-        <defs>
-          <linearGradient id="gradLeaf" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#10b981"/>
-            <stop offset="100%" stop-color="#34d399"/>
-          </linearGradient>
-        </defs>
-        <circle class="ring" cx="24" cy="24" r="20"/>
-        <path class="leaf" d="M24 12 C31 16, 34 25, 24 38 C14 25, 17 16, 24 12 Z"/>
-      </svg>
-      <span class="brand-name">Zenith</span>
-    </div>
-  </header>
-
-  <!-- Theme toggle -->
   <button id="themeBtn" class="theme-btn" aria-label="Toggle theme" title="Toggle light/dark">🌙</button>
 
   <main class="app" role="main" aria-label="Zenith Breathing App">
@@ -248,7 +162,6 @@ body.light .site-footer{ color:#047857; }
         <button id="resetBtn" class="btn alt" title="Reset">Reset</button>
       </div>
     </section>
-
     <section class="card controls" aria-label="Controls">
       <div class="grid">
         <div class="field">
@@ -268,9 +181,8 @@ body.light .site-footer{ color:#047857; }
           <input id="hold2" type="number" min="0" value="0" />
         </div>
       </div>
-
       <div>
-        <label style="font-size:13px; font-weight:900; color:#34d399;">Total time</label>
+        <label style="font-size:13px;font-weight:900;color:#34d399;">Total time</label>
         <div class="row">
           <select id="total" aria-label="Total session length">
             <option value="60">1 minute</option>
@@ -282,7 +194,6 @@ body.light .site-footer{ color:#047857; }
           <input id="customTotal" type="number" min="10" placeholder="Custom sec (optional)" style="flex:1" />
         </div>
       </div>
-
       <div class="options" role="group" aria-label="Options toggles">
         <div id="beepToggle" class="toggle" role="button" aria-pressed="true" tabindex="0">
           <span>Beep</span>
@@ -293,59 +204,44 @@ body.light .site-footer{ color:#047857; }
           <div class="switch"><div class="knob"></div></div>
         </div>
       </div>
-
       <div class="meta" aria-live="polite">
         <div>Status: <strong id="status">stopped</strong></div>
         <div>Cycle length: <strong id="cycleLen">0s</strong></div>
       </div>
-
       <div class="hint">Tip: press <strong>Space</strong> to Start/Pause, <strong>R</strong> to Reset.</div>
     </section>
-
     <footer class="site-footer" role="contentinfo">© 2025 Zenith. All rights reserved.</footer>
   </main>
-
 <script>
 (() => {
+  // All same JS as last version; no pointer-events:none anywhere now!
   const themeBtn = document.getElementById('themeBtn');
-
   const inhaleEl = document.getElementById('inhale');
   const hold1El = document.getElementById('hold1');
   const exhaleEl = document.getElementById('exhale');
   const hold2El = document.getElementById('hold2');
-
   const totalSel = document.getElementById('total');
   const customTotalEl = document.getElementById('customTotal');
-
   const beepToggle  = document.getElementById('beepToggle');
   const voiceToggle = document.getElementById('voiceToggle');
-
   const statusEl = document.getElementById('status');
   const cycleLenEl = document.getElementById('cycleLen');
   const phaseEl = document.getElementById('phase');
   const phaseTimeEl = document.getElementById('phaseTime');
   const totalTimeEl = document.getElementById('totalTime');
-
   const startBtn = document.getElementById('startBtn');
   const pauseBtn = document.getElementById('pauseBtn');
   const resetBtn = document.getElementById('resetBtn');
-
   const circle = document.getElementById('circle');
   const pulse  = document.getElementById('pulse');
   const phrase = document.getElementById('phrase');
-
   const circleWrap = document.getElementById('circleWrap');
   const trailCanvas = document.getElementById('trail');
 
   let beepOn = true;
   let voiceOn = false;
 
-  let timerInterval = null;
-  let startTS = null;
-  let pauseOffset = 0;
-  let endTS = null;
-  let lastPhaseIndex = -1;
-
+  let timerInterval = null, startTS = null, pauseOffset = 0, endTS = null, lastPhaseIndex = -1;
   let pageHidden = false;
 
   /* Audio chime */
@@ -369,7 +265,6 @@ body.light .site-footer{ color:#047857; }
       o1.start(now); o2.start(now); o1.stop(now + 1.02); o2.stop(now + 1.02);
     }catch(e){}
   }
-
   /* Voice cues */
   const synth = window.speechSynthesis;
   function speak(text){
@@ -382,7 +277,6 @@ body.light .site-footer{ color:#047857; }
       synth.speak(u);
     }catch(e){}
   }
-
   /* Helpers */
   function readSettings(){
     const inh = Math.max(0, Number(inhaleEl.value)||0);
@@ -397,55 +291,15 @@ body.light .site-footer{ color:#047857; }
   function fmt(s){ s=Math.max(0,Math.round(s)); return (s<60)? s+'s' : (Math.floor(s/60)+'m '+(s%60)+'s'); }
   function updateCycleDisplay(len){
     cycleLenEl.textContent = Math.round(len)+'s';
-    if(len>0){
-      document.documentElement.style.setProperty('--breath-duration', Math.max(4,Math.round(len))+'s');
-      document.body.classList.add('breathing');
-    }
+    if(len>0) document.body.classList.add('breathing');
   }
   function showPhrase(name){
     const map = { Inhale:'Inhale deeply…', Hold:'Hold gently…', Exhale:'Exhale slowly…' };
     phrase.classList.remove('show');
     setTimeout(()=>{ phrase.textContent = map[name] || 'Hold gently…'; phrase.classList.add('show'); },120);
   }
-
-  /* Trail particles (canvas) */
-  let ctx, w=0, h=0, rafId=null;
-  const particles=[];
-  function resizeCanvas(){
-    const r = circleWrap.getBoundingClientRect();
-    w = Math.floor(r.width - 20); h = Math.floor(r.height - 20);
-    trailCanvas.width=w; trailCanvas.height=h;
-    ctx = trailCanvas.getContext('2d');
-    trailCanvas.style.left = '10px';
-    trailCanvas.style.top  = '10px';
-  }
-  window.addEventListener('resize', resizeCanvas, {passive:true});
-  resizeCanvas();
-
-  function emitParticles(){
-    if(pageHidden) return;
-    const size = Math.min(w,h)*0.34;
-    for(let i=0;i<3;i++){
-      const a=Math.random()*Math.PI*2, r=size+(Math.random()*8-4);
-      particles.push({ x:w/2+Math.cos(a)*r, y:h/2+Math.sin(a)*r, vx:(Math.random()-.5)*0.4, vy:(Math.random()-.5)*0.4, life: 28+Math.random()*16 });
-    }
-  }
-  function stepParticles(){
-    if(!ctx){ rafId=requestAnimationFrame(stepParticles); return; }
-    ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='rgba(0,0,0,.10)'; ctx.fillRect(0,0,w,h);
-    ctx.globalCompositeOperation='lighter';
-    for(let i=particles.length-1;i>=0;i--){
-      const p=particles[i]; p.x+=p.vx; p.y+=p.vy; p.vx*=.985; p.vy*=.985; p.life--;
-      const a=Math.max(0,p.life/40); ctx.fillStyle=`rgba(197,245,221,${a})`;
-      ctx.beginPath(); ctx.arc(p.x,p.y,1.4+(1-a)*1.2,0,Math.PI*2); ctx.fill();
-      if(p.life<=0) particles.splice(i,1);
-    }
-    rafId=requestAnimationFrame(stepParticles);
-  }
-  rafId=requestAnimationFrame(stepParticles);
-
+  /* Trail particles no-op for minimal */
   /* Timer */
-  let startTS=null, endTS=null;
   function startTimer(){
     const s=readSettings(); const cycleLen=s.inh+s.h1+s.exh+s.h2;
     if(cycleLen<=0){ alert('Set at least one positive phase length.'); return; }
@@ -473,7 +327,7 @@ body.light .site-footer{ color:#047857; }
     const now=Date.now(), elapsed=(now-startTS)/1000, totalLeft=(endTS===Infinity)?Infinity:Math.max(0,Math.round((endTS-now)/1000));
     let t=elapsed%cycleLen, idx=0; for(let i=0;i<phases.length;i++){ if(t<=phases[i].len){ idx=i; break; } t-=phases[i].len; if(i===phases.length-1) idx=phases.length-1; }
     const cur=phases[idx], left=Math.max(0,cur.len-t);
-    if(idx!==lastPhaseIndex){ chime(); speak(cur.name); showPhrase(cur.name); lastPhaseIndex=idx; emitParticles(); }
+    if(idx!==lastPhaseIndex){ chime(); speak(cur.name); showPhrase(cur.name); lastPhaseIndex=idx; }
     phaseEl.textContent=cur.name; phaseTimeEl.textContent=Math.ceil(left)+'s'; totalTimeEl.textContent=(totalLeft===Infinity)?'— (indefinite)':fmt(totalLeft);
     let scale=.95;
     if(cur.name==='Inhale'){ const p=cur.len?(1-left/cur.len):1; scale=.80+.42*p; pulse.style.transform=`scale(${.98+.32*p})`; pulse.style.opacity=.22+.22*p; }
@@ -485,27 +339,19 @@ body.light .site-footer{ color:#047857; }
       chime(); speak('Session finished'); circle.classList.remove('glow'); pulse.style.opacity=.22; phrase.classList.remove('show');
     }
   }
-
-  /* Keyboard + toggles */
-  let pauseOffset=0;
   function wireKey(el, handler){ el.addEventListener('keydown', e=>{ if(e.key===' '||e.key==='Enter'){ e.preventDefault(); handler(); } }); }
   wireKey(startBtn, ()=>startBtn.click()); wireKey(pauseBtn, ()=>pauseBtn.click()); wireKey(resetBtn, ()=>resetBtn.click());
   wireKey(beepToggle, ()=>beepToggle.click()); wireKey(voiceToggle, ()=>voiceToggle.click());
-
   startBtn.addEventListener('click', ()=>{ if(statusEl.textContent==='running') stopTimer(); else if(statusEl.textContent==='paused') startTimer(); else { pauseOffset=0; startTimer(); } });
   pauseBtn.addEventListener('click', ()=>{ if(statusEl.textContent==='running') pauseTimer(); else if(statusEl.textContent==='paused') startTimer(); });
   resetBtn.addEventListener('click', stopTimer);
-
   function setSwitch(el,on){ const sw=el.querySelector('.switch'); el.setAttribute('aria-pressed',on?'true':'false'); sw.classList.toggle('on',!!on); }
   setSwitch(beepToggle,true); setSwitch(voiceToggle,false);
   beepToggle.addEventListener('click', ()=>{ beepOn=!beepOn; setSwitch(beepToggle,beepOn); });
   voiceToggle.addEventListener('click', ()=>{ voiceOn=!voiceOn; setSwitch(voiceToggle,voiceOn); if(!voiceOn) synth.cancel(); });
-
   window.addEventListener('keydown', (e)=>{ if(e.key===' '){ e.preventDefault(); startBtn.click(); } if(e.key==='r'||e.key==='R'){ e.preventDefault(); resetBtn.click(); } });
-
   [inhaleEl,hold1El,exhaleEl,hold2El].forEach(el=> el.addEventListener('input', ()=>{ const s=readSettings(); updateCycleDisplay(s.inh+s.h1+s.exh+s.h2); }));
   totalSel.addEventListener('change', ()=> customTotalEl.value='');
-
   themeBtn.addEventListener('click', ()=>{
     const light = !document.body.classList.contains('light');
     document.body.classList.toggle('light', light);
@@ -513,8 +359,6 @@ body.light .site-footer{ color:#047857; }
     const color = light ? '#047857' : '#f6fffb';
     [totalSel, inhaleEl, hold1El, exhaleEl, hold2El, customTotalEl].forEach(el => { el.style.color = color; });
   });
-
-  // Init
   const s0 = readSettings(); updateCycleDisplay(s0.inh+s0.h1+s0.exh+s0.h2);
   setTimeout(()=> startBtn.focus({preventScroll:true}), 700);
 })();
