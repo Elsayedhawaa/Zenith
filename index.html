@@ -31,7 +31,58 @@
 
     /* synced from JS: whole-page subtle breathing hue */
     --breath-duration: 10s;
-  }
+  } 
+/* 1) Move the visual (circle + start) to the top */
+.app { display: flex; flex-direction: column; }  /* ensure flex stack */ 
+.visual { order: -1; margin-top: 0; }            /* float visual to top */
+
+/* 2) Background strictly behind content and softened */
+.sky { z-index: -1; opacity: .45; pointer-events: none; }  /* background never blocks UI */
+
+/* 3) Number input styling (dark + light) and focus ring */
+input[type=number] {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.12);
+  color: var(--accent-4);
+  font-weight: 800;
+  font-size: 15px;
+  outline: none;
+  transition: border-color .2s, background .2s, color .2s;
+}
+input[type=number]:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 2px;
+}
+body.light input[type=number] {
+  background: #ffffff;
+  color: #0a3a32;               /* strong ink in light theme */
+  border-color: rgba(2,51,54,.18);
+}
+
+/* 4) Select colors, and black text while dropdown is open (best-effort) */
+select {
+  color: var(--accent-4);
+  background: rgba(0,0,0,.12);
+  border: 1.5px solid rgba(255,255,255,.12);
+}
+body.light select {
+  color: #0a3a32;               /* readable in light */
+  background: #ffffff;
+  border-color: rgba(2,51,54,.18);
+}
+/* Options in dropdown (support varies by browser) */
+option { color: #000; background: #fff; }        /* black text when menu renders options */
+
+/* Force black while the menu is open (JS toggles this class) */
+select.open { color: #000 !important; background: #fff !important; }
+
+/* 5) Stronger focus visibility for all focusable app buttons/toggles */
+button:focus-visible, .toggle:focus-visible, select:focus-visible {
+  outline: 3px solid var(--accent-2);
+  outline-offset: 3px;
+}
 
   /* Base */
   *,*::before,*::after{ box-sizing:border-box; }
