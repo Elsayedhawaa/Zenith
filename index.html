@@ -1,208 +1,278 @@
-<!DOCTYPE html>
+<!--
+Breathing Timer - single-file web app (Enhanced)
+Save this file as `index.html` and open it in your browser.
+
+New features (added):
+- Smooth animated breathing circle with CSS transitions and JS-driven easing
+- Background animated clouds + subtle floating particles (calming stars)
+- Light / Dark mode toggle (user choice)
+- Voice mode: speaks countdown numbers for current phase (toggleable)
+- Updated color palette to match your request: #023336, #4DA564, #C1E6BA, #EAF8E7
+- UI improvements, accessible labels, and small animations
+- Hardcoded calming background music from YouTube (plays on start, hidden player)
+
+Notes: Music is embedded directly from the provided YouTube link (hidden iframe for audio-only playback). Autoplay starts on user interaction (Start button). Loop enabled for continuous play.
+
+-->
+
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pace Breathing</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Breathing Timer — Calm</title>
   <style>
-    :root {
-      --dark-bg: #023336;
-      --dark-text: #EAF8E7;
-      --light-bg: #EAF8E7;
-      --light-text: #023336;
-      --accent1: #4DA564;
-      --accent2: #C1E6BA;
+    :root{
+      --bg-dark: #032224; /* dark background base */
+      --card-dark:#043230;
+      --accent-1: #023336; /* primary */
+      --accent-2: #4DA564;
+      --accent-3: #C1E6BA;
+      --accent-4: #EAF8E7;
+      --muted-dark: rgba(234,248,231,0.8);
+
+      --bg-light: #eaf8e7;
+      --card-light: #ffffff;
+      --muted-light: #023336;
     }
 
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      transition: background-color 0.5s, color 0.5s;
+    /* default theme = dark */
+    html,body{height:100%;}
+    body{
+      margin:0; font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: linear-gradient(180deg,var(--bg-dark), #011818 85%);
+      color: var(--muted-dark);
+      display:flex; align-items:center; justify-content:center; padding:20px;
+    }
+    .card{
+      width:980px; max-width:100%; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px; padding:18px; box-shadow:0 10px 40px rgba(0,0,0,0.6);
+      display:flex; gap:18px; align-items:center; position:relative; overflow:hidden;
     }
 
-    body.dark {
-      background-color: var(--dark-bg);
-      color: var(--dark-text);
-    }
+    /* clouds and particles background */
+    .bg-clouds{position:absolute; inset:0; pointer-events:none; z-index:0;}
+    .cloud{position:absolute; background: radial-gradient(circle at 30% 30%, rgba(229,246,239,0.9), rgba(196,230,186,0.7)); filter:blur(18px); opacity:0.7; border-radius:50%;}
+    .p {position:absolute; width:6px; height:6px; background:rgba(255,255,255,0.12); border-radius:50%; filter:blur(1px); animation:float 8s linear infinite;}
+    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-12px)}100%{transform:translateY(0)}}
 
-    body.light {
-      background-color: var(--light-bg);
-      color: var(--light-text);
-    }
+    .controls{width:420px; min-width:280px; z-index:2}
+    h1{margin:0 0 8px 0; font-size:28px; font-weight:900; letter-spacing:-0.5px; color:var(--accent-4)}
+    label{display:block; font-size:14px; color:var(--accent-3); margin-top:10px; font-weight:500}
+    .row{display:flex; gap:8px; align-items:center}
+    input[type=number]{width:84px; padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:transparent; color:inherit; font-weight:500}
+    select{padding:8px; border-radius:8px; background:transparent; color:inherit; border:1px solid rgba(255,255,255,0.06); font-weight:500}
+    button{padding:10px 14px; border-radius:10px; border:0; cursor:pointer; font-weight:700; transition: all 0.2s ease}
+    .primary{background:linear-gradient(90deg,var(--accent-1),var(--accent-2)); color:var(--accent-4); padding:18px 32px; font-size:18px; font-weight:900; border-radius:12px; box-shadow:0 4px 16px rgba(77,165,100,0.3); min-width:160px}
+    .muted-btn{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--accent-3); font-weight:600}
+    .muted-btn:hover { background: rgba(255,255,255,0.05); }
+    .visual{flex:1; display:flex; align-items:center; justify-content:center; gap:12px; flex-direction:column; z-index:2; position:relative}
 
-    h1 {
-      font-size: 2.2em;
-      font-weight: 600;
-      margin-bottom: 10px;
-      text-align: center;
+    .circle-wrap{width:340px; height:340px; display:grid; place-items:center; position:relative; margin-bottom:20px}
+    .breath-circle{
+      width:240px; height:240px; border-radius:50%; background: radial-gradient(circle at 30% 20%, rgba(77,165,100,0.18), rgba(2,51,54,0.06));
+      display:grid; place-items:center; transition:transform 700ms cubic-bezier(.2,.9,.2,1), box-shadow 300ms linear; box-shadow:0 18px 60px rgba(2,51,54,0.45);
+      border:2px solid rgba(77,165,100,0.12);
+      will-change:transform;
     }
+    .pulse-ring{position:absolute; width:340px; height:340px; border-radius:50%; pointer-events:none; transform:scale(0.95); opacity:0.12; border: 2px solid rgba(196,230,186,0.08);}
 
-    #breathing-circle {
-      width: 220px;
-      height: 220px;
-      border-radius: 50%;
-      border: 6px solid var(--accent1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 20px;
-      transition: transform 4s ease-in-out;
-    }
+    .phase-label{font-size:20px; font-weight:900; color:var(--accent-4); letter-spacing:0.5px}
+    .big-number{font-size:52px; font-weight:900; margin-top:6px; color:var(--accent-1); letter-spacing:-1px}
+    .small{font-size:14px; color:var(--accent-3); font-weight:500}
+    .footer{display:flex; gap:8px; align-items:center; margin-top:12px}
+    .settings-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+    .hint{font-size:13px; color:var(--accent-3); margin-top:8px; font-style:italic}
 
-    #breathing-circle.expand {
-      transform: scale(1.4);
-    }
+    .toggle {display:inline-flex; align-items:center; gap:8px}
+    .switch{width:44px; height:26px; background:rgba(255,255,255,0.06); border-radius:26px; padding:3px; display:inline-flex; align-items:center}
+    .knob{width:18px; height:18px; border-radius:50%; background:var(--accent-4); transition:transform 220ms}
 
-    #phase {
-      font-size: 1.3em;
-      font-weight: 500;
-    }
-
-    #start-btn {
-      background: linear-gradient(135deg, #4DA564, #028a78);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 15px 40px;
-      font-size: 1.1em;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.3s;
-      margin-top: 25px;
-    }
-
-    #start-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
+    /* theme toggle button */
     .theme-toggle {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      font-size: 1.8em;
-      transition: transform 0.3s;
+      position: absolute; top: 20px; right: 20px; z-index: 10;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: var(--accent-4); padding: 8px; border-radius: 50%; width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; transition: all 0.2s ease;
     }
-
-    .theme-toggle:hover {
-      transform: scale(1.1);
+    .theme-toggle:hover { transform: scale(1.05); }
+    .light .theme-toggle {
+      background: rgba(2,51,54,0.1); border-color: rgba(2,51,54,0.2); color: var(--accent-1);
     }
+    .light .theme-toggle:hover { background: rgba(2,51,54,0.2); }
 
-    #time-display {
-      font-size: 1.1em;
-      margin-top: 10px;
-      opacity: 0.85;
+    /* light theme overrides */
+    .light body{ background: linear-gradient(180deg,var(--bg-light), #dff6df 85%); color:var(--muted-light) }
+
+    .light .card{ background:var(--card-light); box-shadow:0 8px 30px rgba(2,6,23,0.06); }
+    .light input[type=number], .light select{ border:1px solid rgba(2,51,54,0.06); color:var(--muted-light); background: rgba(255,255,255,0.5)}
+    .light button.muted-btn { border-color: rgba(2,51,54,0.06); color: var(--muted-light); }
+    .light button.primary { color: var(--accent-4); box-shadow:0 4px 16px rgba(77,165,100,0.2); }
+
+    /* Light mode text visibility fixes */
+    .light h1 { color: var(--accent-1); font-weight: 900; }
+    .light label { color: var(--muted-light); }
+    .light .hint, .light .small { color: var(--muted-light); }
+    .light .phase-label { color: var(--accent-1); font-weight: 900; }
+    .light .big-number { color: var(--accent-2); font-weight: 900; }
+    .light totalTime { color: var(--muted-light); }
+
+    /* Light mode visual adjustments for visibility - make circle more contrasting */
+    .light .breath-circle {
+      background: radial-gradient(circle at 30% 20%, rgba(77,165,100,0.3), rgba(2,51,54,0.15));
+      border: 2px solid rgba(2,51,54,0.2);
+      box-shadow: 0 18px 60px rgba(2,51,54,0.3);
+    }
+    .light .pulse-ring { 
+      border-color: rgba(2,51,54,0.15); 
+      opacity: 0.25; 
+      background: rgba(193,230,186,0.1);
+    }
+    .light .cloud {
+      background: radial-gradient(circle at 30% 30%, rgba(2,51,54,0.2), rgba(77,165,100,0.1));
+      filter: blur(18px); opacity: 0.6;
+    }
+    .light .p { background: rgba(2,51,54,0.2); }
+
+    /* Hidden music player */
+    #musicFrame { position: absolute; top: -1000px; left: -1000px; width: 1px; height: 1px; }
+
+    /* responsiveness */
+    @media (max-width:820px){
+      .card{flex-direction:column; align-items:stretch}
+      .controls{width:100%}
+      .visual{order:-1}
+      .circle-wrap{width:280px; height:280px; margin-bottom:16px}
+      .breath-circle{width:220px;height:220px}
+      .primary { padding: 16px 28px; font-size: 16px; min-width:140px; }
+      .theme-toggle { top: 10px; right: 10px; width: 40px; height: 40px; font-size: 18px; }
     }
   </style>
 </head>
-<body class="dark">
-  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button>
-  <h1>Pace Breathing</h1>
-  <div id="breathing-circle">
-    <span id="phase">Ready</span>
+<body>
+  <div class="card" role="application">
+    <button id="themeBtn" class="theme-toggle" title="Toggle light/dark">🌙</button>
+
+    <div class="bg-clouds" aria-hidden="true">
+      <!-- clouds placed by JS -->
+    </div>
+
+    <!-- Hidden YouTube music player -->
+    <iframe id="musicFrame" src="https://www.youtube.com/embed/neV3EPgvZ3g?autoplay=0&loop=1&playlist=neV3EPgvZ3g&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+
+    <div class="controls">
+      <h1>Breathing Timer — Calm</h1>
+      <div class="hint">Custom seconds for each phase. Toggle voice to enhance experience.</div>
+
+      <div style="margin-top:12px" class="settings-grid">
+        <div>
+          <label for="inhale">Inhale (sec)</label>
+          <input id="inhale" type="number" min="0" value="4" />
+        </div>
+        <div>
+          <label for="hold1">Hold after inhale (sec)</label>
+          <input id="hold1" type="number" min="0" value="0" />
+        </div>
+        <div>
+          <label for="exhale">Exhale (sec)</label>
+          <input id="exhale" type="number" min="0" value="6" />
+        </div>
+        <div>
+          <label for="hold2">Hold after exhale (sec)</label>
+          <input id="hold2" type="number" min="0" value="0" />
+        </div>
+      </div>
+
+      <label for="total">Total time</label>
+      <div class="row" style="margin-top:6px">
+        <select id="total">
+          <option value="60">1 minute</option>
+          <option value="120" selected>2 minutes</option>
+          <option value="300">5 minutes</option>
+          <option value="600">10 minutes</option>
+          <option value="-1">Repeat indefinitely</option>
+        </select>
+        <input id="customTotal" type="number" min="10" placeholder="Custom sec (optional)" style="flex:1" />
+      </div>
+
+      <label style="margin-top:12px">Options</label>
+      <div class="row" style="margin-top:8px; align-items:center">
+        <div class="toggle">
+          <div class="small">Beep</div>
+          <div class="switch"><div id="beepKnob" class="knob"></div></div>
+          <input id="beepToggle" type="checkbox" style="display:none" checked />
+        </div>
+
+        <div class="toggle">
+          <div class="small">Voice</div>
+          <div class="switch"><div id="voiceKnob" class="knob" style="transform:translateX(0)"></div></div>
+          <input id="voiceToggle" type="checkbox" style="display:none" />
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="small">Status: <span id="status">stopped</span></div>
+        <div style="flex:1"></div>
+        <div class="small">Cycle length: <span id="cycleLen">0</span>s</div>
+      </div>
+    </div>
+
+    <div class="visual">
+      <div class="circle-wrap">
+        <div id="pulse" class="pulse-ring"></div>
+        <div id="circle" class="breath-circle" aria-hidden="true">
+          <div style="text-align:center">
+            <div class="phase-label" id="phase">—</div>
+            <div class="big-number" id="phaseTime">0s</div>
+            <div class="small">Total left: <span id="totalTime">0s</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="small" style="opacity:0.95; text-align:center">Visual guide: circle grows on inhale, shrinks on exhale.</div>
+      
+      <!-- Start button moved under circle -->
+      <div style="margin-top:16px">
+        <button id="startBtn" class="primary">Start Breathing</button>
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:12px; flex-wrap:wrap">
+          <button id="pauseBtn" class="muted-btn">Pause</button>
+          <button id="resetBtn" class="muted-btn">Reset</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="time-display"></div>
-  <button id="start-btn">Start</button>
 
   <script>
-    const body = document.body;
-    const themeToggle = document.getElementById('theme-toggle');
-    const circle = document.getElementById('breathing-circle');
-    const phase = document.getElementById('phase');
-    const timeDisplay = document.getElementById('time-display');
-    const startBtn = document.getElementById('start-btn');
-    const synth = window.speechSynthesis;
+    // Elements
+    const inhaleEl = document.getElementById('inhale');
+    const hold1El = document.getElementById('hold1');
+    const exhaleEl = document.getElementById('exhale');
+    const hold2El = document.getElementById('hold2');
+    const totalEl = document.getElementById('total');
+    const customTotalEl = document.getElementById('customTotal');
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const phaseLabel = document.getElementById('phase');
+    const phaseTime = document.getElementById('phaseTime');
+    const totalTime = document.getElementById('totalTime');
+    const statusEl = document.getElementById('status');
+    const cycleLenEl = document.getElementById('cycleLen');
+    const circle = document.getElementById('circle');
+    const pulse = document.getElementById('pulse');
+    const beepToggle = document.getElementById('beepToggle');
+    const voiceToggle = document.getElementById('voiceToggle');
+    const musicFrame = document.getElementById('musicFrame');
+    const themeBtn = document.getElementById('themeBtn');
 
-    let breathing = false;
-
-    const phases = [
-      { name: "Inhale", duration: 4000 },
-      { name: "Hold", duration: 4000 },
-      { name: "Exhale", duration: 4000 },
-      { name: "Hold", duration: 4000 }
-    ];
-
-    let currentPhase = 0;
-    let timeLeft = 0;
-    let timer = null;
-
-    themeToggle.addEventListener('click', () => {
-      if (body.classList.contains('dark')) {
-        body.classList.replace('dark', 'light');
-        themeToggle.textContent = '☀️';
-      } else {
-        body.classList.replace('light', 'dark');
-        themeToggle.textContent = '🌙';
-      }
-    });
-
-    startBtn.addEventListener('click', () => {
-      if (breathing) {
-        stopBreathing();
-      } else {
-        startBreathing();
-      }
-    });
-
-    function startBreathing() {
-      breathing = true;
-      startBtn.textContent = "Stop";
-      nextPhase();
-    }
-
-    function stopBreathing() {
-      breathing = false;
-      clearTimeout(timer);
-      phase.textContent = "Ready";
-      circle.classList.remove('expand');
-      timeDisplay.textContent = "";
-      startBtn.textContent = "Start";
-    }
-
-    function speak(text) {
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = "en-US";
-      synth.speak(utter);
-    }
-
-    function nextPhase() {
-      if (!breathing) return;
-      const current = phases[currentPhase];
-      phase.textContent = current.name;
-      timeLeft = current.duration / 1000;
-      if (current.name === "Inhale") circle.classList.add('expand');
-      else if (current.name === "Exhale") circle.classList.remove('expand');
-
-      speak(current.name);
-
-      updateTimeDisplay();
-      timer = setInterval(() => {
-        if (!breathing) {
-          clearInterval(timer);
-          return;
-        }
-        timeLeft--;
-        updateTimeDisplay();
-        if (timeLeft <= 0) {
-          clearInterval(timer);
-          currentPhase = (currentPhase + 1) % phases.length;
-          nextPhase();
-        }
-      }, 1000);
-    }
-
-    function updateTimeDisplay() {
-      timeDisplay.textContent = `Time left: ${timeLeft}s`;
-    }
-  </script>
-</body>
-</html>
+    // knobs (visual switches) behaviour
+    function setKnob(checkbox, knob){ if(checkbox.checked) knob.style.transform = 'translateX(18px)'; else knob.style.transform = 'translateX(0)'; }
+    // create hidden checkboxes to work with visual knobs
+    const beepKnob = document.getElementById('beepKnob');
+    const voiceKnob = document.getElementById('voiceKnob');
+    const beepCheckbox = document.getElementById('beepToggle');
+    const voiceCheckbox = document.getElementById('voiceToggle');
+    setKnob(beepCheckbox, beepKnob);
+    setKnob(voiceCheckbox, voiceKnob);
+    // toggle when clicking the visible switch
+    beepKnob.parentElement.addEventListener('click', ()=>{ beepCheckbox.checked=!beepCheckbox.checked; setKnob(beepCheckbox, beepKnob); });
+    voice
