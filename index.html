@@ -1,885 +1,768 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Breadfast Support – Elsayed | السيد</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breadfast Support — Elsayed | السيد</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
-        :root {
-            --primary: #C2185B;
-            --primary-dark: #8D0E40;
-            --primary-light: #F8D7E3;
-            --accent: #FF6B9D;
-            --bg: #FBF3F6;
-            --sidebar-bg: #1A0A10;
-            --sidebar-text: #F5D0DF;
-            --sidebar-active: #C2185B;
-            --card-bg: #FFFFFF;
-            --border: #EDCDD8;
-            --text: #1C1C1C;
-            --text-muted: #7A5060;
-            --en-accent: #1565C0;
-            --ar-accent: #C2185B;
-        }
+:root{
+  --primary:#1a1a2e;
+  --primary-light:#16213e;
+  --accent:#c41e3a;
+  --accent-hover:#a31830;
+  --success:#2d6a4f;
+  --bg:#f8f9fa;
+  --surface:#ffffff;
+  --text:#1a1a2e;
+  --text-muted:#6c757d;
+  --border:#e9ecef;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.06);
+  --shadow:0 4px 20px rgba(0,0,0,0.08);
+  --radius:10px;
+  --radius-sm:6px;
+}
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+html,body{height:100%}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
 
-        /* ── HEADER ─────────────────────────────── */
-        header {
-            background: linear-gradient(135deg, #1A0A10 0%, #3B0E22 100%);
-            color: white;
-            padding: 0 28px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-            border-bottom: 2px solid var(--primary);
-            box-shadow: 0 4px 20px rgba(194,24,91,0.3);
-            z-index: 10;
-        }
+body[dir="rtl"]{font-family:'Cairo',sans-serif}
+body[dir="rtl"] .nav-link{font-family:'Cairo',sans-serif}
+body[dir="rtl"] .card-title{font-family:'Cairo',sans-serif}
 
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+/* HEADER */
+.header{
+  background:var(--primary);
+  color:white;
+  padding:0 32px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:var(--shadow-sm);
+}
 
-        .brand-logo {
-            width: 38px;
-            height: 38px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3em;
-            box-shadow: 0 4px 12px rgba(194,24,91,0.4);
-        }
+.brand{display:flex;align-items:center;gap:14px}
+.brand-icon{
+  width:38px;height:38px;
+  background:var(--accent);
+  border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2em;
+}
+.brand-text{line-height:1.2}
+.brand-name{font-size:1.05em;font-weight:600}
+.brand-meta{display:flex;align-items:center;gap:10px;margin-top:2px}
+.status-badge{
+  display:flex;align-items:center;gap:5px;
+  font-size:0.7em;font-weight:500;
+  background:rgba(255,255,255,0.1);
+  padding:3px 10px;
+  border-radius:20px;
+}
+.status-dot{
+  width:6px;height:6px;
+  background:#4ade80;
+  border-radius:50%;
+}
+.agent-name{font-size:0.8em;color:rgba(255,255,255,0.6)}
 
-        .brand-name {
-            font-size: 1.1em;
-            font-weight: 800;
-            letter-spacing: 0.3px;
-        }
+/* LANG TOGGLE */
+.lang-toggle{
+  display:flex;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:var(--radius-sm);
+  padding:3px;
+  gap:3px;
+}
+.lang-btn{
+  padding:7px 18px;
+  border-radius:4px;
+  border:none;
+  cursor:pointer;
+  font-weight:500;
+  font-size:0.82em;
+  transition:all 0.2s ease;
+  background:transparent;
+  color:rgba(255,255,255,0.5);
+  font-family:inherit;
+}
+.lang-btn.active{
+  background:var(--accent);
+  color:white;
+}
+.lang-btn:hover:not(.active){background:rgba(255,255,255,0.08);color:white}
 
-        .brand-sub {
-            font-size: 0.7em;
-            color: #FF9ABF;
-            font-weight: 500;
-            margin-top: 1px;
-        }
+/* TOP NAVIGATION */
+.top-nav{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;
+  position:sticky;
+  top:64px;
+  z-index:90;
+}
 
-        /* ── LANG TOGGLE ─────────────────────────── */
-        .lang-toggle {
-            display: flex;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 10px;
-            padding: 4px;
-            gap: 4px;
-        }
+.nav-scroll{
+  display:flex;
+  gap:4px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  padding:10px 0;
+}
+.nav-scroll::-webkit-scrollbar{display:none}
 
-        .lang-btn {
-            padding: 8px 20px;
-            border-radius: 7px;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 0.88em;
-            transition: all 0.25s ease;
-            background: transparent;
-            color: rgba(255,255,255,0.55);
-            letter-spacing: 0.3px;
-        }
+.nav-link{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 18px;
+  border-radius:var(--radius-sm);
+  border:none;
+  background:transparent;
+  color:var(--text-muted);
+  font-weight:500;
+  font-size:0.88em;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  white-space:nowrap;
+  font-family:inherit;
+}
+.nav-link:hover{
+  background:var(--bg);
+  color:var(--text);
+}
+.nav-link.active{
+  background:var(--accent);
+  color:white;
+}
 
-        .lang-btn.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 3px 12px rgba(194,24,91,0.5);
-        }
+/* MAIN CONTENT */
+.main-content{
+  max-width:850px;
+  margin:0 auto;
+  padding:28px 32px 48px;
+}
 
-        .lang-btn:hover:not(.active) {
-            background: rgba(255,255,255,0.1);
-            color: white;
-        }
+/* SECTION */
+.section{display:none;animation:fadeIn 0.25s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-        /* ── BODY LAYOUT ─────────────────────────── */
-        .app-body {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
+.section-header{
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+.section-title{
+  font-size:1.35em;
+  font-weight:600;
+  color:var(--primary);
+  margin-bottom:4px;
+}
+.section-desc{color:var(--text-muted);font-size:0.9em}
 
-        /* ── LEFT SIDEBAR ────────────────────────── */
-        .sidebar {
-            width: 230px;
-            min-width: 230px;
-            background: var(--sidebar-bg);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            flex-shrink: 0;
-            border-right: 2px solid rgba(194,24,91,0.3);
-        }
+/* CARDS */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:16px;
+  overflow:hidden;
+  transition:all 0.2s ease;
+}
+.card:hover{
+  box-shadow:var(--shadow);
+  border-color:#d1d5db;
+}
 
-        .sidebar-header {
-            padding: 20px 18px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-        }
+.card-header{
+  padding:14px 18px;
+  background:#fafafa;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-tag{
+  font-size:0.72em;font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  padding:4px 10px;
+  border-radius:4px;
+}
+.tag-empathy{background:#fef2f2;color:#991b1b}
+.tag-warm{background:#fff7ed;color:#9a3412}
+.tag-prof{background:#eff6ff;color:#1e40af}
+.tag-calm{background:#f0fdf4;color:#166534}
 
-        .sidebar-label {
-            font-size: 0.68em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: rgba(255,255,255,0.3);
-        }
+.card-body{padding:18px}
 
-        .sidebar-nav {
-            padding: 12px 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            flex: 1;
-        }
+.phrase-box{
+  background:#f9fafb;
+  border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  padding:16px 18px;
+  margin-bottom:14px;
+  font-size:0.94em;
+  line-height:1.75;
+  color:var(--text);
+  white-space:pre-line;
+}
 
-        .menu-btn {
-            width: 100%;
-            padding: 12px 14px;
-            border: none;
-            background: transparent;
-            border-radius: 9px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.88em;
-            color: var(--sidebar-text);
-            transition: all 0.22s ease;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: 0.7;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
+body[dir="rtl"] .phrase-box{
+  border-left:none;
+  border-right:3px solid var(--accent);
+  border-radius:var(--radius-sm) 0 0 var(--radius-sm);
+  text-align:right;
+  font-family:'Cairo',sans-serif;
+  line-height:1.9;
+}
 
-        .menu-btn .icon { font-size: 1.1em; flex-shrink: 0; }
+.card-actions{display:flex;gap:8px}
 
-        .menu-btn:hover {
-            background: rgba(194,24,91,0.18);
-            color: white;
-            opacity: 1;
-            transform: translateX(3px);
-        }
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 16px;
+  border-radius:var(--radius-sm);
+  border:none;
+  font-weight:500;
+  font-size:0.84em;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  font-family:inherit;
+}
+.btn-primary{
+  background:var(--accent);
+  color:white;
+}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-primary.copied{
+  background:var(--success);
+}
 
-        .menu-btn.active {
-            background: var(--primary);
-            color: white;
-            opacity: 1;
-            box-shadow: 0 4px 14px rgba(194,24,91,0.4);
-        }
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:var(--success);
+  color:white;
+  padding:12px 20px;
+  border-radius:var(--radius-sm);
+  box-shadow:var(--shadow);
+  font-weight:500;
+  font-size:0.88em;
+  z-index:9999;
+  animation:slideIn 0.25s ease;
+}
+@keyframes slideIn{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-        /* ── MAIN CONTENT ────────────────────────── */
-        .main-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 32px 36px;
-            background: var(--bg);
-        }
+body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
+@keyframes slideInRtl{from{transform:translateX(-80px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-        .section { display: none; animation: fadeUp 0.35s ease both; }
-        .section.active { display: block; }
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(18px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-title {
-            font-size: 1.6em;
-            font-weight: 800;
-            color: var(--primary-dark);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-bottom: 14px;
-            border-bottom: 2px solid var(--border);
-        }
-
-        /* ── PHRASE CARDS ────────────────────────── */
-        .phrase-card {
-            background: var(--card-bg);
-            border: 1.5px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(194,24,91,0.06);
-            transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
-        }
-
-        .phrase-card:hover {
-            box-shadow: 0 10px 28px rgba(194,24,91,0.14);
-            transform: translateY(-2px);
-            border-color: var(--accent);
-        }
-
-        /* ── ENGLISH BLOCK ───────────────────────── */
-        .phrase-block-en {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .phrase-block-en:last-child { border-bottom: none; }
-
-        .block-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.72em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            margin-bottom: 11px;
-        }
-
-        .tag-en {
-            background: #E3F0FF;
-            color: var(--en-accent);
-        }
-
-        .tag-ar {
-            background: var(--primary-light);
-            color: var(--primary-dark);
-        }
-
-        .phrase-text-en {
-            font-size: 0.97em;
-            line-height: 1.7;
-            color: var(--text);
-            background: #F5F9FF;
-            border-left: 3px solid var(--en-accent);
-            padding: 13px 16px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 12px;
-        }
-
-        /* ── ARABIC BLOCK ────────────────────────── */
-        .phrase-block-ar {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            direction: rtl;
-        }
-
-        .phrase-block-ar:last-child { border-bottom: none; }
-
-        .phrase-text-ar {
-            font-family: 'Cairo', sans-serif;
-            font-size: 1.02em;
-            line-height: 1.9;
-            color: var(--text);
-            background: #FEF4F7;
-            border-right: 3px solid var(--ar-accent);
-            padding: 13px 16px;
-            border-radius: 8px 0 0 8px;
-            margin-bottom: 12px;
-            text-align: right;
-        }
-
-        /* ── COPY BUTTON ─────────────────────────── */
-        .copy-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 7px;
-            cursor: pointer;
-            font-size: 0.82em;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            box-shadow: 0 3px 10px rgba(194,24,91,0.25);
-            font-family: inherit;
-        }
-
-        .copy-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 5px 14px rgba(194,24,91,0.35);
-        }
-
-        .copy-btn.copied {
-            background: #2E7D32;
-            box-shadow: 0 3px 10px rgba(46,125,50,0.25);
-        }
-
-        /* ── LANGUAGE VISIBILITY ─────────────────── */
-        body.lang-en .phrase-block-ar { display: none; }
-        body.lang-ar .phrase-block-en { display: none; }
-
-        /* Arabic menu text direction */
-        body.lang-ar .menu-btn { 
-            text-align: right; 
-            flex-direction: row-reverse;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        body.lang-ar .section-title {
-            font-family: 'Cairo', sans-serif;
-            direction: rtl;
-        }
-
-        /* ── NOTIFICATION ────────────────────────── */
-        .notification {
-            position: fixed;
-            bottom: 28px;
-            right: 28px;
-            background: #2E7D32;
-            color: white;
-            padding: 13px 22px;
-            border-radius: 10px;
-            box-shadow: 0 8px 24px rgba(46,125,50,0.3);
-            font-weight: 700;
-            font-size: 0.9em;
-            z-index: 9999;
-            animation: slideIn 0.35s ease;
-            font-family: 'Cairo', sans-serif;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(120px); opacity: 0; }
-            to   { transform: translateX(0);     opacity: 1; }
-        }
-
-        /* ── SCROLLBAR ───────────────────────────── */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
-
-        /* ── SIDEBAR ALWAYS LEFT — no mobile override ── */
-        @media (max-width: 640px) {
-            .sidebar { width: 190px; min-width: 190px; }
-            .main-content { padding: 20px 18px; }
-            .menu-btn { font-size: 0.8em; padding: 10px 10px; }
-            .brand-name { font-size: 0.9em; }
-            .lang-btn { padding: 7px 12px; font-size: 0.78em; }
-        }
-    </style>
+/* RESPONSIVE */
+@media(max-width:768px){
+  .header{padding:0 16px;height:58px}
+  .top-nav{padding:0 16px;top:58px}
+  .main-content{padding:20px 16px 40px}
+  .section-title{font-size:1.2em}
+  .nav-link{padding:8px 14px;font-size:0.84em}
+}
+</style>
 </head>
-<body class="lang-en">
+<body dir="ltr">
 
-<header>
-    <div class="header-brand">
-        <div class="brand-logo">🍞</div>
-        <div>
-            <div class="brand-name">Breadfast Support</div>
-            <div class="brand-sub">Elsayed · السيد</div>
-        </div>
+<header class="header">
+  <div class="brand">
+    <div class="brand-icon">B</div>
+    <div class="brand-text">
+      <div class="brand-name">Breadfast Support</div>
+      <div class="brand-meta">
+        <span class="status-badge"><span class="status-dot"></span>Online</span>
+        <span class="agent-name">Elsayed / السيد</span>
+      </div>
     </div>
-
-    <div class="lang-toggle">
-        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">🇬🇧 English</button>
-        <button class="lang-btn"        id="btn-ar" onclick="setLang('ar')">🇪🇬 العربية</button>
-    </div>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">English</button>
+    <button class="lang-btn" onclick="setLang('ar')">العربية</button>
+  </div>
 </header>
 
-<div class="app-body">
+<nav class="top-nav">
+  <div class="nav-scroll">
+    <button class="nav-link active" onclick="showSection('greeting',this)">
+      <span class="label">Greeting</span>
+    </button>
+    <button class="nav-link" onclick="showSection('delay',this)">
+      <span class="label">Order Delay</span>
+    </button>
+    <button class="nav-link" onclick="showSection('anything',this)">
+      <span class="label">Anything Else</span>
+    </button>
+    <button class="nav-link" onclick="showSection('hold',this)">
+      <span class="label">Hold</span>
+    </button>
+    <button class="nav-link" onclick="showSection('noresponse',this)">
+      <span class="label">No Response</span>
+    </button>
+    <button class="nav-link" onclick="showSection('wallet',this)">
+      <span class="label">Wallet</span>
+    </button>
+    <button class="nav-link" onclick="showSection('address',this)">
+      <span class="label">Address</span>
+    </button>
+    <button class="nav-link" onclick="showSection('cancel',this)">
+      <span class="label">Cancellation</span>
+    </button>
+  </div>
+</nav>
 
-    <!-- ══ LEFT SIDEBAR ══════════════════════ -->
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-label" id="menu-label">Categories</div>
-        </div>
-        <nav class="sidebar-nav">
-            <button class="menu-btn active" onclick="switchSection('opening', this)"
-                data-en="💬 Opening"
-                data-ar="💬 التحية والفتح">
-                <span class="icon">💬</span><span class="label">Opening</span>
-            </button>
-            <button class="menu-btn" onclick="switchSection('waiting', this)"
-                data-en="⏳ Hold & Wait"
-                data-ar="⏳ الانتظار">
-                <span class="icon">⏳</span><span class="label">Hold & Wait</span>
-            </button>
-            <button class="menu-btn" onclick="switchSection('apology', this)"
-                data-en="😔 Apology"
-                data-ar="😔 الاعتذار">
-                <span class="icon">😔</span><span class="label">Apology</span>
-            </button>
-            <button class="menu-btn" onclick="switchSection('closure', this)"
-                data-en="✅ Closure"
-                data-ar="✅ الإغلاق">
-                <span class="icon">✅</span><span class="label">Closure</span>
-            </button>
-            <button class="menu-btn" onclick="switchSection('cancel', this)"
-                data-en="❌ Order Cancel"
-                data-ar="❌ إلغاء الطلب">
-                <span class="icon">❌</span><span class="label">Order Cancel</span>
-            </button>
-            <button class="menu-btn" onclick="switchSection('wallet', this)"
-                data-en="💳 Charge Wallet"
-                data-ar="💳 شحن المحفظة">
-                <span class="icon">💳</span><span class="label">Charge Wallet</span>
-            </button>
-            <button class="menu-btn" onclick="switchSection('address', this)"
-                data-en="📍 Address"
-                data-ar="📍 العنوان">
-                <span class="icon">📍</span><span class="label">Address</span>
-            </button>
-        </nav>
-    </aside>
+<main class="main-content">
 
-    <!-- ══ MAIN CONTENT ══════════════════════ -->
-    <main class="main-content">
+<!-- GREETING -->
+<section id="greeting" class="section active">
+  <div class="section-header">
+    <h2 class="section-title">Greeting & Opening</h2>
+    <p class="section-desc">Professional opening statements to begin customer interactions</p>
+  </div>
 
-        <!-- OPENING -->
-        <div id="opening" class="section active">
-            <h2 class="section-title"
-                data-en="💬 Opening Phrases"
-                data-ar="💬 عبارات التحية والفتح">💬 Opening Phrases</h2>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Appreciation</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Thank you for contacting Breadfast. We appreciate you reaching out and look forward to assisting you today." data-ar="شكراً لتواصل حضرتك مع بريدفاست، نقدّر تواصلك ونتطلع لمساعدتك."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">Thank you for contacting Breadfast. We're always happy to serve you.</div>
-                    <button class="copy-btn" onclick="copyText(this, `Thank you for contacting Breadfast. We're always happy to serve you.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">شكراً لتواصل حضرتك مع بريدفاست، يسعدنا دايماً خدمتك.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'شكراً لتواصل حضرتك مع بريدفاست، يسعدنا دايماً خدمتك.')">📋 نسخ</button>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Acknowledgment</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We value your time and appreciate you choosing Breadfast. How may I assist you today?" data-ar="نقدّر وقت حضرتك واختيارك لبريدفاست. كيف يمكنني مساعدتك اليوم؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">We appreciate your contact with Breadfast. We're always delighted to serve you.</div>
-                    <button class="copy-btn" onclick="copyText(this, `We appreciate your contact with Breadfast. We're always delighted to serve you.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">بنشكر حضرتك على تواصلك مع بريدفاست، ويسعدنا دايمًا إننا نكون في خدمتك.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'بنشكر حضرتك على تواصلك مع بريدفاست، ويسعدنا دايمًا إننا نكون في خدمتك.')">📋 نسخ</button>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Morning</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Good morning. This is Elsayed from Breadfast. Thank you for reaching out — how may I assist you today?" data-ar="صباح الخير. معاك السيد من بريدفاست. شكراً لتواصلك — كيف يمكنني مساعدتك؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">Good morning! Welcome. I'm Elsayed from Breadfast. How are you today? I hope you're always doing great!</div>
-                    <button class="copy-btn" onclick="copyText(this, `Good morning! Welcome. I'm Elsayed from Breadfast. How are you today? I hope you're always doing great!`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">صباح النور، أهلاً وسهلاً بيك. معاك السيد من بريدفاست، أخبار حضرتك إيه؟ يا رب دايماً بخير.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'صباح النور، أهلاً وسهلاً بيك. معاك السيد من بريدفاست، أخبار حضرتك إيه؟ يا رب دايماً بخير.')">📋 نسخ</button>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Evening</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Good evening. This is Elsayed from Breadfast. Thank you for contacting us — what can I help you with?" data-ar="مساء الخير. معاك السيد من بريدفاست. شكراً لتواصلك — بماذا يمكنني مساعدتك؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">Good evening! Welcome. I'm Elsayed from Breadfast. How are you today? I hope you're always doing great!</div>
-                    <button class="copy-btn" onclick="copyText(this, `Good evening! Welcome. I'm Elsayed from Breadfast. How are you today? I hope you're always doing great!`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">مساء الخير، أهلاً وسهلاً بيك. معاك السيد من بريدفاست، أخبار حضرتك إيه؟ يا رب دايماً بخير.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'مساء الخير، أهلاً وسهلاً بيك. معاك السيد من بريدفاست، أخبار حضرتك إيه؟ يا رب دايماً بخير.')">📋 نسخ</button>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Direct</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="How may I assist you today?" data-ar="كيف يمكنني مساعدتك؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">How can I help you today?</div>
-                    <button class="copy-btn" onclick="copyText(this, 'How can I help you today?')">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">أقدر أساعد حضرتك إزاي؟</div>
-                    <button class="copy-btn" onclick="copyText(this, 'أقدر أساعد حضرتك إزاي؟')">📋 نسخ</button>
-                </div>
-            </div>
+<!-- ORDER DELAY -->
+<section id="delay" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Order Delay — Apology</h2>
+    <p class="section-desc">Sincere acknowledgment of delays with appropriate accountability</p>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">How can I assist you today?</div>
-                    <button class="copy-btn" onclick="copyText(this, 'How can I assist you today?')">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">أقدر أساعد حضرتك إزاي النهارده؟</div>
-                    <button class="copy-btn" onclick="copyText(this, 'أقدر أساعد حضرتك إزاي النهارده؟')">📋 نسخ</button>
-                </div>
-            </div>
-        </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Acknowledgment</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I understand your frustration, and I want to be direct with you: a delay like this does not meet our standards at Breadfast. We take full responsibility and sincerely apologize for the inconvenience this has caused." data-ar="أتفهم إحباط حضرتك، وأريد أن أكون صريحاً معك: التأخير مثل هذا لا يتوافق مع معاييرنا في بريدفاست. نتحمل المسؤولية الكاملة ونعتذر بصدق عن الإزعاج الذي سببناه."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-        <!-- WAITING -->
-        <div id="waiting" class="section">
-            <h2 class="section-title"
-                data-en="⏳ Hold & Wait Phrases"
-                data-ar="⏳ عبارات الانتظار">⏳ Hold & Wait Phrases</h2>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Accountability</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We recognize that order delays are frustrating, and this is not the experience we want for our customers. We sincerely apologize for the delay and appreciate your patience as we work to resolve this matter." data-ar="ندرك أن تأخير الطلبات مُحبط، وهذه ليست التجربة التي نريدها لعملائنا. نعتذر بصدق عن التأخير ونقدّر صبر حضرتك بينما نعمل على حل هذا الأمر."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">Please bear with me for a moment while I check the details in the system.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'Please bear with me for a moment while I check the details in the system.')">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">أستأذن حضرتك لحظات، هراجع بيانات على السيستم.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'أستأذن حضرتك لحظات، هراجع بيانات على السيستم.')">📋 نسخ</button>
-                </div>
-            </div>
+<!-- ANYTHING ELSE -->
+<section id="anything" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Anything Else?</h2>
+    <p class="section-desc">Professional closure prompts to ensure complete resolution</p>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">I need just a moment to check the details in the system, and I'll be right back with you as soon as possible.</div>
-                    <button class="copy-btn" onclick="copyText(this, `I need just a moment to check the details in the system, and I'll be right back with you as soon as possible.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">أستأذن حضرتك لحظات، هراجع البيانات على السيستم وارجع لحضرتك فورًا.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'أستأذن حضرتك لحظات، هراجع البيانات على السيستم وارجع لحضرتك فورًا.')">📋 نسخ</button>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Standard</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="هل هناك شيء آخر يمكنني مساعدتك فيه؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">I need just a moment to check the details in the system. I'll be with you as quickly as I can.</div>
-                    <button class="copy-btn" onclick="copyText(this, `I need just a moment to check the details in the system. I'll be with you as quickly as I can.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">محتاج لحظة بس أراجع البيانات على السيستم، وهكون مع حضرتك في أسرع وقت.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'محتاج لحظة بس أراجع البيانات على السيستم، وهكون مع حضرتك في أسرع وقت.')">📋 نسخ</button>
-                </div>
-            </div>
-        </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Thorough</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Before we conclude, please let me know if there are any other matters I can address for you." data-ar="قبل أن ننهي المحادثة، يرجى إخباري إذا كانت هناك أي أمور أخرى يمكنني معالجتها."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-        <!-- APOLOGY -->
-        <div id="apology" class="section">
-            <h2 class="section-title"
-                data-en="😔 Apology Phrases"
-                data-ar="😔 عبارات الاعتذار">😔 Apology Phrases</h2>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Follow-up</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="If you have any additional questions or concerns, please do not hesitate to ask." data-ar="إذا كان لديك أي أسئلة أو استفسارات إضافية، فلا تتردد في طرحها."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">I completely understand your frustration with the delay. We truly apologize for this delay, as it's not acceptable to us at Breadfast. We sincerely regret any inconvenience caused to you.</div>
-                    <button class="copy-btn" onclick="copyText(this, `I completely understand your frustration with the delay. We truly apologize for this delay, as it's not acceptable to us at Breadfast. We sincerely regret any inconvenience caused to you.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">أنا متفهم إستياء حضرتك، وإن الأوردر اتأخر ده شيء ما يرضيناش أبداً في بريدفاست، وبنعتذر لحضرتك بجد عن ده.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'أنا متفهم إستياء حضرتك، وإن الأوردر اتأخر ده شيء ما يرضيناش أبداً في بريدفاست، وبنعتذر لحضرتك بجد عن ده.')">📋 نسخ</button>
-                </div>
-            </div>
+<!-- HOLD & WAIT -->
+<section id="hold" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Hold & Wait</h2>
+    <p class="section-desc">Respectful requests for time to review information</p>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">We fully understand how frustrating an order delay can be, and that's certainly not what we want for you at Breadfast. We sincerely apologize for this delay, and we greatly appreciate your patience and understanding.</div>
-                    <button class="copy-btn" onclick="copyText(this, `We fully understand how frustrating an order delay can be, and that's certainly not what we want for you at Breadfast. We sincerely apologize for this delay, and we greatly appreciate your patience and understanding.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">متفهمين تمامًا قد إيه تأخير الأوردر ممكن يسبب إزعاج، وده طبعًا شيء ما يرضيناش في بريدفاست. بنعتذر لحضرتك بصدق عن التأخير، وبنقدّر جدًا صبرك وتفهمك.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'متفهمين تمامًا قد إيه تأخير الأوردر ممكن يسبب إزعاج، وده طبعًا شيء ما يرضيناش في بريدفاست. بنعتذر لحضرتك بصدق عن التأخير، وبنقدّر جدًا صبرك وتفهمك.')">📋 نسخ</button>
-                </div>
-            </div>
-        </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">Brief</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Please allow me a moment to review the details in our system." data-ar="يرجى منحي لحظة لمراجعة التفاصيل في نظامنا."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-        <!-- CLOSURE -->
-        <div id="closure" class="section">
-            <h2 class="section-title"
-                data-en="✅ Closure Phrases"
-                data-ar="✅ عبارات الإغلاق">✅ Closure Phrases</h2>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">With Return</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I need a brief moment to check the information in our system. I will return to you shortly." data-ar="أحتاج لحظة قصيرة للتحقق من المعلومات في نظامنا. سأعود إليك قريباً."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">Is there anything else I can help you with?</div>
-                    <button class="copy-btn" onclick="copyText(this, 'Is there anything else I can help you with?')">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">أقدر أساعد حضرتك في أي حاجة تانية؟</div>
-                    <button class="copy-btn" onclick="copyText(this, 'أقدر أساعد حضرتك في أي حاجة تانية؟')">📋 نسخ</button>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">Quick Check</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Allow me a moment to verify this information. I will be with you as soon as possible." data-ar="دعني أتحقق من هذه المعلومة. سأكون معك في أقرب وقت ممكن."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">Is there anything else I can assist you with?</div>
-                    <button class="copy-btn" onclick="copyText(this, 'Is there anything else I can assist you with?')">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">في حاجة تانية أقدر أساعد حضرتك فيها؟</div>
-                    <button class="copy-btn" onclick="copyText(this, 'في حاجة تانية أقدر أساعد حضرتك فيها؟')">📋 نسخ</button>
-                </div>
-            </div>
+<!-- NO RESPONSE -->
+<section id="noresponse" class="section">
+  <div class="section-header">
+    <h2 class="section-title">No Response — Closing</h2>
+    <p class="section-desc">Professional closure when customer is unresponsive</p>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">If you have any other questions or need support with anything else, I'm here to help.</div>
-                    <button class="copy-btn" onclick="copyText(this, `If you have any other questions or need support with anything else, I'm here to help.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">لو في أي استفسار تاني أو حاجة محتاج دعم فيها، أنا مع حضرتك.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'لو في أي استفسار تاني أو حاجة محتاج دعم فيها، أنا مع حضرتك.')">📋 نسخ</button>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Standard</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="As we have not received a response, we will close this conversation. Please feel free to contact us again if you need further assistance." data-ar="بما أننا لم نتلق رداً، سنغلق هذه المحادثة. لا تتردد في التواصل معنا مرة أخرى إذا كنت بحاجة إلى مزيد من المساعدة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">We haven't received a response from you, so we'll close this chat now. Feel free to contact us at any time if you need assistance.</div>
-                    <button class="copy-btn" onclick="copyText(this, `We haven't received a response from you, so we'll close this chat now. Feel free to contact us at any time if you need assistance.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">لم نتلقَ ردًا منك، لذا سنغلق هذه المحادثة الآن. يمكنك التواصل معنا في أي وقت إذا احتجت إلى مساعدة.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'لم نتلقَ ردًا منك، لذا سنغلق هذه المحادثة الآن. يمكنك التواصل معنا في أي وقت إذا احتجت إلى مساعدة.')">📋 نسخ</button>
-                </div>
-            </div>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Reassuring</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Since we have not heard back from you, we will close this chat. Our support team remains available should you need assistance in the future." data-ar="بما أننا لم نسمع من حضرتك، سنغلق هذه المحادثة. فريق الدعم لدينا متاح إذا احتجت مساعدة في المستقبل."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">Since we haven't received a reply from you, we'll need to close the chat now. We'd be happy to assist you anytime you reach out again.</div>
-                    <button class="copy-btn" onclick="copyText(this, `Since we haven't received a reply from you, we'll need to close the chat now. We'd be happy to assist you anytime you reach out again.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">نظرًا لعدم استلام رد من حضرتك، هنضطر نقفل المحادثة دلوقتي. يسعدنا تواصلك معانا في أي وقت لو احتجت أي دعم.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'نظرًا لعدم استلام رد من حضرتك، هنضطر نقفل المحادثة دلوقتي. يسعدنا تواصلك معانا في أي وقت لو احتجت أي دعم.')">📋 نسخ</button>
-                </div>
-            </div>
-        </div>
+<!-- CHARGE WALLET -->
+<section id="wallet" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Charge Wallet</h2>
+    <p class="section-desc">Clear instructions for wallet top-up procedures</p>
+  </div>
 
-        <!-- ORDER CANCEL -->
-        <div id="cancel" class="section">
-            <h2 class="section-title"
-                data-en="❌ Order Cancellation"
-                data-ar="❌ إلغاء الطلب">❌ Order Cancellation</h2>
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">English UI</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">I deeply apologize that your order was cancelled. Unfortunately, this happened because the restaurant didn't respond to the order — they neither accepted nor declined it. I will contact the restaurant right now to find out why they didn't accept your order, and I'll get back to you shortly.</div>
-                    <button class="copy-btn" onclick="copyText(this, `I deeply apologize that your order was cancelled. Unfortunately, this happened because the restaurant didn't respond to the order — they neither accepted nor declined it. I will contact the restaurant right now to find out why they didn't accept your order, and I'll get back to you shortly.`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">بعتذر لحضرتك جداً إن الأوردر إتلغي، ده للأسف حصل لأن المطعم مردش على الطلب سواء بالموافقة أو عدم الموافقة، وأنا من خلالي هتواصل مع المطعم حالاً عشان أشوف ليه مقبلش الأوردر وهتواصل مع حضرتك خلال لحظات.</div>
-                    <button class="copy-btn" onclick="copyText(this, 'بعتذر لحضرتك جداً إن الأوردر إتلغي، ده للأسف حصل لأن المطعم مردش على الطلب سواء بالموافقة أو عدم الموافقة، وأنا من خلالي هتواصل مع المطعم حالاً عشان أشوف ليه مقبلش الأوردر وهتواصل مع حضرتك خلال لحظات.')">📋 نسخ</button>
-                </div>
-            </div>
-        </div>
+1. Open the Breadfast app and navigate to the payment page labeled &quot;Pay&quot; at the bottom.
+2. You will see your current wallet balance and an option labeled &quot;Add to balance&quot; — select this.
+3. Choose &quot;Quick add&quot; to add a specific amount (100, 200, etc.).
+4. Under &quot;Payment Method&quot;, select &quot;New credit/debit card&quot;.
+5. Enter your card details to complete the wallet top-up.
 
-        <!-- CHARGE WALLET -->
-        <div id="wallet" class="section">
-            <h2 class="section-title"
-                data-en="💳 Charge Wallet"
-                data-ar="💳 شحن المحفظة">💳 Charge Wallet</h2>
+Please follow these steps, and let me know if you encounter any issues." data-ar="سأرشدك خلال خطوات إضافة رصيد إلى محفظة بريدفاست:
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">I'd like to explain how to add credit to your Breadfast app wallet:
+1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;Pay&quot; في الأسفل.
+2. ستجد رصيد المحفظة الحالي وخيار &quot;Add to balance&quot; — اختره.
+3. اختر &quot;Quick add&quot; لإضافة مبلغ محدد (100، 200، إلخ).
+4. في &quot;Payment Method&quot;، اختر &quot;New credit/debit card&quot;.
+5. أدخل بيانات بطاقتك لإكمال الشحن.
 
-1) Open the Breadfast app and go to the payment page at the bottom labeled "Pay".
-2) You'll see your wallet balance and an option "Add to balance" — select this to add funds.
-3) Choose "Quick add" to add a specific amount like 100, 200, etc.
-4) Under "Payment Method", select "New credit/debit card".
-5) Enter your card details to complete the wallet top-up.
+يرجى اتباع هذه الخطوات، وأخبرني إذا واجهت أي مشكلة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
 
-Feel free to follow the steps, and if you face any issue I'm here to help!</div>
-                    <button class="copy-btn" onclick="copyText(this, `I'd like to explain how to add credit to your Breadfast app wallet:\n\n1) Open the Breadfast app and go to the payment page at the bottom labeled \"Pay\".\n2) You'll see your wallet balance and an option \"Add to balance\" — select this to add funds.\n3) Choose \"Quick add\" to add a specific amount like 100, 200, etc.\n4) Under \"Payment Method\", select \"New credit/debit card\".\n5) Enter your card details to complete the wallet top-up.\n\nFeel free to follow the steps, and if you face any issue I'm here to help!`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">حابب أوضح لحضرتك خطوات إضافة رصيد على محفظة تطبيق بريدفاست:
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Arabic UI</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
 
-١) افتح تطبيق بريدفاست وتوجه لصفحة الدفع في الأسفل باسم "Pay".
-٢) هيظهر رصيد المحفظة واختيار "Add to balance" — اختاره لإضافة رصيد.
-٣) اختار "Quick add" لو عايز تضيف مبلغ معين زي ١٠٠ أو ٢٠٠.
-٤) في "Payment Method" اختار "New credit/debit card".
-٥) أدخل بيانات الكريديت كارد عشان تتم عملية شحن المحفظة بنجاح.
+1. Open the Breadfast app and navigate to the payment page labeled &quot;باي&quot; at the bottom.
+2. You will see your wallet balance and an option labeled &quot;إضافة إلى الرصيد&quot; — select this.
+3. Choose &quot;إضافة سريعة&quot; to add a specific amount.
+4. Under &quot;طريقة الدفع&quot;, select &quot;بطاقة ائتمان أو خصم جديدة&quot;.
+5. Enter your card details to complete the wallet top-up.
 
-حضرتك تقدر تتبع الخطوات ولو واجهت أي مشكلة أنا متابع معاك!</div>
-                    <button class="copy-btn" onclick="copyText(this, 'حابب أوضح لحضرتك خطوات إضافة رصيد على محفظة تطبيق بريدفاست:\n\n١) افتح تطبيق بريدفاست وتوجه لصفحة الدفع في الأسفل باسم \"Pay\".\n٢) هيظهر رصيد المحفظة واختيار \"Add to balance\" — اختاره لإضافة رصيد.\n٣) اختار \"Quick add\" لو عايز تضيف مبلغ معين زي ١٠٠ أو ٢٠٠.\n٤) في \"Payment Method\" اختار \"New credit/debit card\".\n٥) أدخل بيانات الكريديت كارد عشان تتم عملية شحن المحفظة بنجاح.\n\nحضرتك تقدر تتبع الخطوات ولو واجهت أي مشكلة أنا متابع معاك!')">📋 نسخ</button>
-                </div>
-            </div>
+Please follow these steps, and let me know if you encounter any issues." data-ar="سأرشدك خلال خطوات إضافة رصيد إلى محفظة بريدفاست:
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English (Arabic UI labels)</div>
-                    <div class="phrase-text-en">I'd like to explain how to add credit to your Breadfast app wallet:
+1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;باي&quot; في الأسفل.
+2. ستجد رصيد المحفظة الحالي وخيار &quot;إضافة إلى الرصيد&quot; — اختره.
+3. اختر &quot;إضافة سريعة&quot; لإضافة مبلغ محدد.
+4. في &quot;طريقة الدفع&quot;، اختر &quot;بطاقة ائتمان أو خصم جديدة&quot;.
+5. أدخل بيانات بطاقتك لإكمال الشحن.
 
-1) Open the Breadfast app and go to the payment page labeled "باي" at the bottom.
-2) You'll see your wallet balance and an option "إضافة إلى الرصيد" — select this.
-3) Choose "إضافة سريعة" to add a specific amount like 100 or 200.
-4) Under "طريقة الدفع", select "بطاقة ائتمان أو خصم جديدة".
-5) Enter your card details to complete the wallet top-up.
+يرجى اتباع هذه الخطوات، وأخبرني إذا واجهت أي مشكلة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-Feel free to follow the steps, and if you face any issue I'm here to help!</div>
-                    <button class="copy-btn" onclick="copyText(this, `I'd like to explain how to add credit to your Breadfast app wallet:\n\n1) Open the Breadfast app and go to the payment page labeled \"باي\" at the bottom.\n2) You'll see your wallet balance and an option \"إضافة إلى الرصيد\" — select this.\n3) Choose \"إضافة سريعة\" to add a specific amount like 100 or 200.\n4) Under \"طريقة الدفع\", select \"بطاقة ائتمان أو خصم جديدة\".\n5) Enter your card details to complete the wallet top-up.\n\nFeel free to follow the steps, and if you face any issue I'm here to help!`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي (بأسماء الأزرار بالعربي)</div>
-                    <div class="phrase-text-ar">حابب أوضح لحضرتك خطوات إضافة رصيد على محفظة تطبيق بريدفاست:
+<!-- ADDRESS -->
+<section id="address" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Change / Add Address</h2>
+    <p class="section-desc">Step-by-step instructions for address management</p>
+  </div>
 
-١) افتح تطبيق بريدفاست وتوجه لصفحة الدفع في الأسفل باسم "باي".
-٢) هيظهر رصيد المحفظة واختيار "إضافة إلى الرصيد" — اختاره لإضافة رصيد.
-٣) اختار "إضافة سريعة" لو عايز تضيف مبلغ معين.
-٤) في "طريقة الدفع" اختار "بطاقة ائتمان أو خصم جديدة".
-٥) أدخل بيانات الكريديت كارد عشان تتم عملية شحن المحفظة.
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Instructions</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Here are the steps to add or update your address in the Breadfast app:
 
-حضرتك تقدر تتبع الخطوات ولو واجهت أي مشكلة أنا متابع معاك!</div>
-                    <button class="copy-btn" onclick="copyText(this, 'حابب أوضح لحضرتك خطوات إضافة رصيد على محفظة تطبيق بريدفاست:\n\n١) افتح تطبيق بريدفاست وتوجه لصفحة الدفع في الأسفل باسم \"باي\".\n٢) هيظهر رصيد المحفظة واختيار \"إضافة إلى الرصيد\" — اختاره لإضافة رصيد.\n٣) اختار \"إضافة سريعة\" لو عايز تضيف مبلغ معين.\n٤) في \"طريقة الدفع\" اختار \"بطاقة ائتمان أو خصم جديدة\".\n٥) أدخل بيانات الكريديت كارد عشان تتم عملية شحن المحفظة.\n\nحضرتك تقدر تتبع الخطوات ولو واجهت أي مشكلة أنا متابع معاك!')">📋 نسخ</button>
-                </div>
-            </div>
-        </div>
+1. Open the app and tap &quot;More&quot; at the bottom of the screen.
+2. Select &quot;Account Settings&quot; from the menu.
+3. Tap &quot;Saved addresses&quot; to view your current addresses.
+4. Tap &quot;Add new address&quot; to add a new location (home, work, etc.).
+5. A map will appear with a location pin. Drag the pin to your exact location, then tap &quot;Confirm location&quot;.
+6. Enter your address details: street name, building number, apartment number, etc.
+7. Tap &quot;Save address&quot; to complete the process.
 
-        <!-- ADDRESS -->
-        <div id="address" class="section">
-            <h2 class="section-title"
-                data-en="📍 Change / Add Address"
-                data-ar="📍 تغيير أو إضافة عنوان">📍 Change / Add Address</h2>
+Your new address will now be available for future orders. Please let me know if you need clarification on any step." data-ar="إليك خطوات إضافة أو تحديث عنوانك في تطبيق بريدفاست:
 
-            <div class="phrase-card">
-                <div class="phrase-block-en">
-                    <div class="block-tag tag-en">🇬🇧 English</div>
-                    <div class="phrase-text-en">I'd like to explain how to add or update your address on the Breadfast app:
+1. افتح التطبيق واضغط على &quot;More&quot; في أسفل الشاشة.
+2. اختر &quot;Account Settings&quot; من القائمة.
+3. اضغط على &quot;Saved addresses&quot; لعرض عناوينك الحالية.
+4. اضغط على &quot;Add new address&quot; لإضافة موقع جديد (المنزل، العمل، إلخ).
+5. ستظهر خريطة مع دبوس الموقع. اسحب الدبوس إلى موقعك بالضبط، ثم اضغط على &quot;Confirm location&quot;.
+6. أدخل تفاصيل عنوانك: اسم الشارع، رقم المبنى، رقم الشقة، إلخ.
+7. اضغط على &quot;Save address&quot; لإكمال العملية.
 
-1) Open the app and go to "More" at the bottom.
-2) Select "Account Settings".
-3) Choose "Saved addresses" to view your current address.
-4) Tap "Add new address" at the bottom to add another address (home, work, etc.).
-5) A map will appear — move the pin to your desired location and tap "Confirm location".
-6) Fill in the address details like "Address details" and "Apartment number".
-7) Tap "Save address" and you're done!
+سيكون عنوانك الجديد متاحاً للطلبات المستقبلية. أخبرني إذا كنت بحاجة إلى توضيح أي خطوة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-Feel free to follow the steps, and if you face any issue I'm here to help!</div>
-                    <button class="copy-btn" onclick="copyText(this, `I'd like to explain how to add or update your address on the Breadfast app:\n\n1) Open the app and go to \"More\" at the bottom.\n2) Select \"Account Settings\".\n3) Choose \"Saved addresses\" to view your current address.\n4) Tap \"Add new address\" at the bottom to add another address (home, work, etc.).\n5) A map will appear — move the pin to your desired location and tap \"Confirm location\".\n6) Fill in the address details like \"Address details\" and \"Apartment number\".\n7) Tap \"Save address\" and you're done!\n\nFeel free to follow the steps, and if you face any issue I'm here to help!`)">📋 Copy</button>
-                </div>
-                <div class="phrase-block-ar">
-                    <div class="block-tag tag-ar">🇪🇬 عربي</div>
-                    <div class="phrase-text-ar">حابب أوضح لحضرتك خطوات إضافة أو تعديل العنوان على تطبيق بريدفاست:
+<!-- ORDER CANCEL -->
+<section id="cancel" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Order Cancellation</h2>
+    <p class="section-desc">Explanation and next steps for restaurant-canceled orders</p>
+  </div>
 
-١) افتح التطبيق وتوجه لـ "More" في الأسفل.
-٢) اختار "Account Settings".
-٣) اختار "Saved addresses" عشان تشوف عنوانك الحالي.
-٤) اضغط "Add new address" في الأسفل عشان تضيف عنوان جديد زي البيت أو الشغل.
-٥) هتظهر خريطة — حرك العلامة على المكان اللي عايزه واضغط "Confirm location".
-٦) ادخل تفاصيل العنوان زي "Address details" و"Apartment number".
-٧) اضغط "Save address" وخلاص!
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Explanation</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I sincerely apologize that your order was canceled. This occurred because the restaurant did not respond to the order — neither accepting nor rejecting it within the required timeframe.
 
-حضرتك تقدر تتبع الخطوات ولو واجهت أي مشكلة أنا متابع معاك!</div>
-                    <button class="copy-btn" onclick="copyText(this, 'حابب أوضح لحضرتك خطوات إضافة أو تعديل العنوان على تطبيق بريدفاست:\n\n١) افتح التطبيق وتوجه لـ \"More\" في الأسفل.\n٢) اختار \"Account Settings\".\n٣) اختار \"Saved addresses\" عشان تشوف عنوانك الحالي.\n٤) اضغط \"Add new address\" في الأسفل عشان تضيف عنوان جديد زي البيت أو الشغل.\n٥) هتظهر خريطة — حرك العلامة على المكان اللي عايزه واضغط \"Confirm location\".\n٦) ادخل تفاصيل العنوان زي \"Address details\" و\"Apartment number\".\n٧) اضغط \"Save address\" وخلاص!\n\nحضرتك تقدر تتبع الخطوات ولو واجهت أي مشكلة أنا متابع معاك!')">📋 نسخ</button>
-                </div>
-            </div>
-        </div>
+I will contact the restaurant immediately to understand why this happened and will update you as soon as I have more information." data-ar="أعتذر بصدق عن إلغاء طلبك. حدث هذا لأن المطعم لم يستجب للطلب — لا بالقبول ولا بالرفض خلال المهلة المطلوبة.
 
-    </main>
-</div>
+سأتواصل مع المطعم على الفور لفهم سبب ذلك وسأُحدّثك بمجرد حصولي على مزيد من المعلومات."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
 
 <script>
-    let currentLang = 'en';
+let currentLang='en';
 
-    const menuLabels = {
-        en: 'Categories',
-        ar: 'الأقسام'
-    };
+const translations={
+  greeting:{en:'Greeting & Opening',ar:'التحية والافتتاحية'},
+  delay:{en:'Order Delay — Apology',ar:'الاعتذار عن تأخير الطلب'},
+  anything:{en:'Anything Else?',ar:'أي شيء آخر؟'},
+  hold:{en:'Hold & Wait',ar:'الانتظار'},
+  noresponse:{en:'No Response — Closing',ar:'لا يوجد رد — الإغلاق'},
+  wallet:{en:'Charge Wallet',ar:'شحن المحفظة'},
+  address:{en:'Change / Add Address',ar:'تغيير أو إضافة عنوان'},
+  cancel:{en:'Order Cancellation',ar:'إلغاء الطلب'}
+};
 
-    function setLang(lang) {
-        currentLang = lang;
-        document.body.className = 'lang-' + lang;
-        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+const descTranslations={
+  greeting:{en:'Professional opening statements to begin customer interactions',ar:'عبارات افتتاحية احترافية لبدء التفاعل مع العملاء'},
+  delay:{en:'Sincere acknowledgment of delays with appropriate accountability',ar:'الاعتراف الصادق بالتأخيرات مع تحمل المسؤولية المناسبة'},
+  anything:{en:'Professional closure prompts to ensure complete resolution',ar:'عبارات إغلاح احترافية لضمان الحل الكامل'},
+  hold:{en:'Respectful requests for time to review information',ar:'طلبات محترمة للوقت لمراجعة المعلومات'},
+  noresponse:{en:'Professional closure when customer is unresponsive',ar:'إغلاق احترافي عندما لا يستجيب العميل'},
+  wallet:{en:'Clear instructions for wallet top-up procedures',ar:'تعليمات واضحة لإجراءات شحن المحفظة'},
+  address:{en:'Step-by-step instructions for address management',ar:'تعليمات خطوة بخطوة لإدارة العنوان'},
+  cancel:{en:'Explanation and next steps for restaurant-canceled orders',ar:'الشرح والخطوات التالية للطلبات الملغاة من المطعم'}
+};
 
-        // Update sidebar label
-        document.getElementById('menu-label').textContent = menuLabels[lang];
+function setLang(lang){
+  currentLang=lang;
+  document.body.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+  document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  document.querySelectorAll('.phrase-box').forEach(box=>{
+    box.textContent=box.getAttribute('data-'+lang);
+  });
+  
+  document.querySelectorAll('.section').forEach(sec=>{
+    const id=sec.id;
+    const titleEl=sec.querySelector('.section-title');
+    const descEl=sec.querySelector('.section-desc');
+    if(titleEl)titleEl.textContent=translations[id][lang];
+    if(descEl)descEl.textContent=descTranslations[id][lang];
+  });
+  
+  document.querySelectorAll('.btn-primary').forEach(btn=>{
+    btn.textContent=lang==='ar'?'نسخ':'Copy';
+  });
+}
 
-        // Update menu button labels
-        document.querySelectorAll('.menu-btn').forEach(btn => {
-            const text = btn.getAttribute('data-' + lang);
-            if (text) {
-                btn.querySelector('.label').textContent = text.replace(/^[^\s]+\s/, ''); // strip emoji prefix handled by icon span
-                // Actually let's just set full text approach:
-                const parts = text.split(' ');
-                btn.querySelector('.label').textContent = parts.slice(1).join(' ');
-            }
-        });
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 
-        // Update section titles
-        document.querySelectorAll('.section-title').forEach(el => {
-            const text = el.getAttribute('data-' + lang);
-            if (text) el.textContent = text;
-        });
+function copyPhrase(btn){
+  const box=btn.closest('.card-body').querySelector('.phrase-box');
+  const text=box.getAttribute('data-'+currentLang);
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent=currentLang==='ar'?'تم النسخ':'Copied';
+    btn.classList.add('copied');
+    showToast(currentLang==='ar'?'تم النسخ':'Copied to clipboard');
+    setTimeout(()=>{
+      btn.textContent=currentLang==='ar'?'نسخ':'Copy';
+      btn.classList.remove('copied');
+    },1800);
+  });
+}
 
-        // Update copy buttons
-        document.querySelectorAll('.copy-btn').forEach(btn => {
-            if (!btn.classList.contains('copied')) {
-                btn.textContent = lang === 'ar' ? '📋 نسخ' : '📋 Copy';
-            }
-        });
-    }
-
-    function switchSection(id, btn) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        btn.classList.add('active');
-        document.querySelector('.main-content').scrollTop = 0;
-    }
-
-    function copyText(btn, text) {
-        navigator.clipboard.writeText(text).then(() => {
-            const original = btn.textContent;
-            btn.textContent = '✓ ' + (currentLang === 'ar' ? 'تم النسخ' : 'Copied!');
-            btn.classList.add('copied');
-            notify(currentLang === 'ar' ? '✨ تم النسخ بنجاح' : '✨ Copied to clipboard!');
-            setTimeout(() => {
-                btn.textContent = currentLang === 'ar' ? '📋 نسخ' : '📋 Copy';
-                btn.classList.remove('copied');
-            }, 1800);
-        });
-    }
-
-    function notify(msg) {
-        const n = document.createElement('div');
-        n.className = 'notification';
-        n.textContent = msg;
-        document.body.appendChild(n);
-        setTimeout(() => n.remove(), 2400);
-    }
+function showToast(msg){
+  const existing=document.querySelector('.toast');
+  if(existing)existing.remove();
+  const toast=document.createElement('div');
+  toast.className='toast';
+  toast.textContent=msg;
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(),2200);
+}
 </script>
 </body>
 </html>
