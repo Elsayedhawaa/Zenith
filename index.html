@@ -9,10 +9,11 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  --primary:#1a1a2e;
-  --primary-light:#16213e;
-  --accent:#c41e3a;
-  --accent-hover:#a31830;
+  /* Breadfast Brand Colors */
+  --primary:#2B2B2B;
+  --primary-light:#404040;
+  --accent:#B00074; 
+  --accent-hover:#8a005b;
   --success:#2d6a4f;
   --bg:#f8f9fa;
   --surface:#ffffff;
@@ -55,10 +56,15 @@ body[dir="rtl"] .card-title{font-family:'Cairo',sans-serif}
 .brand{display:flex;align-items:center;gap:14px}
 .brand-icon{
   width:38px;height:38px;
-  background:var(--accent);
+  background:var(--surface);
   border-radius:var(--radius-sm);
   display:flex;align-items:center;justify-content:center;
-  font-size:1.2em;
+  overflow:hidden;
+}
+.brand-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .brand-text{line-height:1.2}
 .brand-name{font-size:1.05em;font-weight:600}
@@ -288,7 +294,9 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
 
 <header class="header">
   <div class="brand">
-    <div class="brand-icon">B</div>
+    <div class="brand-icon">
+      <img src="Unknown.png" alt="Breadfast Logo">
+    </div>
     <div class="brand-text">
       <div class="brand-name">Breadfast Support</div>
       <div class="brand-meta">
@@ -334,31 +342,18 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
 
 <main class="main-content">
 
-<!-- GREETING -->
 <section id="greeting" class="section active">
   <div class="section-header">
     <h2 class="section-title">Greeting & Opening</h2>
-    <p class="section-desc">Professional opening statements to begin customer interactions</p>
+    <p class="section-desc">Friendly opening statements to build rapport immediately</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-warm">Appreciation</span>
+      <span class="card-tag tag-warm">Friendly Intro</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Thank you for contacting Breadfast. We appreciate you reaching out and look forward to assisting you today." data-ar="شكراً لتواصل حضرتك مع بريدفاست، نقدّر تواصلك ونتطلع لمساعدتك."></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Acknowledgment</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="We value your time and appreciate you choosing Breadfast. How may I assist you today?" data-ar="نقدّر وقت حضرتك واختيارك لبريدفاست. كيف يمكنني مساعدتك اليوم؟"></div>
+      <div class="phrase-box" data-en="Hi there! Welcome to Breadfast. This is Elsayed. How can I make your day better?" data-ar="أهلاً بك في بريدفاست! معاك السيد، إزاي أقدر أساعدك النهاردة؟"></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -370,7 +365,7 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
       <span class="card-tag tag-prof">Morning</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Good morning. This is Elsayed from Breadfast. Thank you for reaching out — how may I assist you today?" data-ar="صباح الخير. معاك السيد من بريدفاست. شكراً لتواصلك — كيف يمكنني مساعدتك؟"></div>
+      <div class="phrase-box" data-en="Good morning! You're chatting with Elsayed. How can I help you sort things out today?" data-ar="صباح الفل! معاك السيد من بريدفاست. أقدر أساعدك إزاي النهاردة؟"></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -382,19 +377,7 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
       <span class="card-tag tag-prof">Evening</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Good evening. This is Elsayed from Breadfast. Thank you for contacting us — what can I help you with?" data-ar="مساء الخير. معاك السيد من بريدفاست. شكراً لتواصلك — بماذا يمكنني مساعدتك؟"></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Direct</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="How may I assist you today?" data-ar="كيف يمكنني مساعدتك؟"></div>
+      <div class="phrase-box" data-en="Good evening! This is Elsayed from Breadfast. What can I do for you right now?" data-ar="مساء الخير! معاك السيد من بريدفاست. أقدر أساعدك إزاي دلوقتي؟"></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -402,31 +385,18 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
-<!-- ORDER DELAY -->
 <section id="delay" class="section">
   <div class="section-header">
     <h2 class="section-title">Order Delay — Apology</h2>
-    <p class="section-desc">Sincere acknowledgment of delays with appropriate accountability</p>
+    <p class="section-desc">Human, empathetic acknowledgment of wait times</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-empathy">Acknowledgment</span>
+      <span class="card-tag tag-empathy">Direct & Caring</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I understand your frustration, and I want to be direct with you: a delay like this does not meet our standards at Breadfast. We take full responsibility and sincerely apologize for the inconvenience this has caused." data-ar="أتفهم إحباط حضرتك، وأريد أن أكون صريحاً معك: التأخير مثل هذا لا يتوافق مع معاييرنا في بريدفاست. نتحمل المسؤولية الكاملة ونعتذر بصدق عن الإزعاج الذي سببناه."></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Accountability</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="We recognize that order delays are frustrating, and this is not the experience we want for our customers. We sincerely apologize for the delay and appreciate your patience as we work to resolve this matter." data-ar="ندرك أن تأخير الطلبات مُحبط، وهذه ليست التجربة التي نريدها لعملائنا. نعتذر بصدق عن التأخير ونقدّر صبر حضرتك بينما نعمل على حل هذا الأمر."></div>
+      <div class="phrase-box" data-en="I am so sorry about this delay. I know how frustrating it is when you're waiting for your order, and this definitely isn't the experience we want for you. Let me check what's going on right now." data-ar="أنا متفهم جداً استيائك وبعتذرلك عن التأخير ده. دي مش الخدمة اللي متعودين نقدمها في بريدفاست. ثواني هراجع طلبك وأشوف المشكلة فين حالاً."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -434,43 +404,18 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
-<!-- ANYTHING ELSE -->
 <section id="anything" class="section">
   <div class="section-header">
     <h2 class="section-title">Anything Else?</h2>
-    <p class="section-desc">Professional closure prompts to ensure complete resolution</p>
+    <p class="section-desc">Smooth ways to check if they need more help</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-prof">Standard</span>
+      <span class="card-tag tag-prof">Casual Check</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="هل هناك شيء آخر يمكنني مساعدتك فيه؟"></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Thorough</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Before we conclude, please let me know if there are any other matters I can address for you." data-ar="قبل أن ننهي المحادثة، يرجى إخباري إذا كانت هناك أي أمور أخرى يمكنني معالجتها."></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Follow-up</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="If you have any additional questions or concerns, please do not hesitate to ask." data-ar="إذا كان لديك أي أسئلة أو استفسارات إضافية، فلا تتردد في طرحها."></div>
+      <div class="phrase-box" data-en="Is there anything else I can sort out for you today?" data-ar="في أي حاجة تانية أقدر أساعدك فيها النهاردة؟"></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -478,43 +423,18 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
-<!-- HOLD & WAIT -->
 <section id="hold" class="section">
   <div class="section-header">
     <h2 class="section-title">Hold & Wait</h2>
-    <p class="section-desc">Respectful requests for time to review information</p>
+    <p class="section-desc">Quick, polite ways to ask for time</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-calm">Brief</span>
+      <span class="card-tag tag-calm">Brief Hold</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Please allow me a moment to review the details in our system." data-ar="يرجى منحي لحظة لمراجعة التفاصيل في نظامنا."></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">With Return</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I need a brief moment to check the information in our system. I will return to you shortly." data-ar="أحتاج لحظة قصيرة للتحقق من المعلومات في نظامنا. سأعود إليك قريباً."></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">Quick Check</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Allow me a moment to verify this information. I will be with you as soon as possible." data-ar="دعني أتحقق من هذه المعلومة. سأكون معك في أقرب وقت ممكن."></div>
+      <div class="phrase-box" data-en="Give me just a quick moment to pull up your details. I'll be right back!" data-ar="ثواني هراجع تفاصيل الطلب وهرجعلك على طول!"></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -522,31 +442,18 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
-<!-- NO RESPONSE -->
 <section id="noresponse" class="section">
   <div class="section-header">
     <h2 class="section-title">No Response — Closing</h2>
-    <p class="section-desc">Professional closure when customer is unresponsive</p>
+    <p class="section-desc">Friendly closure when they ghost the chat</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-prof">Standard</span>
+      <span class="card-tag tag-prof">Friendly Wrap-up</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="As we have not received a response, we will close this conversation. Please feel free to contact us again if you need further assistance." data-ar="بما أننا لم نتلق رداً، سنغلق هذه المحادثة. لا تتردد في التواصل معنا مرة أخرى إذا كنت بحاجة إلى مزيد من المساعدة."></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Reassuring</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Since we have not heard back from you, we will close this chat. Our support team remains available should you need assistance in the future." data-ar="بما أننا لم نسمع من حضرتك، سنغلق هذه المحادثة. فريق الدعم لدينا متاح إذا احتجت مساعدة في المستقبل."></div>
+      <div class="phrase-box" data-en="It seems like you might have stepped away, so I'll go ahead and close this chat for now. If you still need help, Elsayed and the rest of the Breadfast team are always here for you!" data-ar="يبدو إن حضرتك مشغول حالياً، فهقفل المحادثة دلوقتي. بس لو احتجت أي حاجة، أنا وكل فريق بريدفاست موجودين دايماً لخدمتك!"></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -554,11 +461,10 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
-<!-- CHARGE WALLET -->
 <section id="wallet" class="section">
   <div class="section-header">
     <h2 class="section-title">Charge Wallet</h2>
-    <p class="section-desc">Clear instructions for wallet top-up procedures</p>
+    <p class="section-desc">Easy steps for wallet top-ups</p>
   </div>
 
   <div class="card">
@@ -566,51 +472,23 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
       <span class="card-tag tag-prof">English UI</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
+      <div class="phrase-box" data-en="Topping up your Breadfast wallet is super easy. Just follow these steps:
 
-1. Open the Breadfast app and navigate to the payment page labeled &quot;Pay&quot; at the bottom.
-2. You will see your current wallet balance and an option labeled &quot;Add to balance&quot; — select this.
-3. Choose &quot;Quick add&quot; to add a specific amount (100, 200, etc.).
-4. Under &quot;Payment Method&quot;, select &quot;New credit/debit card&quot;.
-5. Enter your card details to complete the wallet top-up.
+1. Open the app and tap 'Pay' at the bottom.
+2. Hit 'Add to balance'.
+3. Choose 'Quick add' to pick your amount.
+4. Under Payment Method, select 'New credit/debit card'.
+5. Pop in your card details, and you're good to go!
 
-Please follow these steps, and let me know if you encounter any issues." data-ar="سأرشدك خلال خطوات إضافة رصيد إلى محفظة بريدفاست:
+Let me know if you hit any snags." data-ar="شحن محفظة بريدفاست سهل جداً، دي الخطوات:
 
-1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;Pay&quot; في الأسفل.
-2. ستجد رصيد المحفظة الحالي وخيار &quot;Add to balance&quot; — اختره.
-3. اختر &quot;Quick add&quot; لإضافة مبلغ محدد (100، 200، إلخ).
-4. في &quot;Payment Method&quot;، اختر &quot;New credit/debit card&quot;.
-5. أدخل بيانات بطاقتك لإكمال الشحن.
+1. افتح التطبيق واضغط على كلمة 'باي' (Pay) تحت.
+2. اختار 'إضافة إلى الرصيد'.
+3. اختار 'إضافة سريعة' عشان تحدد المبلغ اللي محتاجه.
+4. في طريقة الدفع، اختار 'بطاقة ائتمان أو خصم جديدة'.
+5. دخل بيانات الكارت وبس كده!
 
-يرجى اتباع هذه الخطوات، وأخبرني إذا واجهت أي مشكلة."></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Arabic UI</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
-
-1. Open the Breadfast app and navigate to the payment page labeled &quot;باي&quot; at the bottom.
-2. You will see your wallet balance and an option labeled &quot;إضافة إلى الرصيد&quot; — select this.
-3. Choose &quot;إضافة سريعة&quot; to add a specific amount.
-4. Under &quot;طريقة الدفع&quot;, select &quot;بطاقة ائتمان أو خصم جديدة&quot;.
-5. Enter your card details to complete the wallet top-up.
-
-Please follow these steps, and let me know if you encounter any issues." data-ar="سأرشدك خلال خطوات إضافة رصيد إلى محفظة بريدفاست:
-
-1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;باي&quot; في الأسفل.
-2. ستجد رصيد المحفظة الحالي وخيار &quot;إضافة إلى الرصيد&quot; — اختره.
-3. اختر &quot;إضافة سريعة&quot; لإضافة مبلغ محدد.
-4. في &quot;طريقة الدفع&quot;، اختر &quot;بطاقة ائتمان أو خصم جديدة&quot;.
-5. أدخل بيانات بطاقتك لإكمال الشحن.
-
-يرجى اتباع هذه الخطوات، وأخبرني إذا واجهت أي مشكلة."></div>
+عرفني لو واجهتك أي مشكلة وأنا معاك."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -618,11 +496,10 @@ Please follow these steps, and let me know if you encounter any issues." data-ar
   </div>
 </section>
 
-<!-- ADDRESS -->
 <section id="address" class="section">
   <div class="section-header">
     <h2 class="section-title">Change / Add Address</h2>
-    <p class="section-desc">Step-by-step instructions for address management</p>
+    <p class="section-desc">Clear, bulleted address management</p>
   </div>
 
   <div class="card">
@@ -630,27 +507,23 @@ Please follow these steps, and let me know if you encounter any issues." data-ar
       <span class="card-tag tag-prof">Instructions</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Here are the steps to add or update your address in the Breadfast app:
+      <div class="phrase-box" data-en="Here is how you can quickly add a new address:
 
-1. Open the app and tap &quot;More&quot; at the bottom of the screen.
-2. Select &quot;Account Settings&quot; from the menu.
-3. Tap &quot;Saved addresses&quot; to view your current addresses.
-4. Tap &quot;Add new address&quot; to add a new location (home, work, etc.).
-5. A map will appear with a location pin. Drag the pin to your exact location, then tap &quot;Confirm location&quot;.
-6. Enter your address details: street name, building number, apartment number, etc.
-7. Tap &quot;Save address&quot; to complete the process.
+1. Tap 'More' at the bottom of the app.
+2. Go to 'Account Settings', then 'Saved addresses'.
+3. Tap 'Add new address'.
+4. Drag the pin on the map to your exact location and confirm.
+5. Add your building/apartment details and hit 'Save'.
 
-Your new address will now be available for future orders. Please let me know if you need clarification on any step." data-ar="إليك خطوات إضافة أو تحديث عنوانك في تطبيق بريدفاست:
+Let me know once you've got it set up!" data-ar="عشان تضيف أو تعدل عنوانك بسرعة، اتبع الخطوات دي:
 
-1. افتح التطبيق واضغط على &quot;More&quot; في أسفل الشاشة.
-2. اختر &quot;Account Settings&quot; من القائمة.
-3. اضغط على &quot;Saved addresses&quot; لعرض عناوينك الحالية.
-4. اضغط على &quot;Add new address&quot; لإضافة موقع جديد (المنزل، العمل، إلخ).
-5. ستظهر خريطة مع دبوس الموقع. اسحب الدبوس إلى موقعك بالضبط، ثم اضغط على &quot;Confirm location&quot;.
-6. أدخل تفاصيل عنوانك: اسم الشارع، رقم المبنى، رقم الشقة، إلخ.
-7. اضغط على &quot;Save address&quot; لإكمال العملية.
+1. اضغط على 'المزيد' (More) أسفل الشاشة.
+2. ادخل على 'إعدادات الحساب' وبعدين 'العناوين المحفوظة'.
+3. اضغط 'إضافة عنوان جديد'.
+4. حرك الدبوس على الخريطة لمكانك بالضبط وأكد الموقع.
+5. دخل تفاصيل العمارة والشقة واضغط 'حفظ'.
 
-سيكون عنوانك الجديد متاحاً للطلبات المستقبلية. أخبرني إذا كنت بحاجة إلى توضيح أي خطوة."></div>
+عرفني أول ما تخلص وأنا هتابع معاك!"></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -658,23 +531,18 @@ Your new address will now be available for future orders. Please let me know if 
   </div>
 </section>
 
-<!-- ORDER CANCEL -->
 <section id="cancel" class="section">
   <div class="section-header">
     <h2 class="section-title">Order Cancellation</h2>
-    <p class="section-desc">Explanation and next steps for restaurant-canceled orders</p>
+    <p class="section-desc">Transparent handling of restaurant cancellations</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-empathy">Explanation</span>
+      <span class="card-tag tag-empathy">Direct Explanation</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I sincerely apologize that your order was canceled. This occurred because the restaurant did not respond to the order — neither accepting nor rejecting it within the required timeframe.
-
-I will contact the restaurant immediately to understand why this happened and will update you as soon as I have more information." data-ar="أعتذر بصدق عن إلغاء طلبك. حدث هذا لأن المطعم لم يستجب للطلب — لا بالقبول ولا بالرفض خلال المهلة المطلوبة.
-
-سأتواصل مع المطعم على الفور لفهم سبب ذلك وسأُحدّثك بمجرد حصولي على مزيد من المعلومات."></div>
+      <div class="phrase-box" data-en="I am really sorry, but your order had to be canceled because the restaurant didn't confirm it in time. Let me contact them right away to see what exactly went wrong, and I'll update you ASAP." data-ar="أنا بعتذرلك جداً، طلبك اتلغى لأن المطعم مأكدش الطلب في الوقت المحدد. أنا بتواصل معاهم حالاً عشان أفهم السبب بالضبط وهرجعلك بتحديث فوراً."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -699,14 +567,14 @@ const translations={
 };
 
 const descTranslations={
-  greeting:{en:'Professional opening statements to begin customer interactions',ar:'عبارات افتتاحية احترافية لبدء التفاعل مع العملاء'},
-  delay:{en:'Sincere acknowledgment of delays with appropriate accountability',ar:'الاعتراف الصادق بالتأخيرات مع تحمل المسؤولية المناسبة'},
-  anything:{en:'Professional closure prompts to ensure complete resolution',ar:'عبارات إغلاح احترافية لضمان الحل الكامل'},
-  hold:{en:'Respectful requests for time to review information',ar:'طلبات محترمة للوقت لمراجعة المعلومات'},
-  noresponse:{en:'Professional closure when customer is unresponsive',ar:'إغلاق احترافي عندما لا يستجيب العميل'},
-  wallet:{en:'Clear instructions for wallet top-up procedures',ar:'تعليمات واضحة لإجراءات شحن المحفظة'},
-  address:{en:'Step-by-step instructions for address management',ar:'تعليمات خطوة بخطوة لإدارة العنوان'},
-  cancel:{en:'Explanation and next steps for restaurant-canceled orders',ar:'الشرح والخطوات التالية للطلبات الملغاة من المطعم'}
+  greeting:{en:'Friendly opening statements to build rapport immediately',ar:'عبارات افتتاحية ودية لبدء التفاعل مع العملاء بشكل طبيعي'},
+  delay:{en:'Human, empathetic acknowledgment of wait times',ar:'الاعتراف بالتأخير بأسلوب متفهم وودود'},
+  anything:{en:'Smooth ways to check if they need more help',ar:'طرق سلسة للتأكد من إنهاء كل مشاكل العميل'},
+  hold:{en:'Quick, polite ways to ask for time',ar:'طلبات محترمة وسريعة للوقت لمراجعة المعلومات'},
+  noresponse:{en:'Friendly closure when they ghost the chat',ar:'إغلاق ودي ومهذب للمحادثة عند عدم الرد'},
+  wallet:{en:'Easy steps for wallet top-ups',ar:'خطوات سهلة وبسيطة لإجراءات شحن المحفظة'},
+  address:{en:'Clear, bulleted address management',ar:'تعليمات واضحة خطوة بخطوة لإدارة العنوان'},
+  cancel:{en:'Transparent handling of restaurant cancellations',ar:'شرح واضح وشفاف للطلبات الملغاة من المطعم'}
 };
 
 function setLang(lang){
@@ -763,6 +631,9 @@ function showToast(msg){
   document.body.appendChild(toast);
   setTimeout(()=>toast.remove(),2200);
 }
+
+// Initialize on load
+setLang('en');
 </script>
 </body>
 </html>
