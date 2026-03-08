@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breadfast Support — Elsayed | السيد</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --primary:#1a1a2e;
+  --primary-light:#16213e;
+  --accent:#c41e3a;
+  --accent-hover:#a31830;
+  --success:#2d6a4f;
+  --bg:#f8f9fa;
+  --surface:#ffffff;
+  --text:#1a1a2e;
+  --text-muted:#6c757d;
+  --border:#e9ecef;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.06);
+  --shadow:0 4px 20px rgba(0,0,0,0.08);
+  --radius:10px;
+  --radius-sm:6px;
+}
+
+html,body{height:100%}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
+body[dir="rtl"]{font-family:'Cairo',sans-serif}
+body[dir="rtl"] .nav-link{font-family:'Cairo',sans-serif}
+body[dir="rtl"] .card-title{font-family:'Cairo',sans-serif}
+
+/* HEADER */
+.header{
+  background:var(--primary);
+  color:white;
+  padding:0 32px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:var(--shadow-sm);
+}
+
+.brand{display:flex;align-items:center;gap:14px}
+.brand-icon{
+  width:38px;height:38px;
+  background:var(--accent);
+  border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2em;
+}
+.brand-text{line-height:1.2}
+.brand-name{font-size:1.05em;font-weight:600}
+.brand-meta{display:flex;align-items:center;gap:10px;margin-top:2px}
+.status-badge{
+  display:flex;align-items:center;gap:5px;
+  font-size:0.7em;font-weight:500;
+  background:rgba(255,255,255,0.1);
+  padding:3px 10px;
+  border-radius:20px;
+}
+.status-dot{
+  width:6px;height:6px;
+  background:#4ade80;
+  border-radius:50%;
+}
+.agent-name{font-size:0.8em;color:rgba(255,255,255,0.6)}
+
+/* LANG TOGGLE */
+.lang-toggle{
+  display:flex;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:var(--radius-sm);
+  padding:3px;
+  gap:3px;
+}
+.lang-btn{
+  padding:7px 18px;
+  border-radius:4px;
+  border:none;
+  cursor:pointer;
+  font-weight:500;
+  font-size:0.82em;
+  transition:all 0.2s ease;
+  background:transparent;
+  color:rgba(255,255,255,0.5);
+  font-family:inherit;
+}
+.lang-btn.active{
+  background:var(--accent);
+  color:white;
+}
+.lang-btn:hover:not(.active){background:rgba(255,255,255,0.08);color:white}
+
+/* TOP NAVIGATION */
+.top-nav{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;
+  position:sticky;
+  top:64px;
+  z-index:90;
+}
+
+.nav-scroll{
+  display:flex;
+  gap:4px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  padding:10px 0;
+}
+.nav-scroll::-webkit-scrollbar{display:none}
+
+.nav-link{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 18px;
+  border-radius:var(--radius-sm);
+  border:none;
+  background:transparent;
+  color:var(--text-muted);
+  font-weight:500;
+  font-size:0.88em;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  white-space:nowrap;
+  font-family:inherit;
+}
+.nav-link:hover{
+  background:var(--bg);
+  color:var(--text);
+}
+.nav-link.active{
+  background:var(--accent);
+  color:white;
+}
+
+/* MAIN CONTENT */
+.main-content{
+  max-width:850px;
+  margin:0 auto;
+  padding:28px 32px 48px;
+}
+
+/* SECTION */
+.section{display:none;animation:fadeIn 0.25s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.section-header{
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+.section-title{
+  font-size:1.35em;
+  font-weight:600;
+  color:var(--primary);
+  margin-bottom:4px;
+}
+.section-desc{color:var(--text-muted);font-size:0.9em}
+
+/* CARDS */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:16px;
+  overflow:hidden;
+  transition:all 0.2s ease;
+}
+.card:hover{
+  box-shadow:var(--shadow);
+  border-color:#d1d5db;
+}
+
+.card-header{
+  padding:14px 18px;
+  background:#fafafa;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-tag{
+  font-size:0.72em;font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  padding:4px 10px;
+  border-radius:4px;
+}
+.tag-empathy{background:#fef2f2;color:#991b1b}
+.tag-warm{background:#fff7ed;color:#9a3412}
+.tag-prof{background:#eff6ff;color:#1e40af}
+.tag-calm{background:#f0fdf4;color:#166534}
+
+.card-body{padding:18px}
+
+.phrase-box{
+  background:#f9fafb;
+  border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  padding:16px 18px;
+  margin-bottom:14px;
+  font-size:0.94em;
+  line-height:1.75;
+  color:var(--text);
+  white-space:pre-line;
+}
+
+body[dir="rtl"] .phrase-box{
+  border-left:none;
+  border-right:3px solid var(--accent);
+  border-radius:var(--radius-sm) 0 0 var(--radius-sm);
+  text-align:right;
+  font-family:'Cairo',sans-serif;
+  line-height:1.9;
+}
+
+.card-actions{display:flex;gap:8px}
+
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 16px;
+  border-radius:var(--radius-sm);
+  border:none;
+  font-weight:500;
+  font-size:0.84em;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  font-family:inherit;
+}
+.btn-primary{
+  background:var(--accent);
+  color:white;
+}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-primary.copied{
+  background:var(--success);
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:var(--success);
+  color:white;
+  padding:12px 20px;
+  border-radius:var(--radius-sm);
+  box-shadow:var(--shadow);
+  font-weight:500;
+  font-size:0.88em;
+  z-index:9999;
+  animation:slideIn 0.25s ease;
+}
+@keyframes slideIn{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
+@keyframes slideInRtl{from{transform:translateX(-80px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .header{padding:0 16px;height:58px}
+  .top-nav{padding:0 16px;top:58px}
+  .main-content{padding:20px 16px 40px}
+  .section-title{font-size:1.2em}
+  .nav-link{padding:8px 14px;font-size:0.84em}
+}
+</style>
+</head>
+<body dir="ltr">
+
+<header class="header">
+  <div class="brand">
+    <div class="brand-icon">B</div>
+    <div class="brand-text">
+      <div class="brand-name">Breadfast Support</div>
+      <div class="brand-meta">
+        <span class="status-badge"><span class="status-dot"></span>Online</span>
+        <span class="agent-name">Elsayed / السيد</span>
+      </div>
+    </div>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">English</button>
+    <button class="lang-btn" onclick="setLang('ar')">العربية</button>
+  </div>
+</header>
+
+<nav class="top-nav">
+  <div class="nav-scroll">
+    <button class="nav-link active" onclick="showSection('greeting',this)">
+      <span class="label">Greeting</span>
+    </button>
+    <button class="nav-link" onclick="showSection('delay',this)">
+      <span class="label">Order Delay</span>
+    </button>
+    <button class="nav-link" onclick="showSection('anything',this)">
+      <span class="label">Anything Else</span>
+    </button>
+    <button class="nav-link" onclick="showSection('hold',this)">
+      <span class="label">Hold</span>
+    </button>
+    <button class="nav-link" onclick="showSection('noresponse',this)">
+      <span class="label">No Response</span>
+    </button>
+    <button class="nav-link" onclick="showSection('wallet',this)">
+      <span class="label">Wallet</span>
+    </button>
+    <button class="nav-link" onclick="showSection('address',this)">
+      <span class="label">Address</span>
+    </button>
+    <button class="nav-link" onclick="showSection('cancel',this)">
+      <span class="label">Cancellation</span>
+    </button>
+  </div>
+</nav>
+
+<main class="main-content">
+
+<!-- GREETING -->
+<section id="greeting" class="section active">
+  <div class="section-header">
+    <h2 class="section-title">Greeting & Opening</h2>
+    <p class="section-desc">Professional opening statements to begin customer interactions</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Appreciation</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Thank you for contacting Breadfast. We appreciate you reaching out and look forward to assisting you today." data-ar="شكراً لتواصل حضرتك مع بريدفاست، نقدّر تواصلك ونتطلع لمساعدتك."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Acknowledgment</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We value your time and appreciate you choosing Breadfast. How may I assist you today?" data-ar="نقدّر وقت حضرتك واختيارك لبريدفاست. كيف يمكنني مساعدتك اليوم؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Morning</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Good morning. This is Elsayed from Breadfast. Thank you for reaching out — how may I assist you today?" data-ar="صباح الخير. معاك السيد من بريدفاست. شكراً لتواصلك — كيف يمكنني مساعدتك؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Evening</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Good evening. This is Elsayed from Breadfast. Thank you for contacting us — what can I help you with?" data-ar="مساء الخير. معاك السيد من بريدفاست. شكراً لتواصلك — بماذا يمكنني مساعدتك؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Direct</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="How may I assist you today?" data-ar="كيف يمكنني مساعدتك؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER DELAY -->
+<section id="delay" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Order Delay — Apology</h2>
+    <p class="section-desc">Sincere acknowledgment of delays with appropriate accountability</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Acknowledgment</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I understand your frustration, and I want to be direct with you: a delay like this does not meet our standards at Breadfast. We take full responsibility and sincerely apologize for the inconvenience this has caused." data-ar="أتفهم إحباط حضرتك، وأريد أن أكون صريحاً معك: التأخير مثل هذا لا يتوافق مع معاييرنا في بريدفاست. نتحمل المسؤولية الكاملة ونعتذر بصدق عن الإزعاج الذي سببناه."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Accountability</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We recognize that order delays are frustrating, and this is not the experience we want for our customers. We sincerely apologize for the delay and appreciate your patience as we work to resolve this matter." data-ar="ندرك أن تأخير الطلبات مُحبط، وهذه ليست التجربة التي نريدها لعملائنا. نعتذر بصدق عن التأخير ونقدّر صبر حضرتك بينما نعمل على حل هذا الأمر."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANYTHING ELSE -->
+<section id="anything" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Anything Else?</h2>
+    <p class="section-desc">Professional closure prompts to ensure complete resolution</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Standard</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="هل هناك شيء آخر يمكنني مساعدتك فيه؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Thorough</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Before we conclude, please let me know if there are any other matters I can address for you." data-ar="قبل أن ننهي المحادثة، يرجى إخباري إذا كانت هناك أي أمور أخرى يمكنني معالجتها."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Follow-up</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="If you have any additional questions or concerns, please do not hesitate to ask." data-ar="إذا كان لديك أي أسئلة أو استفسارات إضافية، فلا تتردد في طرحها."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOLD & WAIT -->
+<section id="hold" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Hold & Wait</h2>
+    <p class="section-desc">Respectful requests for time to review information</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">Brief</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Please allow me a moment to review the details in our system." data-ar="يرجى منحي لحظة لمراجعة التفاصيل في نظامنا."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">With Return</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I need a brief moment to check the information in our system. I will return to you shortly." data-ar="أحتاج لحظة قصيرة للتحقق من المعلومات في نظامنا. سأعود إليك قريباً."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">Quick Check</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Allow me a moment to verify this information. I will be with you as soon as possible." data-ar="دعني أتحقق من هذه المعلومة. سأكون معك في أقرب وقت ممكن."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NO RESPONSE -->
+<section id="noresponse" class="section">
+  <div class="section-header">
+    <h2 class="section-title">No Response — Closing</h2>
+    <p class="section-desc">Professional closure when customer is unresponsive</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Standard</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="As we have not received a response, we will close this conversation. Please feel free to contact us again if you need further assistance." data-ar="بما أننا لم نتلق رداً، سنغلق هذه المحادثة. لا تتردد في التواصل معنا مرة أخرى إذا كنت بحاجة إلى مزيد من المساعدة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Reassuring</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Since we have not heard back from you, we will close this chat. Our support team remains available should you need assistance in the future." data-ar="بما أننا لم نسمع من حضرتك، سنغلق هذه المحادثة. فريق الدعم لدينا متاح إذا احتجت مساعدة في المستقبل."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHARGE WALLET -->
+<section id="wallet" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Charge Wallet</h2>
+    <p class="section-desc">Clear instructions for wallet top-up procedures</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">English UI</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
+
+1. Open the Breadfast app and navigate to the payment page labeled &quot;Pay&quot; at the bottom.
+2. You will see your current wallet balance and an option labeled &quot;Add to balance&quot; — select this.
+3. Choose &quot;Quick add&quot; to add a specific amount (100, 200, etc.).
+4. Under &quot;Payment Method&quot;, select &quot;New credit/debit card&quot;.
+5. Enter your card details to complete the wallet top-up.
+
+Please follow these steps, and let me know if you encounter any issues." data-ar="سأرشدك خلال خطوات إضافة رصيد إلى محفظة بريدفاست:
+
+1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;Pay&quot; في الأسفل.
+2. ستجد رصيد المحفظة الحالي وخيار &quot;Add to balance&quot; — اختره.
+3. اختر &quot;Quick add&quot; لإضافة مبلغ محدد (100، 200، إلخ).
+4. في &quot;Payment Method&quot;، اختر &quot;New credit/debit card&quot;.
+5. أدخل بيانات بطاقتك لإكمال الشحن.
+
+يرجى اتباع هذه الخطوات، وأخبرني إذا واجهت أي مشكلة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Arabic UI</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
+
+1. Open the Breadfast app and navigate to the payment page labeled &quot;باي&quot; at the bottom.
+2. You will see your wallet balance and an option labeled &quot;إضافة إلى الرصيد&quot; — select this.
+3. Choose &quot;إضافة سريعة&quot; to add a specific amount.
+4. Under &quot;طريقة الدفع&quot;, select &quot;بطاقة ائتمان أو خصم جديدة&quot;.
+5. Enter your card details to complete the wallet top-up.
+
+Please follow these steps, and let me know if you encounter any issues." data-ar="سأرشدك خلال خطوات إضافة رصيد إلى محفظة بريدفاست:
+
+1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;باي&quot; في الأسفل.
+2. ستجد رصيد المحفظة الحالي وخيار &quot;إضافة إلى الرصيد&quot; — اختره.
+3. اختر &quot;إضافة سريعة&quot; لإضافة مبلغ محدد.
+4. في &quot;طريقة الدفع&quot;، اختر &quot;بطاقة ائتمان أو خصم جديدة&quot;.
+5. أدخل بيانات بطاقتك لإكمال الشحن.
+
+يرجى اتباع هذه الخطوات، وأخبرني إذا واجهت أي مشكلة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADDRESS -->
+<section id="address" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Change / Add Address</h2>
+    <p class="section-desc">Step-by-step instructions for address management</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Instructions</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Here are the steps to add or update your address in the Breadfast app:
+
+1. Open the app and tap &quot;More&quot; at the bottom of the screen.
+2. Select &quot;Account Settings&quot; from the menu.
+3. Tap &quot;Saved addresses&quot; to view your current addresses.
+4. Tap &quot;Add new address&quot; to add a new location (home, work, etc.).
+5. A map will appear with a location pin. Drag the pin to your exact location, then tap &quot;Confirm location&quot;.
+6. Enter your address details: street name, building number, apartment number, etc.
+7. Tap &quot;Save address&quot; to complete the process.
+
+Your new address will now be available for future orders. Please let me know if you need clarification on any step." data-ar="إليك خطوات إضافة أو تحديث عنوانك في تطبيق بريدفاست:
+
+1. افتح التطبيق واضغط على &quot;More&quot; في أسفل الشاشة.
+2. اختر &quot;Account Settings&quot; من القائمة.
+3. اضغط على &quot;Saved addresses&quot; لعرض عناوينك الحالية.
+4. اضغط على &quot;Add new address&quot; لإضافة موقع جديد (المنزل، العمل، إلخ).
+5. ستظهر خريطة مع دبوس الموقع. اسحب الدبوس إلى موقعك بالضبط، ثم اضغط على &quot;Confirm location&quot;.
+6. أدخل تفاصيل عنوانك: اسم الشارع، رقم المبنى، رقم الشقة، إلخ.
+7. اضغط على &quot;Save address&quot; لإكمال العملية.
+
+سيكون عنوانك الجديد متاحاً للطلبات المستقبلية. أخبرني إذا كنت بحاجة إلى توضيح أي خطوة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER CANCEL -->
+<section id="cancel" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Order Cancellation</h2>
+    <p class="section-desc">Explanation and next steps for restaurant-canceled orders</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Explanation</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I sincerely apologize that your order was canceled. This occurred because the restaurant did not respond to the order — neither accepting nor rejecting it within the required timeframe.
+
+I will contact the restaurant immediately to understand why this happened and will update you as soon as I have more information." data-ar="أعتذر بصدق عن إلغاء طلبك. حدث هذا لأن المطعم لم يستجب للطلب — لا بالقبول ولا بالرفض خلال المهلة المطلوبة.
+
+سأتواصل مع المطعم على الفور لفهم سبب ذلك وسأُحدّثك بمجرد حصولي على مزيد من المعلومات."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+let currentLang='en';
+
+const translations={
+  greeting:{en:'Greeting & Opening',ar:'التحية والافتتاحية'},
+  delay:{en:'Order Delay — Apology',ar:'الاعتذار عن تأخير الطلب'},
+  anything:{en:'Anything Else?',ar:'أي شيء آخر؟'},
+  hold:{en:'Hold & Wait',ar:'الانتظار'},
+  noresponse:{en:'No Response — Closing',ar:'لا يوجد رد — الإغلاق'},
+  wallet:{en:'Charge Wallet',ar:'شحن المحفظة'},
+  address:{en:'Change / Add Address',ar:'تغيير أو إضافة عنوان'},
+  cancel:{en:'Order Cancellation',ar:'إلغاء الطلب'}
+};
+
+const descTranslations={
+  greeting:{en:'Professional opening statements to begin customer interactions',ar:'عبارات افتتاحية احترافية لبدء التفاعل مع العملاء'},
+  delay:{en:'Sincere acknowledgment of delays with appropriate accountability',ar:'الاعتراف الصادق بالتأخيرات مع تحمل المسؤولية المناسبة'},
+  anything:{en:'Professional closure prompts to ensure complete resolution',ar:'عبارات إغلاح احترافية لضمان الحل الكامل'},
+  hold:{en:'Respectful requests for time to review information',ar:'طلبات محترمة للوقت لمراجعة المعلومات'},
+  noresponse:{en:'Professional closure when customer is unresponsive',ar:'إغلاق احترافي عندما لا يستجيب العميل'},
+  wallet:{en:'Clear instructions for wallet top-up procedures',ar:'تعليمات واضحة لإجراءات شحن المحفظة'},
+  address:{en:'Step-by-step instructions for address management',ar:'تعليمات خطوة بخطوة لإدارة العنوان'},
+  cancel:{en:'Explanation and next steps for restaurant-canceled orders',ar:'الشرح والخطوات التالية للطلبات الملغاة من المطعم'}
+};
+
+function setLang(lang){
+  currentLang=lang;
+  document.body.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+  document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  document.querySelectorAll('.phrase-box').forEach(box=>{
+    box.textContent=box.getAttribute('data-'+lang);
+  });
+  
+  document.querySelectorAll('.section').forEach(sec=>{
+    const id=sec.id;
+    const titleEl=sec.querySelector('.section-title');
+    const descEl=sec.querySelector('.section-desc');
+    if(titleEl)titleEl.textContent=translations[id][lang];
+    if(descEl)descEl.textContent=descTranslations[id][lang];
+  });
+  
+  document.querySelectorAll('.btn-primary').forEach(btn=>{
+    btn.textContent=lang==='ar'?'نسخ':'Copy';
+  });
+}
+
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function copyPhrase(btn){
+  const box=btn.closest('.card-body').querySelector('.phrase-box');
+  const text=box.getAttribute('data-'+currentLang);
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent=currentLang==='ar'?'تم النسخ':'Copied';
+    btn.classList.add('copied');
+    showToast(currentLang==='ar'?'تم النسخ':'Copied to clipboard');
+    setTimeout(()=>{
+      btn.textContent=currentLang==='ar'?'نسخ':'Copy';
+      btn.classList.remove('copied');
+    },1800);
+  });
+}
+
+function showToast(msg){
+  const existing=document.querySelector('.toast');
+  if(existing)existing.remove();
+  const toast=document.createElement('div');
+  toast.className='toast';
+  toast.textContent=msg;
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(),2200);
+}
+</script>
+</body>
+</html>
