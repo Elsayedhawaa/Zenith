@@ -3,32 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Breadfast Support — Elsayed | السيد</title>
+<title>Breadfast Support</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 
 :root{
-  /* Breadfast Brand Colors */
-  --primary:#2B2B2B;
-  --primary-light:#404040;
-  --accent:#B00074; 
-  --accent-hover:#8a005b;
+  /* Breadfast Brand Colors - Extracted from logo */
+  --primary:#1a1a1a;
+  --primary-light:#2d2d2d;
+  --accent:#B00074;
+  --accent-hover:#8a005a;
+  --accent-light:#f3e0ec;
   --success:#2d6a4f;
   --bg:#f8f9fa;
   --surface:#ffffff;
-  --text:#1a1a2e;
-  --text-muted:#6c757d;
-  --border:#e9ecef;
-  --shadow-sm:0 2px 8px rgba(0,0,0,0.06);
-  --shadow:0 4px 20px rgba(0,0,0,0.08);
-  --radius:10px;
-  --radius-sm:6px;
+  --text:#1a1a1a;
+  --text-muted:#6b7280;
+  --border:#e5e7eb;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.08);
+  --shadow:0 4px 12px rgba(0,0,0,0.1);
+  --radius:8px;
+  --radius-sm:4px;
 }
 
 html,body{height:100%}
 body{
-  font-family:'Inter',sans-serif;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
   background:var(--bg);
   color:var(--text);
   line-height:1.6;
@@ -36,14 +37,14 @@ body{
 
 body[dir="rtl"]{font-family:'Cairo',sans-serif}
 body[dir="rtl"] .nav-link{font-family:'Cairo',sans-serif}
-body[dir="rtl"] .card-title{font-family:'Cairo',sans-serif}
+body[dir="rtl"] .phrase-box{font-family:'Cairo',sans-serif;line-height:1.85}
 
 /* HEADER */
 .header{
   background:var(--primary);
   color:white;
-  padding:0 32px;
-  height:64px;
+  padding:0 24px;
+  height:60px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -53,53 +54,53 @@ body[dir="rtl"] .card-title{font-family:'Cairo',sans-serif}
   box-shadow:var(--shadow-sm);
 }
 
-.brand{display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:12px}
 .brand-icon{
-  width:38px;height:38px;
-  background:var(--surface);
+  width:36px;height:36px;
+  background:var(--accent);
   border-radius:var(--radius-sm);
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;
 }
-.brand-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.brand-icon img{
+  width:22px;
+  height:22px;
+  object-fit:contain;
 }
 .brand-text{line-height:1.2}
-.brand-name{font-size:1.05em;font-weight:600}
-.brand-meta{display:flex;align-items:center;gap:10px;margin-top:2px}
+.brand-name{font-size:1em;font-weight:600;letter-spacing:-0.2px}
+.brand-meta{display:flex;align-items:center;gap:8px;margin-top:1px}
 .status-badge{
-  display:flex;align-items:center;gap:5px;
+  display:flex;align-items:center;gap:4px;
   font-size:0.7em;font-weight:500;
   background:rgba(255,255,255,0.1);
-  padding:3px 10px;
-  border-radius:20px;
+  padding:2px 8px;
+  border-radius:12px;
 }
 .status-dot{
-  width:6px;height:6px;
-  background:#4ade80;
+  width:5px;height:5px;
+  background:#22c55e;
   border-radius:50%;
 }
-.agent-name{font-size:0.8em;color:rgba(255,255,255,0.6)}
+.agent-name{font-size:0.78em;color:rgba(255,255,255,0.55)}
 
 /* LANG TOGGLE */
 .lang-toggle{
   display:flex;
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
   border-radius:var(--radius-sm);
   padding:3px;
-  gap:3px;
+  gap:2px;
 }
 .lang-btn{
-  padding:7px 18px;
-  border-radius:4px;
+  padding:6px 16px;
+  border-radius:var(--radius-sm);
   border:none;
   cursor:pointer;
   font-weight:500;
-  font-size:0.82em;
-  transition:all 0.2s ease;
+  font-size:0.8em;
+  transition:all 0.15s ease;
   background:transparent;
   color:rgba(255,255,255,0.5);
   font-family:inherit;
@@ -114,33 +115,33 @@ body[dir="rtl"] .card-title{font-family:'Cairo',sans-serif}
 .top-nav{
   background:var(--surface);
   border-bottom:1px solid var(--border);
-  padding:0 32px;
+  padding:0 24px;
   position:sticky;
-  top:64px;
+  top:60px;
   z-index:90;
 }
 
 .nav-scroll{
   display:flex;
-  gap:4px;
+  gap:2px;
   overflow-x:auto;
   scrollbar-width:none;
   -ms-overflow-style:none;
-  padding:10px 0;
+  padding:8px 0;
 }
 .nav-scroll::-webkit-scrollbar{display:none}
 
 .nav-link{
-  display:flex;align-items:center;gap:8px;
-  padding:9px 18px;
+  display:flex;align-items:center;
+  padding:8px 16px;
   border-radius:var(--radius-sm);
   border:none;
   background:transparent;
   color:var(--text-muted);
   font-weight:500;
-  font-size:0.88em;
+  font-size:0.85em;
   cursor:pointer;
-  transition:all 0.2s ease;
+  transition:all 0.15s ease;
   white-space:nowrap;
   font-family:inherit;
 }
@@ -155,71 +156,68 @@ body[dir="rtl"] .card-title{font-family:'Cairo',sans-serif}
 
 /* MAIN CONTENT */
 .main-content{
-  max-width:850px;
+  max-width:800px;
   margin:0 auto;
-  padding:28px 32px 48px;
+  padding:24px;
 }
 
 /* SECTION */
-.section{display:none;animation:fadeIn 0.25s ease}
-.section.active{display:block}
+.section{display:none}
+.section.active{display:block;animation:fadeIn 0.2s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 .section-header{
-  margin-bottom:24px;
-  padding-bottom:16px;
+  margin-bottom:20px;
+  padding-bottom:14px;
   border-bottom:1px solid var(--border);
 }
 .section-title{
-  font-size:1.35em;
+  font-size:1.25em;
   font-weight:600;
   color:var(--primary);
-  margin-bottom:4px;
+  margin-bottom:3px;
 }
-.section-desc{color:var(--text-muted);font-size:0.9em}
+.section-desc{color:var(--text-muted);font-size:0.88em}
 
 /* CARDS */
 .card{
   background:var(--surface);
   border:1px solid var(--border);
   border-radius:var(--radius);
-  margin-bottom:16px;
+  margin-bottom:14px;
   overflow:hidden;
-  transition:all 0.2s ease;
+  transition:border-color 0.15s ease;
 }
-.card:hover{
-  box-shadow:var(--shadow);
-  border-color:#d1d5db;
-}
+.card:hover{border-color:#d1d5db}
 
 .card-header{
-  padding:14px 18px;
+  padding:12px 16px;
   background:#fafafa;
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
 }
 .card-tag{
-  font-size:0.72em;font-weight:600;
+  font-size:0.7em;font-weight:600;
   text-transform:uppercase;
-  letter-spacing:0.5px;
-  padding:4px 10px;
-  border-radius:4px;
+  letter-spacing:0.4px;
+  padding:3px 10px;
+  border-radius:var(--radius-sm);
 }
 .tag-empathy{background:#fef2f2;color:#991b1b}
 .tag-warm{background:#fff7ed;color:#9a3412}
 .tag-prof{background:#eff6ff;color:#1e40af}
 .tag-calm{background:#f0fdf4;color:#166534}
 
-.card-body{padding:18px}
+.card-body{padding:16px}
 
 .phrase-box{
   background:#f9fafb;
   border-left:3px solid var(--accent);
   border-radius:0 var(--radius-sm) var(--radius-sm) 0;
-  padding:16px 18px;
-  margin-bottom:14px;
-  font-size:0.94em;
-  line-height:1.75;
+  padding:14px 16px;
+  margin-bottom:12px;
+  font-size:0.93em;
+  line-height:1.7;
   color:var(--text);
   white-space:pre-line;
 }
@@ -229,21 +227,19 @@ body[dir="rtl"] .phrase-box{
   border-right:3px solid var(--accent);
   border-radius:var(--radius-sm) 0 0 var(--radius-sm);
   text-align:right;
-  font-family:'Cairo',sans-serif;
-  line-height:1.9;
 }
 
 .card-actions{display:flex;gap:8px}
 
 .btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:9px 16px;
+  display:inline-flex;align-items:center;
+  padding:8px 14px;
   border-radius:var(--radius-sm);
   border:none;
   font-weight:500;
-  font-size:0.84em;
+  font-size:0.82em;
   cursor:pointer;
-  transition:all 0.2s ease;
+  transition:all 0.15s ease;
   font-family:inherit;
 }
 .btn-primary{
@@ -251,42 +247,41 @@ body[dir="rtl"] .phrase-box{
   color:white;
 }
 .btn-primary:hover{background:var(--accent-hover)}
-.btn-primary.copied{
-  background:var(--success);
-}
+.btn-primary.copied{background:var(--success)}
 
 /* TOAST */
 .toast{
   position:fixed;
-  bottom:24px;
-  right:24px;
+  bottom:20px;
+  right:20px;
   background:var(--success);
   color:white;
-  padding:12px 20px;
+  padding:10px 18px;
   border-radius:var(--radius-sm);
   box-shadow:var(--shadow);
   font-weight:500;
-  font-size:0.88em;
+  font-size:0.85em;
   z-index:9999;
-  animation:slideIn 0.25s ease;
+  animation:slideIn 0.2s ease;
 }
-@keyframes slideIn{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes slideIn{from{transform:translateX(60px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
-@keyframes slideInRtl{from{transform:translateX(-80px);opacity:0}to{transform:translateX(0);opacity:1}}
+body[dir="rtl"] .toast{right:auto;left:20px;animation:slideInRtl 0.2s ease}
+@keyframes slideInRtl{from{transform:translateX(-60px);opacity:0}to{transform:translateX(0);opacity:1}}
 
 /* SCROLLBAR */
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}
 
 /* RESPONSIVE */
-@media(max-width:768px){
-  .header{padding:0 16px;height:58px}
-  .top-nav{padding:0 16px;top:58px}
-  .main-content{padding:20px 16px 40px}
-  .section-title{font-size:1.2em}
-  .nav-link{padding:8px 14px;font-size:0.84em}
+@media(max-width:640px){
+  .header{padding:0 16px;height:54px}
+  .top-nav{padding:0 16px;top:54px}
+  .main-content{padding:16px}
+  .section-title{font-size:1.15em}
+  .nav-link{padding:7px 12px;font-size:0.82em}
+  .lang-btn{padding:5px 12px;font-size:0.78em}
 }
 </style>
 </head>
@@ -295,13 +290,12 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
 <header class="header">
   <div class="brand">
     <div class="brand-icon">
-      <img src="Unknown.png" alt="Breadfast Logo">
+      <img src="logo.png" alt="Breadfast">
     </div>
     <div class="brand-text">
       <div class="brand-name">Breadfast Support</div>
       <div class="brand-meta">
         <span class="status-badge"><span class="status-dot"></span>Online</span>
-        <span class="agent-name">Elsayed / السيد</span>
       </div>
     </div>
   </div>
@@ -313,90 +307,137 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
 
 <nav class="top-nav">
   <div class="nav-scroll">
-    <button class="nav-link active" onclick="showSection('greeting',this)">
-      <span class="label">Greeting</span>
-    </button>
-    <button class="nav-link" onclick="showSection('delay',this)">
-      <span class="label">Order Delay</span>
-    </button>
-    <button class="nav-link" onclick="showSection('anything',this)">
-      <span class="label">Anything Else</span>
-    </button>
-    <button class="nav-link" onclick="showSection('hold',this)">
-      <span class="label">Hold</span>
-    </button>
-    <button class="nav-link" onclick="showSection('noresponse',this)">
-      <span class="label">No Response</span>
-    </button>
-    <button class="nav-link" onclick="showSection('wallet',this)">
-      <span class="label">Wallet</span>
-    </button>
-    <button class="nav-link" onclick="showSection('address',this)">
-      <span class="label">Address</span>
-    </button>
-    <button class="nav-link" onclick="showSection('cancel',this)">
-      <span class="label">Cancellation</span>
-    </button>
+    <button class="nav-link active" onclick="showSection('greeting',this)">Greeting</button>
+    <button class="nav-link" onclick="showSection('delay',this)">Order Delay</button>
+    <button class="nav-link" onclick="showSection('anything',this)">Anything Else</button>
+    <button class="nav-link" onclick="showSection('hold',this)">Hold</button>
+    <button class="nav-link" onclick="showSection('noresponse',this)">No Response</button>
+    <button class="nav-link" onclick="showSection('wallet',this)">Wallet</button>
+    <button class="nav-link" onclick="showSection('address',this)">Address</button>
+    <button class="nav-link" onclick="showSection('cancel',this)">Cancellation</button>
+    <button class="nav-link" onclick="showSection('survey',this)">Survey</button>
+    <button class="nav-link" onclick="showSection('endclose',this)">End / Close</button>
   </div>
 </nav>
 
 <main class="main-content">
 
+<!-- GREETING -->
 <section id="greeting" class="section active">
   <div class="section-header">
     <h2 class="section-title">Greeting & Opening</h2>
-    <p class="section-desc">Friendly opening statements to build rapport immediately</p>
+    <p class="section-desc">Professional opening statements to begin customer interactions</p>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Friendly Intro</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-warm">Welcome — Standard</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Hi there! Welcome to Breadfast. This is Elsayed. How can I make your day better?" data-ar="أهلاً بك في بريدفاست! معاك السيد، إزاي أقدر أساعدك النهاردة؟"></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
+      <div class="phrase-box" data-en="Thank you for contacting Breadfast Support." data-ar="شكراً جداً لتواصلك مع دعم بريدفاست."></div>
+      <div class="card-actions"><button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Morning</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-warm">Welcome — Friendly</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Good morning! You're chatting with Elsayed. How can I help you sort things out today?" data-ar="صباح الفل! معاك السيد من بريدفاست. أقدر أساعدك إزاي النهاردة؟"></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
+      <div class="phrase-box" data-en="Hello, welcome to Breadfast. How can I assist you today?" data-ar="أهلاً وسهلاً بحضرتك في بريدفاست! أقدر أساعد حضرتك في إيه النهارده؟"></div>
+      <div class="card-actions"><button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Evening</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-warm">Welcome — Casual Arabic</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Good evening! This is Elsayed from Breadfast. What can I do for you right now?" data-ar="مساء الخير! معاك السيد من بريدفاست. أقدر أساعدك إزاي دلوقتي؟"></div>
-      <div class="card-actions">
-        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
-      </div>
+      <div class="phrase-box" data-en="Hello, I hope you're doing well. Thank you for contacting Breadfast." data-ar="أهلاً أ.
+أتمنى تكون بخير
+شكراً لتواصلك مع بريدفاست"></div>
+      <div class="card-actions"><button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Morning</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Good morning. Thank you for reaching out to Breadfast — how may I assist you today?" data-ar="صباح الخير. شكراً لتواصلك مع بريدفاست — إزاي أقدر أساعدك النهارده؟"></div>
+      <div class="card-actions"><button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Evening</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Good evening. Thank you for contacting Breadfast — what can I help you with?" data-ar="مساء الخير. شكراً لتواصلك مع بريدفاست — إزاي أقدر أساعدك؟"></div>
+      <div class="card-actions"><button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">How May I Help</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="How may I help you?" data-ar="إزاي أقدر أساعد حضرتك النهارده؟"></div>
+      <div class="card-actions"><button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-calm">Clarify Issue</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Could you please provide more details about the issue?" data-ar="ممكن توضحلي المشكلة اللي واجهتك في الطلب؟"></div>
+      <div class="card-actions"><button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button></div>
     </div>
   </div>
 </section>
 
+<!-- ORDER DELAY -->
 <section id="delay" class="section">
   <div class="section-header">
     <h2 class="section-title">Order Delay — Apology</h2>
-    <p class="section-desc">Human, empathetic acknowledgment of wait times</p>
+    <p class="section-desc">Sincere acknowledgment of delays with appropriate accountability</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-empathy">Direct & Caring</span>
+      <span class="card-tag tag-empathy">Acknowledgment</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I am so sorry about this delay. I know how frustrating it is when you're waiting for your order, and this definitely isn't the experience we want for you. Let me check what's going on right now." data-ar="أنا متفهم جداً استيائك وبعتذرلك عن التأخير ده. دي مش الخدمة اللي متعودين نقدمها في بريدفاست. ثواني هراجع طلبك وأشوف المشكلة فين حالاً."></div>
+      <div class="phrase-box" data-en="I understand your frustration, and I want to be direct with you: a delay like this does not meet our standards at Breadfast. We take full responsibility and sincerely apologize for the inconvenience this has caused." data-ar="أنا فاهم إن الموضوع ده مزعج جداً، وهكون صريح معاك: التأخير اللي حصل مش بمستوى بريدفاست. إحنا مسؤولين وبنعتذر بصدق عن الإزعاج اللي سببناه."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Accountability</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We recognize that order delays are frustrating, and this is not the experience we want for our customers. We sincerely apologize for the delay and appreciate your patience as we work to resolve this matter." data-ar="عارفين إن التأخير مزعج، ومش دي التجربة اللي عايزينها لعملاؤنا. بنعتذر بصدق عن التأخير ونقدّر صبر حضرتك وإحنا شغالين على حل الموضوع."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Apology</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We sincerely apologize for the inconvenience caused. This is certainly not the experience we aim to provide at Breadfast, and I'll do my best to assist you with the best possible solution." data-ar="نعتذر لحضرتك جداً عن الإزعاج اللي حصل.
+أكيد ده مش المستوى اللي بنسعى نقدمه في بريدفاست، وخليني أساعدك بأفضل حل ممكن."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Showing Empathy</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I completely understand how frustrating this situation can be, and I will do my best to assist you and find a suitable solution." data-ar="متفهم تماماً قد إيه الموضوع ده ممكن يكون مزعج لحضرتك، وبإذن الله هبذل كل جهدي علشان أساعدك وأوصل لحل مناسب."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -404,18 +445,91 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
+<!-- ANYTHING ELSE -->
 <section id="anything" class="section">
   <div class="section-header">
     <h2 class="section-title">Anything Else?</h2>
-    <p class="section-desc">Smooth ways to check if they need more help</p>
+    <p class="section-desc">Professional closure prompts to ensure complete resolution</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-prof">Casual Check</span>
+      <span class="card-tag tag-prof">Standard</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Is there anything else I can sort out for you today?" data-ar="في أي حاجة تانية أقدر أساعدك فيها النهاردة؟"></div>
+      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="في حاجة تانية أقدر أساعدك فيها؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Thorough</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Before we conclude, please let me know if there are any other matters I can address for you." data-ar="قبل ما نخلص، قولي لو في أي حاجة تانية أقدر أساعدك فيها."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Follow-up</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="If you have any additional questions or concerns, please do not hesitate to ask." data-ar="لو عندك أي سؤال تاني، متترددش وسألني."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Further Help</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Do you need any further help?" data-ar="هل في أي حاجة تانية أقدر أساعد حضرتك فيها؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Anything Else</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Is there anything else I can help you with?" data-ar="هل حضرتك محتاج أي مساعدة تانية؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Assist Today</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="هل في أي حاجة تانية أقدر أساعد حضرتك فيها؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Further Assistance</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Please let me know if you need any further assistance." data-ar="لو محتاج أي حاجة تانية، أنا هنا."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -423,18 +537,56 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
+<!-- HOLD & WAIT -->
 <section id="hold" class="section">
   <div class="section-header">
     <h2 class="section-title">Hold & Wait</h2>
-    <p class="section-desc">Quick, polite ways to ask for time</p>
+    <p class="section-desc">Respectful requests for time to review information</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-calm">Brief Hold</span>
+      <span class="card-tag tag-calm">Brief</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Give me just a quick moment to pull up your details. I'll be right back!" data-ar="ثواني هراجع تفاصيل الطلب وهرجعلك على طول!"></div>
+      <div class="phrase-box" data-en="Please allow me a moment to review the details in our system." data-ar="لحظة بس وأراجع التفاصيل على النظام."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">With Return</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I need a brief moment to check the information in our system. I will return to you shortly." data-ar="محتاج لحظة صغيرة أتحقق من المعلومات. هرجعلك في الحال."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">Quick Check</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Allow me a moment to verify this information. I will be with you as soon as possible." data-ar="خليني أتأكد من المعلومة دي، هكون معاك في أقرب وقت."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-calm">Review Order</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Please allow me a moment while I review the order details for you. Thank you very much for your patience." data-ar="لحظة واحدة من فضلك أراجع تفاصيل الطلب لحضرتك.
+وشكراً جداً على صبرك."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -442,18 +594,55 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
+<!-- NO RESPONSE -->
 <section id="noresponse" class="section">
   <div class="section-header">
     <h2 class="section-title">No Response — Closing</h2>
-    <p class="section-desc">Friendly closure when they ghost the chat</p>
+    <p class="section-desc">Professional closure when customer is unresponsive</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-prof">Friendly Wrap-up</span>
+      <span class="card-tag tag-prof">Standard</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="It seems like you might have stepped away, so I'll go ahead and close this chat for now. If you still need help, Elsayed and the rest of the Breadfast team are always here for you!" data-ar="يبدو إن حضرتك مشغول حالياً، فهقفل المحادثة دلوقتي. بس لو احتجت أي حاجة، أنا وكل فريق بريدفاست موجودين دايماً لخدمتك!"></div>
+      <div class="phrase-box" data-en="As we have not received a response, we will close this conversation. Please feel free to contact us again if you need further assistance." data-ar="بما إننا مش بنتلقى رد، هنغلق الشات دلوقتي. لو احتجت أي حاجة، تقدر تتواصل معانا في أي وقت."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Reassuring</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Since we have not heard back from you, we will close this chat. Our support team remains available should you need assistance in the future." data-ar="بما إننا مش سامعين حضرتك، هنضطر نغلق الشات. فريق الدعم دايماً موجود لو احتجت مساعدة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">End Wait</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We didn't hear back from you, so we'll close this chat for now. You can reach out anytime if you need help." data-ar="بما إننا مش بنتلقى رد، هنغلق الشات دلوقتي. تقدر تتواصل معانا في أي وقت لو احتجت."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Feedback Request</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Thank you so much for your time and for reaching out to us today. I'd really appreciate it if you could share your feedback after our conversation ends." data-ar="شكراً جزيلاً على وقتك ووجودك معانا النهارده. هيسعدني لو شاركتنا رأيك بعد ما المحادثة تخلص."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -461,10 +650,11 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
   </div>
 </section>
 
+<!-- CHARGE WALLET -->
 <section id="wallet" class="section">
   <div class="section-header">
     <h2 class="section-title">Charge Wallet</h2>
-    <p class="section-desc">Easy steps for wallet top-ups</p>
+    <p class="section-desc">Clear instructions for wallet top-up procedures</p>
   </div>
 
   <div class="card">
@@ -472,23 +662,51 @@ body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
       <span class="card-tag tag-prof">English UI</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Topping up your Breadfast wallet is super easy. Just follow these steps:
+      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
 
-1. Open the app and tap 'Pay' at the bottom.
-2. Hit 'Add to balance'.
-3. Choose 'Quick add' to pick your amount.
-4. Under Payment Method, select 'New credit/debit card'.
-5. Pop in your card details, and you're good to go!
+1. Open the Breadfast app and navigate to the payment page labeled &quot;Pay&quot; at the bottom.
+2. You will see your current wallet balance and an option labeled &quot;Add to balance&quot; — select this.
+3. Choose &quot;Quick add&quot; to add a specific amount (100, 200, etc.).
+4. Under &quot;Payment Method&quot;, select &quot;New credit/debit card&quot;.
+5. Enter your card details to complete the wallet top-up.
 
-Let me know if you hit any snags." data-ar="شحن محفظة بريدفاست سهل جداً، دي الخطوات:
+Please follow these steps, and let me know if you encounter any issues." data-ar="هرشدك على خطوات إضافة رصيد لمحفظة بريدفاست:
 
-1. افتح التطبيق واضغط على كلمة 'باي' (Pay) تحت.
-2. اختار 'إضافة إلى الرصيد'.
-3. اختار 'إضافة سريعة' عشان تحدد المبلغ اللي محتاجه.
-4. في طريقة الدفع، اختار 'بطاقة ائتمان أو خصم جديدة'.
-5. دخل بيانات الكارت وبس كده!
+1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;Pay&quot; في الأسفل.
+2. ستجد رصيد المحفظة الحالي وخيار &quot;Add to balance&quot; — اختره.
+3. اختر &quot;Quick add&quot; لإضافة مبلغ محدد (100، 200، إلخ).
+4. في &quot;Payment Method&quot;، اختر &quot;New credit/debit card&quot;.
+5. أدخل بيانات بطاقتك لإكمال الشحن.
 
-عرفني لو واجهتك أي مشكلة وأنا معاك."></div>
+اتبع الخطوات دي، وقولي لو واجهت أي مشكلة."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Arabic UI</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
+
+1. Open the Breadfast app and navigate to the payment page labeled &quot;باي&quot; at the bottom.
+2. You will see your current wallet balance and an option labeled &quot;إضافة إلى الرصيد&quot; — select this.
+3. Choose &quot;إضافة سريعة&quot; to add a specific amount.
+4. Under &quot;طريقة الدفع&quot;, select &quot;بطاقة ائتمان أو خصم جديدة&quot;.
+5. Enter your card details to complete the wallet top-up.
+
+Please follow these steps, and let me know if you encounter any issues." data-ar="هرشدك على خطوات إضافة رصيد لمحفظة بريدفاست:
+
+1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;باي&quot; في الأسفل.
+2. ستجد رصيد المحفظة الحالي وخيار &quot;إضافة إلى الرصيد&quot; — اختره.
+3. اختر &quot;إضافة سريعة&quot; لإضافة مبلغ محدد.
+4. في &quot;طريقة الدفع&quot;، اختر &quot;بطاقة ائتمان أو خصم جديدة&quot;.
+5. أدخل بيانات بطاقتك لإكمال الشحن.
+
+اتبع الخطوات دي، وقولي لو واجهت أي مشكلة."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -496,10 +714,11 @@ Let me know if you hit any snags." data-ar="شحن محفظة بريدفاست �
   </div>
 </section>
 
+<!-- ADDRESS -->
 <section id="address" class="section">
   <div class="section-header">
     <h2 class="section-title">Change / Add Address</h2>
-    <p class="section-desc">Clear, bulleted address management</p>
+    <p class="section-desc">Step-by-step instructions for address management</p>
   </div>
 
   <div class="card">
@@ -507,23 +726,27 @@ Let me know if you hit any snags." data-ar="شحن محفظة بريدفاست �
       <span class="card-tag tag-prof">Instructions</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Here is how you can quickly add a new address:
+      <div class="phrase-box" data-en="Here are the steps to add or update your address in the Breadfast app:
 
-1. Tap 'More' at the bottom of the app.
-2. Go to 'Account Settings', then 'Saved addresses'.
-3. Tap 'Add new address'.
-4. Drag the pin on the map to your exact location and confirm.
-5. Add your building/apartment details and hit 'Save'.
+1. Open the app and tap &quot;More&quot; at the bottom of the screen.
+2. Select &quot;Account Settings&quot; from the menu.
+3. Tap &quot;Saved addresses&quot; to view your current addresses.
+4. Tap &quot;Add new address&quot; to add a new location (home, work, etc.).
+5. A map will appear with a location pin. Drag the pin to your exact location, then tap &quot;Confirm location&quot;.
+6. Enter your address details: street name, building number, apartment number, etc.
+7. Tap &quot;Save address&quot; to complete the process.
 
-Let me know once you've got it set up!" data-ar="عشان تضيف أو تعدل عنوانك بسرعة، اتبع الخطوات دي:
+Your new address will now be available for future orders. Please let me know if you need clarification on any step." data-ar="دي الخطوات اللي هتضيف أو تعدل بيها عنوانك في تطبيق بريدفاست:
 
-1. اضغط على 'المزيد' (More) أسفل الشاشة.
-2. ادخل على 'إعدادات الحساب' وبعدين 'العناوين المحفوظة'.
-3. اضغط 'إضافة عنوان جديد'.
-4. حرك الدبوس على الخريطة لمكانك بالضبط وأكد الموقع.
-5. دخل تفاصيل العمارة والشقة واضغط 'حفظ'.
+1. افتح التطبيق واضغط على &quot;More&quot; في أسفل الشاشة.
+2. اختر &quot;Account Settings&quot; من القائمة.
+3. اضغط على &quot;Saved addresses&quot; لعرض عناوينك الحالية.
+4. اضغط على &quot;Add new address&quot; لإضافة موقع جديد (المنزل، العمل، إلخ).
+5. ستظهر خريطة مع دبوس الموقع. اسحب الدبوس إلى موقعك بالضبط، ثم اضغط على &quot;Confirm location&quot;.
+6. أدخل تفاصيل عنوانك: اسم الشارع، رقم المبنى، رقم الشقة، إلخ.
+7. اضغط على &quot;Save address&quot; لإكمال العملية.
 
-عرفني أول ما تخلص وأنا هتابع معاك!"></div>
+العنوان الجديد هيبقى متاح للطلبات الجاية. قولي لو محتاج توضيح في أي خطوة."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -531,18 +754,98 @@ Let me know once you've got it set up!" data-ar="عشان تضيف أو تعدل
   </div>
 </section>
 
-<section id="cancel" class="section">
+<!-- SURVEY -->
+<section id="survey" class="section">
   <div class="section-header">
-    <h2 class="section-title">Order Cancellation</h2>
-    <p class="section-desc">Transparent handling of restaurant cancellations</p>
+    <h2 class="section-title">Survey</h2>
+    <p class="section-desc">Encourage customers to complete post-chat feedback</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-empathy">Direct Explanation</span>
+      <span class="card-tag tag-warm">Glad to Help</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I am really sorry, but your order had to be canceled because the restaurant didn't confirm it in time. Let me contact them right away to see what exactly went wrong, and I'll update you ASAP." data-ar="أنا بعتذرلك جداً، طلبك اتلغى لأن المطعم مأكدش الطلب في الوقت المحدد. أنا بتواصل معاهم حالاً عشان أفهم السبب بالضبط وهرجعلك بتحديث فوراً."></div>
+      <div class="phrase-box" data-en="Glad I could assist you today. After we end the chat, you'll see a brief question about my help — we value your feedback." data-ar="يسعدني إني قدرت أساعدك النهارده. بعد ما المحادثة تخلص هيظهرلك سؤال قصير عن مساعدتي — رأيك مهم لينا."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Happy to Help</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I'm happy I could help today. You'll receive a short question about my assistance once the chat closes — we truly appreciate your feedback." data-ar="يسعدني إني أفدتك النهارده. بعد إغلاق الشات هيوصلك سؤال قصير عن مساعدتي — رأيك مهم جداً لينا."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Great Assisting</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="It was great assisting you today. After the chat ends, you'll see a quick question about my support — your feedback really matters to us." data-ar="كان نفسي أساعدك النهارده. بعد ما المحادثة تخلص هتلاقي سؤال سريع عن الدعم اللي قدمته — تقييمك مهم جداً لينا."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Arabic</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Thank you for your time. After the conversation ends, a brief rating about the assistance I provided will appear — your opinion truly matters to us." data-ar="أشكرك على وقتك. بعد انتهاء المحادثة هيظهر لك تقييم قصير عن المساعدة اللي قدمتهالك خلال المحادثة — رأيك يهمنا جدًا."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- END / CLOSE -->
+<section id="endclose" class="section">
+  <div class="section-header">
+    <h2 class="section-title">End / Close</h2>
+    <p class="section-desc">Professional closing messages to wrap up customer interactions</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-prof">Thank You Close</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Thank you very much for contacting Breadfast Support. We hope you have a better experience next time, and we wish you a wonderful day." data-ar="شكراً جداً لتواصلك مع دعم بريدفاست.
+نتمنى لحضرتك تجربة أفضل في المرات القادمة ونتمنى لك يوم سعيد."></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="cancel" class="section">
+  <div class="section-header">
+    <h2 class="section-title">Order Cancellation</h2>
+    <p class="section-desc">Explanation and next steps for restaurant-canceled orders</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-empathy">Explanation</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I sincerely apologize that your order was canceled. This occurred because the restaurant did not respond to the order — neither accepting nor rejecting it within the required timeframe.
+
+I will contact the restaurant immediately to understand why this happened and will update you as soon as I have more information." data-ar="بعتذر جداً عن إلغاء طلبك. ده حصل لأن المطعم ما ردش على الطلب — لا قبله ولا رفضه — في الوقت المطلوب.
+
+هتواصل مع المطعم دلوقتي أفهم إيه اللي صاير وهحدثك بأسرع ما عندي معلومة."></div>
       <div class="card-actions">
         <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
@@ -555,6 +858,15 @@ Let me know once you've got it set up!" data-ar="عشان تضيف أو تعدل
 <script>
 let currentLang='en';
 
+// Initialize all phrase boxes on first load
+function initPhrases(){
+  document.querySelectorAll('.phrase-box').forEach(box=>{
+    box.textContent=box.getAttribute('data-en');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initPhrases);
+
 const translations={
   greeting:{en:'Greeting & Opening',ar:'التحية والافتتاحية'},
   delay:{en:'Order Delay — Apology',ar:'الاعتذار عن تأخير الطلب'},
@@ -563,18 +875,22 @@ const translations={
   noresponse:{en:'No Response — Closing',ar:'لا يوجد رد — الإغلاق'},
   wallet:{en:'Charge Wallet',ar:'شحن المحفظة'},
   address:{en:'Change / Add Address',ar:'تغيير أو إضافة عنوان'},
-  cancel:{en:'Order Cancellation',ar:'إلغاء الطلب'}
+  cancel:{en:'Order Cancellation',ar:'إلغاء الطلب'},
+  survey:{en:'Survey',ar:'التقييم'},
+  endclose:{en:'End / Close',ar:'إنهاء المحادثة'}
 };
 
 const descTranslations={
-  greeting:{en:'Friendly opening statements to build rapport immediately',ar:'عبارات افتتاحية ودية لبدء التفاعل مع العملاء بشكل طبيعي'},
-  delay:{en:'Human, empathetic acknowledgment of wait times',ar:'الاعتراف بالتأخير بأسلوب متفهم وودود'},
-  anything:{en:'Smooth ways to check if they need more help',ar:'طرق سلسة للتأكد من إنهاء كل مشاكل العميل'},
-  hold:{en:'Quick, polite ways to ask for time',ar:'طلبات محترمة وسريعة للوقت لمراجعة المعلومات'},
-  noresponse:{en:'Friendly closure when they ghost the chat',ar:'إغلاق ودي ومهذب للمحادثة عند عدم الرد'},
-  wallet:{en:'Easy steps for wallet top-ups',ar:'خطوات سهلة وبسيطة لإجراءات شحن المحفظة'},
-  address:{en:'Clear, bulleted address management',ar:'تعليمات واضحة خطوة بخطوة لإدارة العنوان'},
-  cancel:{en:'Transparent handling of restaurant cancellations',ar:'شرح واضح وشفاف للطلبات الملغاة من المطعم'}
+  greeting:{en:'Professional opening statements to begin customer interactions',ar:'عبارات افتتاحية احترافية لبدء التفاعل مع العملاء'},
+  delay:{en:'Sincere acknowledgment of delays with appropriate accountability',ar:'الاعتراف الصادق بالتأخيرات مع تحمل المسؤولية المناسبة'},
+  anything:{en:'Professional closure prompts to ensure complete resolution',ar:'عبارات إغلاق احترافية لضمان الحل الكامل'},
+  hold:{en:'Respectful requests for time to review information',ar:'طلبات محترمة للوقت لمراجعة المعلومات'},
+  noresponse:{en:'Professional closure when customer is unresponsive',ar:'إغلاق احترافي عندما لا يستجيب العميل'},
+  wallet:{en:'Clear instructions for wallet top-up procedures',ar:'تعليمات واضحة لإجراءات شحن المحفظة'},
+  address:{en:'Step-by-step instructions for address management',ar:'تعليمات خطوة بخطوة لإدارة العنوان'},
+  cancel:{en:'Explanation and next steps for restaurant-canceled orders',ar:'الشرح والخطوات التالية للطلبات الملغاة من المطعم'},
+  survey:{en:'Encourage customers to complete post-chat feedback',ar:'تشجيع العملاء على إكمال استطلاع ما بعد المحادثة'},
+  endclose:{en:'Professional closing messages to wrap up customer interactions',ar:'رسائل إغلاق احترافية لإنهاء تفاعلات العملاء'}
 };
 
 function setLang(lang){
@@ -631,9 +947,6 @@ function showToast(msg){
   document.body.appendChild(toast);
   setTimeout(()=>toast.remove(),2200);
 }
-
-// Initialize on load
-setLang('en');
 </script>
 </body>
 </html>
