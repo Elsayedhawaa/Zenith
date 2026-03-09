@@ -3,154 +3,290 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Breadfast Support</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Breadfast Support — Elsayed | السيد</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
 :root{
-  --accent:#B00074;--accent-hover:#8a005a;
-  --accent-light:rgba(176,0,116,0.08);--accent-glow:rgba(176,0,116,0.25);
-  --success:#16a34a;--bg:#fdf4f9;--surface:#fff;
-  --text:#1a0010;--text-muted:#7c5471;--border:#f0d4e8;
-  --shadow-sm:0 1px 4px rgba(176,0,116,0.08);
-  --shadow:0 6px 24px rgba(176,0,116,0.12);
-  --radius:12px;--radius-sm:6px;
+  /* Breadfast Brand Colors */
+  --primary:#2B2B2B;
+  --primary-light:#404040;
+  --accent:#B00074; 
+  --accent-hover:#8a005b;
+  --success:#2d6a4f;
+  --bg:#f8f9fa;
+  --surface:#ffffff;
+  --text:#1a1a2e;
+  --text-muted:#6c757d;
+  --border:#e9ecef;
+  --shadow-sm:0 2px 8px rgba(0,0,0,0.06);
+  --shadow:0 4px 20px rgba(0,0,0,0.08);
+  --radius:10px;
+  --radius-sm:6px;
 }
+
 html,body{height:100%}
-body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
 body[dir="rtl"]{font-family:'Cairo',sans-serif}
-body[dir="rtl"] .phrase-box{border-left:none;border-right:3px solid var(--accent);border-radius:var(--radius-sm) 0 0 var(--radius-sm);text-align:right;font-family:'Cairo',sans-serif;line-height:1.9}
+body[dir="rtl"] .nav-link{font-family:'Cairo',sans-serif}
+body[dir="rtl"] .card-title{font-family:'Cairo',sans-serif}
 
 /* HEADER */
 .header{
-  background:linear-gradient(135deg,#7a0050 0%,#B00074 55%,#d4008a 100%);
-  color:white;padding:0 28px;height:70px;
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100;
-  box-shadow:0 4px 20px rgba(176,0,116,0.4);overflow:hidden;
+  background:var(--primary);
+  color:white;
+  padding:0 32px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:var(--shadow-sm);
 }
-.header::before{
-  content:'🥐  🥖  🧆  🍳  🧇  🍞  🥛  🥗  🥚  🧁  🥐  🥖  🧆  🍳  🧇  🍞  🥛  🥗  🥚  🧁';
-  position:absolute;top:50%;left:0;right:0;
-  transform:translateY(-50%);font-size:2em;opacity:0.07;
-  white-space:nowrap;pointer-events:none;
-  animation:scrollFood 28s linear infinite;
-}
-@keyframes scrollFood{0%{transform:translateY(-50%) translateX(0)}100%{transform:translateY(-50%) translateX(-50%)}}
 
-.brand{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
-.brand-logo-wrap{width:44px;height:44px;background:white;border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.2);overflow:hidden;flex-shrink:0}
-.brand-logo-wrap img{width:28px;height:28px;object-fit:contain}
-.brand-name{font-size:1.05em;font-weight:700;letter-spacing:-0.3px}
-.status-pill{display:inline-flex;align-items:center;gap:5px;font-size:0.68em;font-weight:600;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);padding:3px 10px;border-radius:20px;margin-top:3px}
-.status-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-icon{
+  width:38px;height:38px;
+  background:var(--surface);
+  border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.brand-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.brand-text{line-height:1.2}
+.brand-name{font-size:1.05em;font-weight:600}
+.brand-meta{display:flex;align-items:center;gap:10px;margin-top:2px}
+.status-badge{
+  display:flex;align-items:center;gap:5px;
+  font-size:0.7em;font-weight:500;
+  background:rgba(255,255,255,0.1);
+  padding:3px 10px;
+  border-radius:20px;
+}
+.status-dot{
+  width:6px;height:6px;
+  background:#4ade80;
+  border-radius:50%;
+}
+.agent-name{font-size:0.8em;color:rgba(255,255,255,0.6)}
 
 /* LANG TOGGLE */
-.lang-toggle{display:flex;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);border-radius:var(--radius-sm);padding:3px;gap:2px;position:relative;z-index:1}
-.lang-btn{padding:7px 18px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-weight:600;font-size:0.8em;transition:all 0.2s ease;background:transparent;color:rgba(255,255,255,0.55);font-family:inherit}
-.lang-btn.active{background:white;color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
-.lang-btn:hover:not(.active){background:rgba(255,255,255,0.12);color:white}
+.lang-toggle{
+  display:flex;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:var(--radius-sm);
+  padding:3px;
+  gap:3px;
+}
+.lang-btn{
+  padding:7px 18px;
+  border-radius:4px;
+  border:none;
+  cursor:pointer;
+  font-weight:500;
+  font-size:0.82em;
+  transition:all 0.2s ease;
+  background:transparent;
+  color:rgba(255,255,255,0.5);
+  font-family:inherit;
+}
+.lang-btn.active{
+  background:var(--accent);
+  color:white;
+}
+.lang-btn:hover:not(.active){background:rgba(255,255,255,0.08);color:white}
 
-/* HERO BANNER */
-.hero-banner{background:linear-gradient(135deg,#fce4f4 0%,#fff4fb 50%,#fce4f4 100%);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden}
-.hero-banner::after{content:'🥐🥖🧆🍳🧇🍞🥛🥗🥚🧁';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:1.8em;opacity:0.1;letter-spacing:6px;pointer-events:none}
-.hero-logo-full{height:42px;object-fit:contain}
-.hero-divider{width:1px;height:38px;background:var(--border)}
-.hero-text h1{font-size:1em;font-weight:700;color:var(--accent)}
-.hero-text p{font-size:0.79em;color:var(--text-muted);margin-top:2px}
+/* TOP NAVIGATION */
+.top-nav{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;
+  position:sticky;
+  top:64px;
+  z-index:90;
+}
 
-/* NAV */
-.top-nav{background:var(--surface);border-bottom:2px solid var(--border);padding:0 20px;position:sticky;top:70px;z-index:90;box-shadow:0 2px 10px rgba(176,0,116,0.05)}
-.nav-scroll{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;padding:10px 0}
+.nav-scroll{
+  display:flex;
+  gap:4px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  padding:10px 0;
+}
 .nav-scroll::-webkit-scrollbar{display:none}
-.nav-link{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:30px;border:none;background:transparent;color:var(--text-muted);font-weight:500;font-size:0.83em;cursor:pointer;transition:all 0.18s ease;white-space:nowrap;font-family:inherit}
-.nav-link:hover{background:var(--accent-light);color:var(--accent)}
-.nav-link.active{background:var(--accent);color:white;box-shadow:0 3px 10px var(--accent-glow)}
-.nav-icon{font-size:0.95em}
 
-/* MAIN */
-.main-content{max-width:820px;margin:0 auto;padding:28px 24px}
-.section{display:none}
-.section.active{display:block;animation:fadeIn 0.25s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.section-header{margin-bottom:22px;padding-bottom:16px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:12px}
-.section-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),#d4008c);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3em;box-shadow:0 4px 12px var(--accent-glow);flex-shrink:0}
-.section-title{font-size:1.2em;font-weight:700;color:var(--text)}
-.section-desc{color:var(--text-muted);font-size:0.84em;margin-top:2px}
+.nav-link{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 18px;
+  border-radius:var(--radius-sm);
+  border:none;
+  background:transparent;
+  color:var(--text-muted);
+  font-weight:500;
+  font-size:0.88em;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  white-space:nowrap;
+  font-family:inherit;
+}
+.nav-link:hover{
+  background:var(--bg);
+  color:var(--text);
+}
+.nav-link.active{
+  background:var(--accent);
+  color:white;
+}
+
+/* MAIN CONTENT */
+.main-content{
+  max-width:850px;
+  margin:0 auto;
+  padding:28px 32px 48px;
+}
+
+/* SECTION */
+.section{display:none;animation:fadeIn 0.25s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.section-header{
+  margin-bottom:24px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+.section-title{
+  font-size:1.35em;
+  font-weight:600;
+  color:var(--primary);
+  margin-bottom:4px;
+}
+.section-desc{color:var(--text-muted);font-size:0.9em}
 
 /* CARDS */
-.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;transition:all 0.18s ease;box-shadow:var(--shadow-sm)}
-.card:hover{border-color:rgba(176,0,116,0.3);box-shadow:0 6px 20px rgba(176,0,116,0.1);transform:translateY(-1px)}
-.card-header{padding:11px 16px;background:linear-gradient(135deg,#fdf4f9,#fff0f8);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-tag{font-size:0.68em;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:3px 10px;border-radius:20px}
-.tag-empathy{background:#fef2f2;color:#9f1239;border:1px solid #fecdd3}
-.tag-warm{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
-.tag-prof{background:var(--accent-light);color:var(--accent);border:1px solid rgba(176,0,116,0.2)}
-.tag-calm{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
-.card-body{padding:16px}
-.phrase-box{background:linear-gradient(135deg,#fdf8fc,#fff4fb);border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:14px 16px;margin-bottom:12px;font-size:0.93em;line-height:1.75;color:var(--text);white-space:pre-line}
-.card-actions{display:flex;gap:8px}
-
-/* COPY BUTTON + ANIMATION */
-.btn-copy{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:9px 22px;border-radius:30px;border:none;
-  font-weight:600;font-size:0.83em;cursor:pointer;
-  font-family:inherit;position:relative;overflow:hidden;
-  background:linear-gradient(135deg,var(--accent),#cc0090);
-  color:white;box-shadow:0 3px 12px rgba(176,0,116,0.35);
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  margin-bottom:16px;
+  overflow:hidden;
   transition:all 0.2s ease;
 }
-.btn-copy:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(176,0,116,0.45)}
-.btn-copy:active{transform:scale(0.96)}
-.btn-copy.copied{
-  background:linear-gradient(135deg,#16a34a,#22c55e);
-  box-shadow:0 3px 12px rgba(22,163,74,0.4);
-  animation:bounceBtn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+.card:hover{
+  box-shadow:var(--shadow);
+  border-color:#d1d5db;
 }
-@keyframes bounceBtn{0%{transform:scale(1)}40%{transform:scale(1.15)}70%{transform:scale(0.95)}100%{transform:scale(1)}}
 
-/* Ripple effect on copy */
-.btn-copy .ripple{
-  position:absolute;border-radius:50%;
-  background:rgba(255,255,255,0.4);
-  transform:scale(0);animation:rippleAnim 0.5s ease-out;
-  pointer-events:none;
+.card-header{
+  padding:14px 18px;
+  background:#fafafa;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
 }
-@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+.card-tag{
+  font-size:0.72em;font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  padding:4px 10px;
+  border-radius:4px;
+}
+.tag-empathy{background:#fef2f2;color:#991b1b}
+.tag-warm{background:#fff7ed;color:#9a3412}
+.tag-prof{background:#eff6ff;color:#1e40af}
+.tag-calm{background:#f0fdf4;color:#166534}
+
+.card-body{padding:18px}
+
+.phrase-box{
+  background:#f9fafb;
+  border-left:3px solid var(--accent);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  padding:16px 18px;
+  margin-bottom:14px;
+  font-size:0.94em;
+  line-height:1.75;
+  color:var(--text);
+  white-space:pre-line;
+}
+
+body[dir="rtl"] .phrase-box{
+  border-left:none;
+  border-right:3px solid var(--accent);
+  border-radius:var(--radius-sm) 0 0 var(--radius-sm);
+  text-align:right;
+  font-family:'Cairo',sans-serif;
+  line-height:1.9;
+}
+
+.card-actions{display:flex;gap:8px}
+
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 16px;
+  border-radius:var(--radius-sm);
+  border:none;
+  font-weight:500;
+  font-size:0.84em;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  font-family:inherit;
+}
+.btn-primary{
+  background:var(--accent);
+  color:white;
+}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-primary.copied{
+  background:var(--success);
+}
 
 /* TOAST */
 .toast{
-  position:fixed;bottom:28px;right:28px;
-  background:linear-gradient(135deg,#16a34a,#22c55e);
-  color:white;padding:13px 22px;border-radius:40px;
-  box-shadow:0 8px 28px rgba(22,163,74,0.4);
-  font-weight:600;font-size:0.87em;z-index:9999;
-  display:flex;align-items:center;gap:10px;
-  animation:toastPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:var(--success);
+  color:white;
+  padding:12px 20px;
+  border-radius:var(--radius-sm);
+  box-shadow:var(--shadow);
+  font-weight:500;
+  font-size:0.88em;
+  z-index:9999;
+  animation:slideIn 0.25s ease;
 }
-@keyframes toastPop{from{transform:translateY(30px) scale(0.7);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-.toast-exit{animation:toastFade 0.3s ease forwards}
-@keyframes toastFade{to{transform:translateY(10px) scale(0.9);opacity:0}}
-body[dir="rtl"] .toast{right:auto;left:28px}
+@keyframes slideIn{from{transform:translateX(80px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-/* COPY FLASH overlay on phrase-box */
-.phrase-box.flash{animation:flashCopy 0.5s ease}
-@keyframes flashCopy{0%{background:linear-gradient(135deg,#dcfce7,#bbf7d0)}100%{background:linear-gradient(135deg,#fdf8fc,#fff4fb)}}
+body[dir="rtl"] .toast{right:auto;left:24px;animation:slideInRtl 0.25s ease}
+@keyframes slideInRtl{from{transform:translateX(-80px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-::-webkit-scrollbar{width:5px;height:5px}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
 
-@media(max-width:640px){
-  .header{padding:0 16px;height:62px}
-  .hero-banner{padding:12px 16px}
-  .top-nav{padding:0 12px;top:62px}
-  .main-content{padding:16px 12px}
-  .lang-btn{padding:6px 12px}
-  .hero-logo-full{height:32px}
-  .hero-divider,.hero-text{display:none}
+/* RESPONSIVE */
+@media(max-width:768px){
+  .header{padding:0 16px;height:58px}
+  .top-nav{padding:0 16px;top:58px}
+  .main-content{padding:20px 16px 40px}
+  .section-title{font-size:1.2em}
+  .nav-link{padding:8px 14px;font-size:0.84em}
 }
 </style>
 </head>
@@ -158,396 +294,177 @@ body[dir="rtl"] .toast{right:auto;left:28px}
 
 <header class="header">
   <div class="brand">
-    <div class="brand-logo-wrap">
-      <img src="data:image/png;base64,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" alt="Breadfast">
+    <div class="brand-icon">
+      <img src="Unknown.png" alt="Breadfast Logo">
     </div>
-    <div>
+    <div class="brand-text">
       <div class="brand-name">Breadfast Support</div>
-      <div class="status-pill"><span class="status-dot"></span>Online</div>
+      <div class="brand-meta">
+        <span class="status-badge"><span class="status-dot"></span>Online</span>
+        <span class="agent-name">Elsayed / السيد</span>
+      </div>
     </div>
   </div>
   <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">English</button>
-    <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">العربية</button>
+    <button class="lang-btn active" onclick="setLang('en')">English</button>
+    <button class="lang-btn" onclick="setLang('ar')">العربية</button>
   </div>
 </header>
 
-<div class="hero-banner">
-  <img class="hero-logo-full" src="data:image/png;base64,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" alt="Breadfast">
-  <div class="hero-divider"></div>
-  <div class="hero-text">
-    <h1 id="hero-title">Agent Phrase Library</h1>
-    <p id="hero-sub">Quick-copy responses for every support scenario</p>
-  </div>
-</div>
-
 <nav class="top-nav">
-  <div class="nav-scroll" id="nav-scroll">
-    <button class="nav-link active" onclick="showSection('greeting',this)"><span class="nav-icon">👋</span><span class="nav-label">Greeting</span></button>
-    <button class="nav-link" onclick="showSection('delay',this)"><span class="nav-icon">⏱️</span><span class="nav-label">Order Delay</span></button>
-    <button class="nav-link" onclick="showSection('anything',this)"><span class="nav-icon">💬</span><span class="nav-label">Anything Else</span></button>
-    <button class="nav-link" onclick="showSection('hold',this)"><span class="nav-icon">⏸️</span><span class="nav-label">Hold</span></button>
-    <button class="nav-link" onclick="showSection('noresponse',this)"><span class="nav-icon">🔇</span><span class="nav-label">No Response</span></button>
-    <button class="nav-link" onclick="showSection('wallet',this)"><span class="nav-icon">💳</span><span class="nav-label">Wallet</span></button>
-    <button class="nav-link" onclick="showSection('address',this)"><span class="nav-icon">📍</span><span class="nav-label">Address</span></button>
-    <button class="nav-link" onclick="showSection('cancel',this)"><span class="nav-icon">❌</span><span class="nav-label">Cancellation</span></button>
-    <button class="nav-link" onclick="showSection('survey',this)"><span class="nav-icon">⭐</span><span class="nav-label">Survey</span></button>
-    <button class="nav-link" onclick="showSection('endclose',this)"><span class="nav-icon">✅</span><span class="nav-label">End / Close</span></button>
+  <div class="nav-scroll">
+    <button class="nav-link active" onclick="showSection('greeting',this)">
+      <span class="label">Greeting</span>
+    </button>
+    <button class="nav-link" onclick="showSection('delay',this)">
+      <span class="label">Order Delay</span>
+    </button>
+    <button class="nav-link" onclick="showSection('anything',this)">
+      <span class="label">Anything Else</span>
+    </button>
+    <button class="nav-link" onclick="showSection('hold',this)">
+      <span class="label">Hold</span>
+    </button>
+    <button class="nav-link" onclick="showSection('noresponse',this)">
+      <span class="label">No Response</span>
+    </button>
+    <button class="nav-link" onclick="showSection('wallet',this)">
+      <span class="label">Wallet</span>
+    </button>
+    <button class="nav-link" onclick="showSection('address',this)">
+      <span class="label">Address</span>
+    </button>
+    <button class="nav-link" onclick="showSection('cancel',this)">
+      <span class="label">Cancellation</span>
+    </button>
   </div>
 </nav>
 
-<main class="main-content" id="main-content">
-<!-- GREETING -->
+<main class="main-content">
+
 <section id="greeting" class="section active">
   <div class="section-header">
-    <div class="section-icon">👋</div>
-    <div class="section-info">
-      <h2 class="section-title">Greeting & Opening</h2>
-      <p class="section-desc">Professional opening statements to begin customer interactions</p>
+    <h2 class="section-title">Greeting & Opening</h2>
+    <p class="section-desc">Friendly opening statements to build rapport immediately</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-tag tag-warm">Friendly Intro</span>
+    </div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Hi there! Welcome to Breadfast. This is Elsayed. How can I make your day better?" data-ar="أهلاً بك في بريدفاست! معاك السيد، إزاي أقدر أساعدك النهاردة؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header"><span class="card-tag tag-warm">Welcome — Standard</span></div>
+    <div class="card-header">
+      <span class="card-tag tag-prof">Morning</span>
+    </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Thank you for contacting Breadfast Support." data-ar="شكراً جداً لتواصلك مع دعم بريدفاست."></div>
-      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+      <div class="phrase-box" data-en="Good morning! You're chatting with Elsayed. How can I help you sort things out today?" data-ar="صباح الفل! معاك السيد من بريدفاست. أقدر أساعدك إزاي النهاردة؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header"><span class="card-tag tag-warm">Welcome — Friendly</span></div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Hello, welcome to Breadfast. How can I assist you today?" data-ar="أهلاً وسهلاً بحضرتك في بريدفاست! أقدر أساعد حضرتك في إيه النهارده؟"></div>
-      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    <div class="card-header">
+      <span class="card-tag tag-prof">Evening</span>
     </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header"><span class="card-tag tag-warm">Welcome — Casual Arabic</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Hello, I hope you're doing well. Thank you for contacting Breadfast." data-ar="أهلاً أ.
-أتمنى تكون بخير
-شكراً لتواصلك مع بريدفاست"></div>
-      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header"><span class="card-tag tag-prof">Morning</span></div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Good morning. Thank you for reaching out to Breadfast — how may I assist you today?" data-ar="صباح الخير. شكراً لتواصلك مع بريدفاست — كيف يمكنني مساعدتك؟"></div>
-      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header"><span class="card-tag tag-prof">Evening</span></div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Good evening. Thank you for contacting Breadfast — what can I help you with?" data-ar="مساء الخير. شكراً لتواصلك مع بريدفاست — بماذا يمكنني مساعدتك؟"></div>
-      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header"><span class="card-tag tag-prof">How May I Help</span></div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="How may I help you?" data-ar="إزاي أقدر أساعد حضرتك النهارده؟"></div>
-      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header"><span class="card-tag tag-calm">Clarify Issue</span></div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Could you please provide more details about the issue?" data-ar="ممكن توضحلي المشكلة اللي واجهتك في الطلب؟"></div>
-      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+      <div class="phrase-box" data-en="Good evening! This is Elsayed from Breadfast. What can I do for you right now?" data-ar="مساء الخير! معاك السيد من بريدفاست. أقدر أساعدك إزاي دلوقتي؟"></div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ORDER DELAY -->
 <section id="delay" class="section">
   <div class="section-header">
-    <div class="section-icon">⏱️</div>
-    <div class="section-info">
-      <h2 class="section-title">Order Delay — Apology</h2>
-      <p class="section-desc">Sincere acknowledgment of delays with appropriate accountability</p>
-    </div>
+    <h2 class="section-title">Order Delay — Apology</h2>
+    <p class="section-desc">Human, empathetic acknowledgment of wait times</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-empathy">Acknowledgment</span>
+      <span class="card-tag tag-empathy">Direct & Caring</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I understand your frustration, and I want to be direct with you: a delay like this does not meet our standards at Breadfast. We take full responsibility and sincerely apologize for the inconvenience this has caused." data-ar="أتفهم إحباط حضرتك، وأريد أن أكون صريحاً معك: التأخير مثل هذا لا يتوافق مع معاييرنا في بريدفاست. نتحمل المسؤولية الكاملة ونعتذر بصدق عن الإزعاج الذي سببناه."></div>
+      <div class="phrase-box" data-en="I am so sorry about this delay. I know how frustrating it is when you're waiting for your order, and this definitely isn't the experience we want for you. Let me check what's going on right now." data-ar="أنا متفهم جداً استيائك وبعتذرلك عن التأخير ده. دي مش الخدمة اللي متعودين نقدمها في بريدفاست. ثواني هراجع طلبك وأشوف المشكلة فين حالاً."></div>
       <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Accountability</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="We recognize that order delays are frustrating, and this is not the experience we want for our customers. We sincerely apologize for the delay and appreciate your patience as we work to resolve this matter." data-ar="ندرك أن تأخير الطلبات مُحبط، وهذه ليست التجربة التي نريدها لعملائنا. نعتذر بصدق عن التأخير ونقدّر صبر حضرتك بينما نعمل على حل هذا الأمر."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Apology</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="We sincerely apologize for the inconvenience caused. This is certainly not the experience we aim to provide at Breadfast, and I'll do my best to assist you with the best possible solution." data-ar="نعتذر لحضرتك جداً عن الإزعاج اللي حصل.
-أكيد ده مش المستوى اللي بنسعى نقدمه في بريدفاست، وخليني أساعدك بأفضل حل ممكن."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Showing Empathy</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I completely understand how frustrating this situation can be, and I will do my best to assist you and find a suitable solution." data-ar="متفهم تماماً قد إيه الموضوع ده ممكن يكون مزعج لحضرتك، وبإذن الله هبذل كل جهدي علشان أساعدك وأوصل لحل مناسب."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ANYTHING ELSE -->
 <section id="anything" class="section">
   <div class="section-header">
-    <div class="section-icon">💬</div>
-    <div class="section-info">
-      <h2 class="section-title">Anything Else?</h2>
-      <p class="section-desc">Professional closure prompts to ensure complete resolution</p>
-    </div>
+    <h2 class="section-title">Anything Else?</h2>
+    <p class="section-desc">Smooth ways to check if they need more help</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-prof">Standard</span>
+      <span class="card-tag tag-prof">Casual Check</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="هل هناك شيء آخر يمكنني مساعدتك فيه؟"></div>
+      <div class="phrase-box" data-en="Is there anything else I can sort out for you today?" data-ar="في أي حاجة تانية أقدر أساعدك فيها النهاردة؟"></div>
       <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Thorough</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Before we conclude, please let me know if there are any other matters I can address for you." data-ar="قبل أن ننهي المحادثة، يرجى إخباري إذا كانت هناك أي أمور أخرى يمكنني معالجتها."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Follow-up</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="If you have any additional questions or concerns, please do not hesitate to ask." data-ar="إذا كان لديك أي أسئلة أو استفسارات إضافية، فلا تتردد في طرحها."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Further Help</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Do you need any further help?" data-ar="هل في أي حاجة تانية أقدر أساعد حضرتك فيها؟"></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Anything Else</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Is there anything else I can help you with?" data-ar="هل حضرتك محتاج أي مساعدة تانية؟"></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Assist Today</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="هل في أي حاجة تانية أقدر أساعد حضرتك فيها؟"></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Further Assistance</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Please let me know if you need any further assistance." data-ar="من فضلك أعلمني إذا كنت بحاجة لأي مساعدة أخرى."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOLD & WAIT -->
 <section id="hold" class="section">
   <div class="section-header">
-    <div class="section-icon">⏸️</div>
-    <div class="section-info">
-      <h2 class="section-title">Hold & Wait</h2>
-      <p class="section-desc">Respectful requests for time to review information</p>
-    </div>
+    <h2 class="section-title">Hold & Wait</h2>
+    <p class="section-desc">Quick, polite ways to ask for time</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-calm">Brief</span>
+      <span class="card-tag tag-calm">Brief Hold</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Please allow me a moment to review the details in our system." data-ar="يرجى منحي لحظة لمراجعة التفاصيل في نظامنا."></div>
+      <div class="phrase-box" data-en="Give me just a quick moment to pull up your details. I'll be right back!" data-ar="ثواني هراجع تفاصيل الطلب وهرجعلك على طول!"></div>
       <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">With Return</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I need a brief moment to check the information in our system. I will return to you shortly." data-ar="أحتاج لحظة قصيرة للتحقق من المعلومات في نظامنا. سأعود إليك قريباً."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">Quick Check</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Allow me a moment to verify this information. I will be with you as soon as possible." data-ar="دعني أتحقق من هذه المعلومة. سأكون معك في أقرب وقت ممكن."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">Review Order</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Please allow me a moment while I review the order details for you. Thank you very much for your patience." data-ar="لحظة واحدة من فضلك أراجع تفاصيل الطلب لحضرتك.
-وشكراً جداً على صبرك."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- NO RESPONSE -->
 <section id="noresponse" class="section">
   <div class="section-header">
-    <div class="section-icon">🔇</div>
-    <div class="section-info">
-      <h2 class="section-title">No Response — Closing</h2>
-      <p class="section-desc">Professional closure when customer is unresponsive</p>
-    </div>
+    <h2 class="section-title">No Response — Closing</h2>
+    <p class="section-desc">Friendly closure when they ghost the chat</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-prof">Standard</span>
+      <span class="card-tag tag-prof">Friendly Wrap-up</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="As we have not received a response, we will close this conversation. Please feel free to contact us again if you need further assistance." data-ar="بما أننا لم نتلق رداً، سنغلق هذه المحادثة. لا تتردد في التواصل معنا مرة أخرى إذا كنت بحاجة إلى مزيد من المساعدة."></div>
+      <div class="phrase-box" data-en="It seems like you might have stepped away, so I'll go ahead and close this chat for now. If you still need help, Elsayed and the rest of the Breadfast team are always here for you!" data-ar="يبدو إن حضرتك مشغول حالياً، فهقفل المحادثة دلوقتي. بس لو احتجت أي حاجة، أنا وكل فريق بريدفاست موجودين دايماً لخدمتك!"></div>
       <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Reassuring</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Since we have not heard back from you, we will close this chat. Our support team remains available should you need assistance in the future." data-ar="بما أننا لم نسمع من حضرتك، سنغلق هذه المحادثة. فريق الدعم لدينا متاح إذا احتجت مساعدة في المستقبل."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">End Wait</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="We didn't hear back from you, so we'll close this chat for now. You can reach out anytime if you need help." data-ar="بما أننا لم نتلق رداً، سنغلق هذه المحادثة الآن. يمكنك التواصل معنا في أي وقت إذا كنت بحاجة للمساعدة."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Feedback Request</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Thank you so much for your time and for reaching out to us today. I'd really appreciate it if you could share your feedback after our conversation ends." data-ar="شكراً جزيلاً على وقتك وتواصلك معنا اليوم. سيسعدني كثيراً أن تشارك رأيك بعد انتهاء المحادثة."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CHARGE WALLET -->
 <section id="wallet" class="section">
   <div class="section-header">
-    <div class="section-icon">💳</div>
-    <div class="section-info">
-      <h2 class="section-title">Charge Wallet</h2>
-      <p class="section-desc">Clear instructions for wallet top-up procedures</p>
-    </div>
+    <h2 class="section-title">Charge Wallet</h2>
+    <p class="section-desc">Easy steps for wallet top-ups</p>
   </div>
 
   <div class="card">
@@ -555,66 +472,34 @@ body[dir="rtl"] .toast{right:auto;left:28px}
       <span class="card-tag tag-prof">English UI</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
+      <div class="phrase-box" data-en="Topping up your Breadfast wallet is super easy. Just follow these steps:
 
-1. Open the Breadfast app and navigate to the payment page labeled &quot;Pay&quot; at the bottom.
-2. You will see your current wallet balance and an option labeled &quot;Add to balance&quot; — select this.
-3. Choose &quot;Quick add&quot; to add a specific amount (100, 200, etc.).
-4. Under &quot;Payment Method&quot;, select &quot;New credit/debit card&quot;.
-5. Enter your card details to complete the wallet top-up.
+1. Open the app and tap 'Pay' at the bottom.
+2. Hit 'Add to balance'.
+3. Choose 'Quick add' to pick your amount.
+4. Under Payment Method, select 'New credit/debit card'.
+5. Pop in your card details, and you're good to go!
 
-Please follow these steps, and let me know if you encounter any issues." data-ar="سأرشدك خلال خطوات إضافة رصيد إلى محفظة بريدفاست:
+Let me know if you hit any snags." data-ar="شحن محفظة بريدفاست سهل جداً، دي الخطوات:
 
-1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;Pay&quot; في الأسفل.
-2. ستجد رصيد المحفظة الحالي وخيار &quot;Add to balance&quot; — اختره.
-3. اختر &quot;Quick add&quot; لإضافة مبلغ محدد (100، 200، إلخ).
-4. في &quot;Payment Method&quot;، اختر &quot;New credit/debit card&quot;.
-5. أدخل بيانات بطاقتك لإكمال الشحن.
+1. افتح التطبيق واضغط على كلمة 'باي' (Pay) تحت.
+2. اختار 'إضافة إلى الرصيد'.
+3. اختار 'إضافة سريعة' عشان تحدد المبلغ اللي محتاجه.
+4. في طريقة الدفع، اختار 'بطاقة ائتمان أو خصم جديدة'.
+5. دخل بيانات الكارت وبس كده!
 
-يرجى اتباع هذه الخطوات، وأخبرني إذا واجهت أي مشكلة."></div>
+عرفني لو واجهتك أي مشكلة وأنا معاك."></div>
       <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Arabic UI</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
-
-1. Open the Breadfast app and navigate to the payment page labeled &quot;باي&quot; at the bottom.
-2. You will see your current wallet balance and an option labeled &quot;إضافة إلى الرصيد&quot; — select this.
-3. Choose &quot;إضافة سريعة&quot; to add a specific amount.
-4. Under &quot;طريقة الدفع&quot;, select &quot;بطاقة ائتمان أو خصم جديدة&quot;.
-5. Enter your card details to complete the wallet top-up.
-
-Please follow these steps, and let me know if you encounter any issues." data-ar="سأرشدك خلال خطوات إضافة رصيد إلى محفظة بريدفاست:
-
-1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;باي&quot; في الأسفل.
-2. ستجد رصيد المحفظة الحالي وخيار &quot;إضافة إلى الرصيد&quot; — اختره.
-3. اختر &quot;إضافة سريعة&quot; لإضافة مبلغ محدد.
-4. في &quot;طريقة الدفع&quot;، اختر &quot;بطاقة ائتمان أو خصم جديدة&quot;.
-5. أدخل بيانات بطاقتك لإكمال الشحن.
-
-يرجى اتباع هذه الخطوات، وأخبرني إذا واجهت أي مشكلة."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ADDRESS -->
 <section id="address" class="section">
   <div class="section-header">
-    <div class="section-icon">📍</div>
-    <div class="section-info">
-      <h2 class="section-title">Change / Add Address</h2>
-      <p class="section-desc">Step-by-step instructions for address management</p>
-    </div>
+    <h2 class="section-title">Change / Add Address</h2>
+    <p class="section-desc">Clear, bulleted address management</p>
   </div>
 
   <div class="card">
@@ -622,146 +507,55 @@ Please follow these steps, and let me know if you encounter any issues." data-ar
       <span class="card-tag tag-prof">Instructions</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Here are the steps to add or update your address in the Breadfast app:
+      <div class="phrase-box" data-en="Here is how you can quickly add a new address:
 
-1. Open the app and tap &quot;More&quot; at the bottom of the screen.
-2. Select &quot;Account Settings&quot; from the menu.
-3. Tap &quot;Saved addresses&quot; to view your current addresses.
-4. Tap &quot;Add new address&quot; to add a new location (home, work, etc.).
-5. A map will appear with a location pin. Drag the pin to your exact location, then tap &quot;Confirm location&quot;.
-6. Enter your address details: street name, building number, apartment number, etc.
-7. Tap &quot;Save address&quot; to complete the process.
+1. Tap 'More' at the bottom of the app.
+2. Go to 'Account Settings', then 'Saved addresses'.
+3. Tap 'Add new address'.
+4. Drag the pin on the map to your exact location and confirm.
+5. Add your building/apartment details and hit 'Save'.
 
-Your new address will now be available for future orders. Please let me know if you need clarification on any step." data-ar="إليك خطوات إضافة أو تحديث عنوانك في تطبيق بريدفاست:
+Let me know once you've got it set up!" data-ar="عشان تضيف أو تعدل عنوانك بسرعة، اتبع الخطوات دي:
 
-1. افتح التطبيق واضغط على &quot;More&quot; في أسفل الشاشة.
-2. اختر &quot;Account Settings&quot; من القائمة.
-3. اضغط على &quot;Saved addresses&quot; لعرض عناوينك الحالية.
-4. اضغط على &quot;Add new address&quot; لإضافة موقع جديد (المنزل، العمل، إلخ).
-5. ستظهر خريطة مع دبوس الموقع. اسحب الدبوس إلى موقعك بالضبط، ثم اضغط على &quot;Confirm location&quot;.
-6. أدخل تفاصيل عنوانك: اسم الشارع، رقم المبنى، رقم الشقة، إلخ.
-7. اضغط على &quot;Save address&quot; لإكمال العملية.
+1. اضغط على 'المزيد' (More) أسفل الشاشة.
+2. ادخل على 'إعدادات الحساب' وبعدين 'العناوين المحفوظة'.
+3. اضغط 'إضافة عنوان جديد'.
+4. حرك الدبوس على الخريطة لمكانك بالضبط وأكد الموقع.
+5. دخل تفاصيل العمارة والشقة واضغط 'حفظ'.
 
-سيكون عنوانك الجديد متاحاً للطلبات المستقبلية. أخبرني إذا كنت بحاجة إلى توضيح أي خطوة."></div>
+عرفني أول ما تخلص وأنا هتابع معاك!"></div>
       <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SURVEY -->
-<section id="survey" class="section">
-  <div class="section-header">
-    <div class="section-icon">⭐</div>
-    <div class="section-info">
-      <h2 class="section-title">Survey</h2>
-      <p class="section-desc">Encourage customers to complete post-chat feedback</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Glad to Help</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Glad I could assist you today. After we end the chat, you'll see a brief question about my help — we value your feedback." data-ar="يسعدني أنني تمكنت من مساعدتك اليوم. بعد انتهاء المحادثة ستظهر لك سؤال قصير عن مساعدتي — رأيك يهمنا."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Happy to Help</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I'm happy I could help today. You'll receive a short question about my assistance once the chat closes — we truly appreciate your feedback." data-ar="يسعدني أنني أفدتك اليوم. ستصلك سؤال قصير عن مساعدتي بعد إغلاق المحادثة — نقدّر رأيك جداً."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Great Assisting</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="It was great assisting you today. After the chat ends, you'll see a quick question about my support — your feedback really matters to us." data-ar="كان من دواعي سروري مساعدتك اليوم. بعد انتهاء المحادثة ستجد سؤالاً سريعاً عن الدعم الذي قدمته — تقييمك يهمنا فعلاً."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Arabic</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Thank you for your time. After the conversation ends, a brief rating about the assistance I provided will appear — your opinion truly matters to us." data-ar="أشكرك على وقتك. بعد انتهاء المحادثة هيظهر لك تقييم قصير عن المساعدة اللي قدمتهالك خلال المحادثة — رأيك يهمنا جدًا."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- END / CLOSE -->
-<section id="endclose" class="section">
-  <div class="section-header">
-    <div class="section-icon">✅</div>
-    <div class="section-info">
-      <h2 class="section-title">End / Close</h2>
-      <p class="section-desc">Professional closing messages to wrap up customer interactions</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Thank You Close</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Thank you very much for contacting Breadfast Support. We hope you have a better experience next time, and we wish you a wonderful day." data-ar="شكراً جداً لتواصلك مع دعم بريدفاست.
-نتمنى لحضرتك تجربة أفضل في المرات القادمة ونتمنى لك يوم سعيد."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-</section>
 <section id="cancel" class="section">
   <div class="section-header">
-    <div class="section-icon">❌</div>
-    <div class="section-info">
-      <h2 class="section-title">Order Cancellation</h2>
-      <p class="section-desc">Explanation and next steps for restaurant-canceled orders</p>
-    </div>
+    <h2 class="section-title">Order Cancellation</h2>
+    <p class="section-desc">Transparent handling of restaurant cancellations</p>
   </div>
 
   <div class="card">
     <div class="card-header">
-      <span class="card-tag tag-empathy">Explanation</span>
+      <span class="card-tag tag-empathy">Direct Explanation</span>
     </div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I sincerely apologize that your order was canceled. This occurred because the restaurant did not respond to the order — neither accepting nor rejecting it within the required timeframe.
-
-I will contact the restaurant immediately to understand why this happened and will update you as soon as I have more information." data-ar="أعتذر بصدق عن إلغاء طلبك. حدث هذا لأن المطعم لم يستجب للطلب — لا بالقبول ولا بالرفض خلال المهلة المطلوبة.
-
-سأتواصل مع المطعم على الفور لفهم سبب ذلك وسأُحدّثك بمجرد حصولي على مزيد من المعلومات."></div>
+      <div class="phrase-box" data-en="I am really sorry, but your order had to be canceled because the restaurant didn't confirm it in time. Let me contact them right away to see what exactly went wrong, and I'll update you ASAP." data-ar="أنا بعتذرلك جداً، طلبك اتلغى لأن المطعم مأكدش الطلب في الوقت المحدد. أنا بتواصل معاهم حالاً عشان أفهم السبب بالضبط وهرجعلك بتحديث فوراً."></div>
       <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
+        <button class="btn btn-primary" onclick="copyPhrase(this)">Copy</button>
       </div>
     </div>
   </div>
-</section></main>
+</section>
+
+</main>
 
 <script>
-var currentLang = 'en';
+let currentLang='en';
 
-var translations = {
+const translations={
   greeting:{en:'Greeting & Opening',ar:'التحية والافتتاحية'},
   delay:{en:'Order Delay — Apology',ar:'الاعتذار عن تأخير الطلب'},
   anything:{en:'Anything Else?',ar:'أي شيء آخر؟'},
@@ -769,170 +563,77 @@ var translations = {
   noresponse:{en:'No Response — Closing',ar:'لا يوجد رد — الإغلاق'},
   wallet:{en:'Charge Wallet',ar:'شحن المحفظة'},
   address:{en:'Change / Add Address',ar:'تغيير أو إضافة عنوان'},
-  cancel:{en:'Order Cancellation',ar:'إلغاء الطلب'},
-  survey:{en:'Survey',ar:'التقييم'},
-  endclose:{en:'End / Close',ar:'إنهاء المحادثة'}
+  cancel:{en:'Order Cancellation',ar:'إلغاء الطلب'}
 };
 
-var descTranslations = {
-  greeting:{en:'Professional opening statements to begin customer interactions',ar:'عبارات افتتاحية احترافية لبدء التفاعل مع العملاء'},
-  delay:{en:'Sincere acknowledgment of delays with appropriate accountability',ar:'الاعتراف الصادق بالتأخيرات مع تحمل المسؤولية المناسبة'},
-  anything:{en:'Professional closure prompts to ensure complete resolution',ar:'عبارات إغلاق احترافية لضمان الحل الكامل'},
-  hold:{en:'Respectful requests for time to review information',ar:'طلبات محترمة للوقت لمراجعة المعلومات'},
-  noresponse:{en:'Professional closure when customer is unresponsive',ar:'إغلاق احترافي عندما لا يستجيب العميل'},
-  wallet:{en:'Clear instructions for wallet top-up procedures',ar:'تعليمات واضحة لإجراءات شحن المحفظة'},
-  address:{en:'Step-by-step instructions for address management',ar:'تعليمات خطوة بخطوة لإدارة العنوان'},
-  cancel:{en:'Explanation and next steps for restaurant-canceled orders',ar:'الشرح والخطوات التالية للطلبات الملغاة من المطعم'},
-  survey:{en:'Encourage customers to complete post-chat feedback',ar:'تشجيع العملاء على إكمال استطلاع ما بعد المحادثة'},
-  endclose:{en:'Professional closing messages to wrap up customer interactions',ar:'رسائل إغلاق احترافية لإنهاء تفاعلات العملاء'}
+const descTranslations={
+  greeting:{en:'Friendly opening statements to build rapport immediately',ar:'عبارات افتتاحية ودية لبدء التفاعل مع العملاء بشكل طبيعي'},
+  delay:{en:'Human, empathetic acknowledgment of wait times',ar:'الاعتراف بالتأخير بأسلوب متفهم وودود'},
+  anything:{en:'Smooth ways to check if they need more help',ar:'طرق سلسة للتأكد من إنهاء كل مشاكل العميل'},
+  hold:{en:'Quick, polite ways to ask for time',ar:'طلبات محترمة وسريعة للوقت لمراجعة المعلومات'},
+  noresponse:{en:'Friendly closure when they ghost the chat',ar:'إغلاق ودي ومهذب للمحادثة عند عدم الرد'},
+  wallet:{en:'Easy steps for wallet top-ups',ar:'خطوات سهلة وبسيطة لإجراءات شحن المحفظة'},
+  address:{en:'Clear, bulleted address management',ar:'تعليمات واضحة خطوة بخطوة لإدارة العنوان'},
+  cancel:{en:'Transparent handling of restaurant cancellations',ar:'شرح واضح وشفاف للطلبات الملغاة من المطعم'}
 };
 
-var navLabels = {
-  greeting:{en:'Greeting',ar:'التحية'},
-  delay:{en:'Order Delay',ar:'تأخير الطلب'},
-  anything:{en:'Anything Else',ar:'أي شيء آخر'},
-  hold:{en:'Hold',ar:'الانتظار'},
-  noresponse:{en:'No Response',ar:'لا يوجد رد'},
-  wallet:{en:'Wallet',ar:'المحفظة'},
-  address:{en:'Address',ar:'العنوان'},
-  cancel:{en:'Cancellation',ar:'الإلغاء'},
-  survey:{en:'Survey',ar:'التقييم'},
-  endclose:{en:'End / Close',ar:'إنهاء'}
-};
-
-var sectionOrder = ['greeting','delay','anything','hold','noresponse','wallet','address','cancel','survey','endclose'];
-
-// Init all phrase boxes on load
-window.onload = function() {
-  document.querySelectorAll('.phrase-box').forEach(function(box) {
-    box.textContent = box.getAttribute('data-en') || '';
+function setLang(lang){
+  currentLang=lang;
+  document.body.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+  document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  document.querySelectorAll('.phrase-box').forEach(box=>{
+    box.textContent=box.getAttribute('data-'+lang);
   });
-};
-
-function setLang(lang) {
-  currentLang = lang;
-
-  // Direction
-  document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
-  // Toggle active button
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
-
-  // Update all phrase boxes
-  document.querySelectorAll('.phrase-box').forEach(function(box) {
-    box.textContent = box.getAttribute('data-' + lang) || '';
+  
+  document.querySelectorAll('.section').forEach(sec=>{
+    const id=sec.id;
+    const titleEl=sec.querySelector('.section-title');
+    const descEl=sec.querySelector('.section-desc');
+    if(titleEl)titleEl.textContent=translations[id][lang];
+    if(descEl)descEl.textContent=descTranslations[id][lang];
   });
-
-  // Update section titles & descs
-  document.querySelectorAll('.section').forEach(function(sec) {
-    var id = sec.id;
-    if (!translations[id]) return;
-    var t = sec.querySelector('.section-title');
-    var d = sec.querySelector('.section-desc');
-    if (t) t.textContent = translations[id][lang];
-    if (d) d.textContent = descTranslations[id][lang];
+  
+  document.querySelectorAll('.btn-primary').forEach(btn=>{
+    btn.textContent=lang==='ar'?'نسخ':'Copy';
   });
-
-  // Update nav labels
-  document.querySelectorAll('.nav-label').forEach(function(lbl, i) {
-    var id = sectionOrder[i];
-    if (navLabels[id]) lbl.textContent = navLabels[id][lang];
-  });
-
-  // Update copy button labels
-  document.querySelectorAll('.copy-label').forEach(function(lbl) {
-    if (!lbl.closest('.btn-copy').classList.contains('copied')) {
-      lbl.textContent = lang === 'ar' ? 'نسخ' : 'Copy';
-    }
-  });
-
-  // Hero text
-  var h1 = document.getElementById('hero-title');
-  var p = document.getElementById('hero-sub');
-  if (h1) h1.textContent = lang === 'ar' ? 'مكتبة ردود الدعم' : 'Agent Phrase Library';
-  if (p) p.textContent = lang === 'ar' ? 'ردود جاهزة للنسخ لكل سيناريو دعم' : 'Quick-copy responses for every support scenario';
 }
 
-function showSection(id, btn) {
-  document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
-  document.querySelectorAll('.nav-link').forEach(function(b){ b.classList.remove('active'); });
+function showSection(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(b=>b.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
-  window.scrollTo({top: 0, behavior: 'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function copyPhrase(btn) {
-  var box = btn.closest('.card-body').querySelector('.phrase-box');
-  var text = box.getAttribute('data-' + currentLang) || box.textContent || '';
-
-  // Ripple effect
-  var ripple = document.createElement('span');
-  ripple.className = 'ripple';
-  var rect = btn.getBoundingClientRect();
-  var size = Math.max(rect.width, rect.height);
-  ripple.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+((rect.width - size)/2)+'px;top:'+((rect.height - size)/2)+'px';
-  btn.appendChild(ripple);
-  setTimeout(function(){ ripple.remove(); }, 600);
-
-  // Flash the phrase box
-  box.classList.remove('flash');
-  void box.offsetWidth; // reflow
-  box.classList.add('flash');
-  setTimeout(function(){ box.classList.remove('flash'); }, 500);
-
-  // Copy text — with fallback for non-HTTPS
-  function doSuccess() {
+function copyPhrase(btn){
+  const box=btn.closest('.card-body').querySelector('.phrase-box');
+  const text=box.getAttribute('data-'+currentLang);
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent=currentLang==='ar'?'تم النسخ':'Copied';
     btn.classList.add('copied');
-    var icon = btn.querySelector('.copy-icon');
-    var label = btn.querySelector('.copy-label');
-    if (icon) icon.textContent = '✅';
-    if (label) label.textContent = currentLang === 'ar' ? 'تم النسخ!' : 'Copied!';
-    showToast(currentLang === 'ar' ? '✅ تم النسخ بنجاح' : '✅ Copied to clipboard!');
-    setTimeout(function() {
+    showToast(currentLang==='ar'?'تم النسخ':'Copied to clipboard');
+    setTimeout(()=>{
+      btn.textContent=currentLang==='ar'?'نسخ':'Copy';
       btn.classList.remove('copied');
-      if (icon) icon.textContent = '📋';
-      if (label) label.textContent = currentLang === 'ar' ? 'نسخ' : 'Copy';
-    }, 2000);
-  }
-
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(doSuccess).catch(function() {
-      fallbackCopy(text, doSuccess);
-    });
-  } else {
-    fallbackCopy(text, doSuccess);
-  }
+    },1800);
+  });
 }
 
-function fallbackCopy(text, callback) {
-  var ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try {
-    document.execCommand('copy');
-    callback();
-  } catch(e) {
-    console.error('Copy failed:', e);
-  }
-  document.body.removeChild(ta);
-}
-
-function showToast(msg) {
-  var existing = document.querySelector('.toast');
-  if (existing) existing.remove();
-  var toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.textContent = msg;
+function showToast(msg){
+  const existing=document.querySelector('.toast');
+  if(existing)existing.remove();
+  const toast=document.createElement('div');
+  toast.className='toast';
+  toast.textContent=msg;
   document.body.appendChild(toast);
-  setTimeout(function() {
-    toast.classList.add('toast-exit');
-    setTimeout(function(){ toast.remove(); }, 300);
-  }, 2200);
+  setTimeout(()=>toast.remove(),2200);
 }
+
+// Initialize on load
+setLang('en');
 </script>
 </body>
 </html>
