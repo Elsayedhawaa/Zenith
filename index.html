@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Breadfast Support</title>
+<title>Breadfast Support Phrases</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -19,7 +19,7 @@
 html,body{height:100%}
 body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
 body[dir="rtl"]{font-family:'Cairo',sans-serif}
-body[dir="rtl"] .phrase-box{border-left:none;border-right:3px solid var(--accent);border-radius:var(--radius-sm) 0 0 var(--radius-sm);text-align:right;font-family:'Cairo',sans-serif;line-height:1.9}
+body[dir="rtl"] .phrase-box{border-left:none;border-right:3px solid var(--accent);border-radius:var(--radius-sm) 0 0 var(--radius-sm);text-align:right;font-family:'Cairo',sans-serif;line-height:2}
 
 /* HEADER */
 .header{
@@ -37,7 +37,6 @@ body[dir="rtl"] .phrase-box{border-left:none;border-right:3px solid var(--accent
   animation:scrollFood 28s linear infinite;
 }
 @keyframes scrollFood{0%{transform:translateY(-50%) translateX(0)}100%{transform:translateY(-50%) translateX(-50%)}}
-
 .brand{display:flex;align-items:center;gap:14px;position:relative;z-index:1}
 .brand-logo-wrap{width:44px;height:44px;background:white;border-radius:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,0.2);overflow:hidden;flex-shrink:0}
 .brand-logo-wrap img{width:28px;height:28px;object-fit:contain}
@@ -52,11 +51,11 @@ body[dir="rtl"] .phrase-box{border-left:none;border-right:3px solid var(--accent
 .lang-btn.active{background:white;color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,0.15)}
 .lang-btn:hover:not(.active){background:rgba(255,255,255,0.12);color:white}
 
-/* HERO BANNER */
-.hero-banner{background:linear-gradient(135deg,#fce4f4 0%,#fff4fb 50%,#fce4f4 100%);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden}
+/* HERO */
+.hero-banner{background:linear-gradient(135deg,#fce4f4 0%,#fff4fb 50%,#fce4f4 100%);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden}
 .hero-banner::after{content:'🥐🥖🧆🍳🧇🍞🥛🥗🥚🧁';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-size:1.8em;opacity:0.1;letter-spacing:6px;pointer-events:none}
-.hero-logo-full{height:42px;object-fit:contain}
-.hero-divider{width:1px;height:38px;background:var(--border)}
+.hero-logo-full{height:40px;object-fit:contain}
+.hero-divider{width:1px;height:36px;background:var(--border)}
 .hero-text h1{font-size:1em;font-weight:700;color:var(--accent)}
 .hero-text p{font-size:0.79em;color:var(--text-muted);margin-top:2px}
 
@@ -74,68 +73,48 @@ body[dir="rtl"] .phrase-box{border-left:none;border-right:3px solid var(--accent
 .section{display:none}
 .section.active{display:block;animation:fadeIn 0.25s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION HEADER */
 .section-header{margin-bottom:22px;padding-bottom:16px;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:12px}
 .section-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),#d4008c);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.3em;box-shadow:0 4px 12px var(--accent-glow);flex-shrink:0}
 .section-title{font-size:1.2em;font-weight:700;color:var(--text)}
 .section-desc{color:var(--text-muted);font-size:0.84em;margin-top:2px}
 
+/* SUB-GROUP LABEL */
+.sub-group{margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+.sub-group-line{flex:1;height:1px;background:var(--border)}
+.sub-group-label{font-size:0.72em;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);white-space:nowrap;padding:0 4px}
+
 /* CARDS */
-.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden;transition:all 0.18s ease;box-shadow:var(--shadow-sm)}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;transition:all 0.18s ease;box-shadow:var(--shadow-sm)}
 .card:hover{border-color:rgba(176,0,116,0.3);box-shadow:0 6px 20px rgba(176,0,116,0.1);transform:translateY(-1px)}
-.card-header{padding:11px 16px;background:linear-gradient(135deg,#fdf4f9,#fff0f8);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-header{padding:10px 16px;background:linear-gradient(135deg,#fdf4f9,#fff0f8);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .card-tag{font-size:0.68em;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:3px 10px;border-radius:20px}
 .tag-empathy{background:#fef2f2;color:#9f1239;border:1px solid #fecdd3}
 .tag-warm{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
 .tag-prof{background:var(--accent-light);color:var(--accent);border:1px solid rgba(176,0,116,0.2)}
 .tag-calm{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+.tag-alert{background:#fef9c3;color:#854d0e;border:1px solid #fde68a}
+
 .card-body{padding:16px}
 .phrase-box{background:linear-gradient(135deg,#fdf8fc,#fff4fb);border-left:3px solid var(--accent);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:14px 16px;margin-bottom:12px;font-size:0.93em;line-height:1.75;color:var(--text);white-space:pre-line}
 .card-actions{display:flex;gap:8px}
 
-/* COPY BUTTON + ANIMATION */
-.btn-copy{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:9px 22px;border-radius:30px;border:none;
-  font-weight:600;font-size:0.83em;cursor:pointer;
-  font-family:inherit;position:relative;overflow:hidden;
-  background:linear-gradient(135deg,var(--accent),#cc0090);
-  color:white;box-shadow:0 3px 12px rgba(176,0,116,0.35);
-  transition:all 0.2s ease;
-}
+/* COPY BUTTON */
+.btn-copy{display:inline-flex;align-items:center;gap:7px;padding:9px 22px;border-radius:30px;border:none;font-weight:600;font-size:0.83em;cursor:pointer;font-family:inherit;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--accent),#cc0090);color:white;box-shadow:0 3px 12px rgba(176,0,116,0.35);transition:all 0.2s ease}
 .btn-copy:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(176,0,116,0.45)}
 .btn-copy:active{transform:scale(0.96)}
-.btn-copy.copied{
-  background:linear-gradient(135deg,#16a34a,#22c55e);
-  box-shadow:0 3px 12px rgba(22,163,74,0.4);
-  animation:bounceBtn 0.4s cubic-bezier(0.34,1.56,0.64,1);
-}
+.btn-copy.copied{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 3px 12px rgba(22,163,74,0.4);animation:bounceBtn 0.4s cubic-bezier(0.34,1.56,0.64,1)}
 @keyframes bounceBtn{0%{transform:scale(1)}40%{transform:scale(1.15)}70%{transform:scale(0.95)}100%{transform:scale(1)}}
-
-/* Ripple effect on copy */
-.btn-copy .ripple{
-  position:absolute;border-radius:50%;
-  background:rgba(255,255,255,0.4);
-  transform:scale(0);animation:rippleAnim 0.5s ease-out;
-  pointer-events:none;
-}
+.btn-copy .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);transform:scale(0);animation:rippleAnim 0.5s ease-out;pointer-events:none}
 @keyframes rippleAnim{to{transform:scale(4);opacity:0}}
 
 /* TOAST */
-.toast{
-  position:fixed;bottom:28px;right:28px;
-  background:linear-gradient(135deg,#16a34a,#22c55e);
-  color:white;padding:13px 22px;border-radius:40px;
-  box-shadow:0 8px 28px rgba(22,163,74,0.4);
-  font-weight:600;font-size:0.87em;z-index:9999;
-  display:flex;align-items:center;gap:10px;
-  animation:toastPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
-}
+.toast{position:fixed;bottom:28px;right:28px;background:linear-gradient(135deg,#16a34a,#22c55e);color:white;padding:13px 22px;border-radius:40px;box-shadow:0 8px 28px rgba(22,163,74,0.4);font-weight:600;font-size:0.87em;z-index:9999;display:flex;align-items:center;gap:10px;animation:toastPop 0.4s cubic-bezier(0.34,1.56,0.64,1)}
 @keyframes toastPop{from{transform:translateY(30px) scale(0.7);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
 .toast-exit{animation:toastFade 0.3s ease forwards}
 @keyframes toastFade{to{transform:translateY(10px) scale(0.9);opacity:0}}
 body[dir="rtl"] .toast{right:auto;left:28px}
-
-/* COPY FLASH overlay on phrase-box */
 .phrase-box.flash{animation:flashCopy 0.5s ease}
 @keyframes flashCopy{0%{background:linear-gradient(135deg,#dcfce7,#bbf7d0)}100%{background:linear-gradient(135deg,#fdf8fc,#fff4fb)}}
 
@@ -145,11 +124,11 @@ body[dir="rtl"] .toast{right:auto;left:28px}
 
 @media(max-width:640px){
   .header{padding:0 16px;height:62px}
-  .hero-banner{padding:12px 16px}
+  .hero-banner{padding:10px 16px}
   .top-nav{padding:0 12px;top:62px}
-  .main-content{padding:16px 12px}
+  .main-content{padding:14px 12px}
   .lang-btn{padding:6px 12px}
-  .hero-logo-full{height:32px}
+  .hero-logo-full{height:30px}
   .hero-divider,.hero-text{display:none}
 }
 </style>
@@ -184,28 +163,32 @@ body[dir="rtl"] .toast{right:auto;left:28px}
 <nav class="top-nav">
   <div class="nav-scroll" id="nav-scroll">
     <button class="nav-link active" onclick="showSection('greeting',this)"><span class="nav-icon">👋</span><span class="nav-label">Greeting</span></button>
-    <button class="nav-link" onclick="showSection('delay',this)"><span class="nav-icon">⏱️</span><span class="nav-label">Order Delay</span></button>
+    <button class="nav-link" onclick="showSection('apology',this)"><span class="nav-icon">🙏</span><span class="nav-label">Apology</span></button>
+    <button class="nav-link" onclick="showSection('hold',this)"><span class="nav-icon">⏸️</span><span class="nav-label">Hold & Wait</span></button>
     <button class="nav-link" onclick="showSection('anything',this)"><span class="nav-icon">💬</span><span class="nav-label">Anything Else</span></button>
-    <button class="nav-link" onclick="showSection('hold',this)"><span class="nav-icon">⏸️</span><span class="nav-label">Hold</span></button>
     <button class="nav-link" onclick="showSection('noresponse',this)"><span class="nav-icon">🔇</span><span class="nav-label">No Response</span></button>
     <button class="nav-link" onclick="showSection('wallet',this)"><span class="nav-icon">💳</span><span class="nav-label">Wallet</span></button>
     <button class="nav-link" onclick="showSection('address',this)"><span class="nav-icon">📍</span><span class="nav-label">Address</span></button>
-    <button class="nav-link" onclick="showSection('cancel',this)"><span class="nav-icon">❌</span><span class="nav-label">Cancellation</span></button>
     <button class="nav-link" onclick="showSection('survey',this)"><span class="nav-icon">⭐</span><span class="nav-label">Survey</span></button>
     <button class="nav-link" onclick="showSection('endclose',this)"><span class="nav-icon">✅</span><span class="nav-label">End / Close</span></button>
   </div>
 </nav>
 
 <main class="main-content" id="main-content">
-<!-- GREETING -->
+
+<!-- ═══════════════════════════════════════
+     GREETING
+════════════════════════════════════════ -->
 <section id="greeting" class="section active">
   <div class="section-header">
     <div class="section-icon">👋</div>
     <div class="section-info">
       <h2 class="section-title">Greeting & Opening</h2>
-      <p class="section-desc">Professional opening statements to begin customer interactions</p>
+      <p class="section-desc">Opening statements to welcome and assist customers</p>
     </div>
   </div>
+
+  <div class="sub-group"><span class="sub-group-label">Standard Welcome</span><div class="sub-group-line"></div></div>
 
   <div class="card">
     <div class="card-header"><span class="card-tag tag-warm">Welcome — Standard</span></div>
@@ -224,19 +207,21 @@ body[dir="rtl"] .toast{right:auto;left:28px}
   </div>
 
   <div class="card">
-    <div class="card-header"><span class="card-tag tag-warm">Welcome — Casual Arabic</span></div>
+    <div class="card-header"><span class="card-tag tag-warm">Welcome — Casual</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Hello, I hope you're doing well. Thank you for contacting Breadfast." data-ar="أهلاً أ.
-أتمنى تكون بخير
-شكراً لتواصلك مع بريدفاست"></div>
+      <div class="phrase-box" data-en="Hello! I hope you're doing well. Thank you for contacting Breadfast." data-ar="أهلاً أ.
+أتمنى تكون بخير.
+شكراً لتواصلك مع بريدفاست."></div>
       <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 
+  <div class="sub-group"><span class="sub-group-label">Time of Day</span><div class="sub-group-line"></div></div>
+
   <div class="card">
     <div class="card-header"><span class="card-tag tag-prof">Morning</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Good morning. Thank you for reaching out to Breadfast — how may I assist you today?" data-ar="صباح الخير. شكراً لتواصلك مع بريدفاست — إزاي أقدر أساعدك النهارده؟"></div>
+      <div class="phrase-box" data-en="Good morning! Thank you for reaching out to Breadfast — how may I assist you today?" data-ar="صباح الخير! شكراً لتواصلك مع بريدفاست — إزاي أقدر أساعدك النهارده؟"></div>
       <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
@@ -244,15 +229,17 @@ body[dir="rtl"] .toast{right:auto;left:28px}
   <div class="card">
     <div class="card-header"><span class="card-tag tag-prof">Evening</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Good evening. Thank you for contacting Breadfast — what can I help you with?" data-ar="مساء الخير. شكراً لتواصلك مع بريدفاست — إزاي أقدر أساعدك؟"></div>
+      <div class="phrase-box" data-en="Good evening! Thank you for contacting Breadfast — how can I help you?" data-ar="مساء الخير! شكراً لتواصلك مع بريدفاست — إزاي أقدر أساعدك؟"></div>
       <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 
+  <div class="sub-group"><span class="sub-group-label">How Can I Help</span><div class="sub-group-line"></div></div>
+
   <div class="card">
     <div class="card-header"><span class="card-tag tag-prof">How May I Help</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="How may I help you?" data-ar="إزاي أقدر أساعد حضرتك النهارده؟"></div>
+      <div class="phrase-box" data-en="How may I help you today?" data-ar="إزاي أقدر أساعد حضرتك النهارده؟"></div>
       <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
@@ -260,228 +247,288 @@ body[dir="rtl"] .toast{right:auto;left:28px}
   <div class="card">
     <div class="card-header"><span class="card-tag tag-calm">Clarify Issue</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Could you please provide more details about the issue?" data-ar="ممكن توضحلي المشكلة اللي واجهتك في الطلب؟"></div>
+      <div class="phrase-box" data-en="Could you please provide more details about the issue so I can assist you better?" data-ar="ممكن توضحلي المشكلة اللي واجهتك في الطلب علشان أقدر أساعدك بشكل أفضل؟"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-calm">Apology for Slow Reply</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I sincerely apologize for the delay in responding — we are experiencing a high volume of messages at the moment. Thank you so much for your patience." data-ar="بعتذر لحضرتك جدًا عن التأخر في الرد نظرًا لتعرُّضنا لضغط كبير من الرسائل.
+شكراً جزيلاً على صبرك."></div>
       <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 </section>
 
-<!-- ORDER DELAY -->
-<section id="delay" class="section">
+<!-- ═══════════════════════════════════════
+     APOLOGY
+════════════════════════════════════════ -->
+<section id="apology" class="section">
   <div class="section-header">
-    <div class="section-icon">⏱️</div>
+    <div class="section-icon">🙏</div>
     <div class="section-info">
-      <h2 class="section-title">Order Delay — Apology</h2>
-      <p class="section-desc">Sincere acknowledgment of delays with appropriate accountability</p>
+      <h2 class="section-title">Apology</h2>
+      <p class="section-desc">General and issue-specific apologies with accountability</p>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Acknowledgment</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I understand your frustration, and I want to be direct with you: a delay like this does not meet our standards at Breadfast. We take full responsibility and sincerely apologize for the inconvenience this has caused." data-ar="أنا فاهم إن الموضوع ده مزعج جداً، وهكون صريح معاك: التأخير اللي حصل مش بمستوى بريدفاست. إحنا مسؤولين وبنعتذر بصدق عن الإزعاج اللي سببناه."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
+  <div class="sub-group"><span class="sub-group-label">General Apology</span><div class="sub-group-line"></div></div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Accountability</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-empathy">Standard Apology</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="We recognize that order delays are frustrating, and this is not the experience we want for our customers. We sincerely apologize for the delay and appreciate your patience as we work to resolve this matter." data-ar="عارفين إن التأخير مزعج، ومش دي التجربة اللي عايزينها لعملاؤنا. بنعتذر بصدق عن التأخير ونقدّر صبر حضرتك وإحنا شغالين على حل الموضوع."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Apology</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="We sincerely apologize for the inconvenience caused. This is certainly not the experience we aim to provide at Breadfast, and I'll do my best to assist you with the best possible solution." data-ar="نعتذر لحضرتك جداً عن الإزعاج اللي حصل.
+      <div class="phrase-box" data-en="I sincerely apologize for the inconvenience caused. This is certainly not the experience we aim to provide at Breadfast, and I will do my best to assist you with the best possible solution." data-ar="بعتذر لحضرتك جدًا عن الإزعاج اللي حصل.
 أكيد ده مش المستوى اللي بنسعى نقدمه في بريدفاست، وخليني أساعدك بأفضل حل ممكن."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Showing Empathy</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-empathy">Not Acceptable</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I completely understand how frustrating this situation can be, and I will do my best to assist you and find a suitable solution." data-ar="متفهم تماماً قد إيه الموضوع ده ممكن يكون مزعج لحضرتك، وبإذن الله هبذل كل جهدي علشان أساعدك وأوصل لحل مناسب."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+      <div class="phrase-box" data-en="This is certainly not acceptable at Breadfast. I have immediately raised a report to the relevant department to ensure this issue does not happen again." data-ar="ده أكيد تصرف غير مقبول عند بريدفاست، وأنا حالًا رفعت تقرير للقسم المختص علشان المشكلة متكررش تاني."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-empathy">Empathy + Action</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I completely understand how frustrating this situation must be, and I sincerely apologize. I will do everything I can to find the best solution for you right now." data-ar="أنا فاهم تمامًا قد إيه الموضوع ده مزعج لحضرتك، وبعتذر بصدق.
+هبذل كل جهدي دلوقتي علشان أوصّلك لأفضل حل ممكن."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-empathy">Repeat Apology</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We sincerely repeat our apology for any inconvenience we may have caused, and we truly appreciate your understanding." data-ar="بنكرر اعتذارنا عن أي إزعاج سببناه لحضرتك، وبنشكرك جدًا على تفهُّمك."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="sub-group"><span class="sub-group-label">Order Delay</span><div class="sub-group-line"></div></div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-empathy">Delay Acknowledgment</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I understand your frustration — a delay like this does not meet our standards at Breadfast. We take full responsibility and sincerely apologize for the inconvenience." data-ar="أنا فاهم إن الموضوع ده مزعج جدًا، والتأخير اللي حصل مش بمستوى بريدفاست.
+إحنا مسؤولين وبنعتذر بصدق عن الإزعاج اللي سببناه."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-empathy">Delay Accountability</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We recognize that order delays are frustrating, and this is not the experience we want for our customers. We sincerely apologize and appreciate your patience while we work to resolve this." data-ar="عارفين إن التأخير مزعج، ومش دي التجربة اللي عايزينها لعملائنا.
+بنعتذر بصدق ونقدّر صبر حضرتك وإحنا شغالين على حل الموضوع."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="sub-group"><span class="sub-group-label">Delivery Issue</span><div class="sub-group-line"></div></div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-alert">Delivery Problem</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I sincerely apologize for the delivery issue you experienced. This is not the service level we aim to provide, and I am raising this immediately to ensure it is resolved." data-ar="بعتذر جدًا عن المشكلة اللي حصلت في التوصيل.
+ده مش المستوى اللي بنسعى إليه في بريدفاست، وأنا رافع الأمر دلوقتي علشان يتحل."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-alert">Delivery Not Available Again</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Unfortunately, it is not possible for the same delivery driver to return to you. However, you are welcome to place a new order and I have already applied a compensation for the delivery fees." data-ar="للأسف مش متاح عندنا إن المندوب يرجع لحضرتك تاني.
+بس ممكن حضرتك تطلب مرة تانية، وأنا عوّضت حضرتك بالفعل برسوم التوصيل."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="sub-group"><span class="sub-group-label">Missing Order</span><div class="sub-group-line"></div></div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-alert">Order Not Received</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I sincerely apologize that you did not receive your order. This is absolutely not acceptable and I am investigating this right now to find the best resolution for you." data-ar="بعتذر جدًا إن حضرتك ما استلمتش طلبك.
+ده مش مقبول خالص وأنا بحقق في الموضوع ده دلوقتي علشان أوصّلك لأفضل حل."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-alert">Missing Item</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I apologize that an item was missing from your order. This should not have happened and I will make sure you are compensated for the missing item." data-ar="بعتذر إن في صنف ناقص من طلب حضرتك.
+ده ما كانش المفروض يحصل وهتأكد إن حضرتك اتعوّض عن الصنف الناقص."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="sub-group"><span class="sub-group-label">Wrong Order</span><div class="sub-group-line"></div></div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-alert">Wrong Items Delivered</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I sincerely apologize that you received the wrong order. This is completely unacceptable and I am immediately escalating this to ensure you receive the correct resolution." data-ar="بعتذر جدًا إن حضرتك استلمت طلب غلط.
+ده مش مقبول خالص وأنا رافع الموضوع ده فورًا علشان حضرتك ياخد التعويض المناسب."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="sub-group"><span class="sub-group-label">Order Cancellation</span><div class="sub-group-line"></div></div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-empathy">Cancellation Explanation</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I sincerely apologize that your order was canceled. This occurred because the restaurant did not respond to the order — neither accepting nor rejecting it — within the required timeframe.
+
+I will contact the restaurant immediately to understand why this happened and will update you as soon as I have more information." data-ar="بعتذر جدًا عن إلغاء طلبك.
+ده حصل لأن المطعم ما ردّش على الطلب — لا قَبِله ولا رفضه — في الوقت المطلوب.
+
+هتواصل مع المطعم دلوقتي أفهم إيه اللي صاير، وهحدّثك بأسرع ما عندي معلومة."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 </section>
 
-<!-- ANYTHING ELSE -->
-<section id="anything" class="section">
-  <div class="section-header">
-    <div class="section-icon">💬</div>
-    <div class="section-info">
-      <h2 class="section-title">Anything Else?</h2>
-      <p class="section-desc">Professional closure prompts to ensure complete resolution</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Standard</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="في حاجة تانية أقدر أساعدك فيها؟"></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Thorough</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Before we conclude, please let me know if there are any other matters I can address for you." data-ar="قبل ما نخلص، قولي لو في أي حاجة تانية أقدر أساعدك فيها."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Follow-up</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="If you have any additional questions or concerns, please do not hesitate to ask." data-ar="لو عندك أي سؤال تاني، متترددش وسألني."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Further Help</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Do you need any further help?" data-ar="هل في أي حاجة تانية أقدر أساعد حضرتك فيها؟"></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Anything Else</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Is there anything else I can help you with?" data-ar="هل حضرتك محتاج أي مساعدة تانية؟"></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Assist Today</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Is there anything else I can assist you with today?" data-ar="هل في أي حاجة تانية أقدر أساعد حضرتك فيها؟"></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Further Assistance</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Please let me know if you need any further assistance." data-ar="لو محتاج أي حاجة تانية، أنا هنا."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOLD & WAIT -->
+<!-- ═══════════════════════════════════════
+     HOLD & WAIT
+════════════════════════════════════════ -->
 <section id="hold" class="section">
   <div class="section-header">
     <div class="section-icon">⏸️</div>
     <div class="section-info">
       <h2 class="section-title">Hold & Wait</h2>
-      <p class="section-desc">Respectful requests for time to review information</p>
+      <p class="section-desc">Polite requests to hold while checking the system or issue</p>
     </div>
   </div>
 
+  <div class="sub-group"><span class="sub-group-label">Initial Hold</span><div class="sub-group-line"></div></div>
+
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">Brief</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-calm">Quick Check</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Please allow me a moment to review the details in our system." data-ar="لحظة بس وأراجع التفاصيل على النظام."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+      <div class="phrase-box" data-en="Could you please hold with me for a couple of minutes while I check this in the system?" data-ar="هستأذنك لحظات للمراجعة على النظام — شكراً على صبرك."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">With Return</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I need a brief moment to check the information in our system. I will return to you shortly." data-ar="محتاج لحظة صغيرة أتحقق من المعلومات. هرجعلك في الحال."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">Quick Check</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Allow me a moment to verify this information. I will be with you as soon as possible." data-ar="خليني أتأكد من المعلومة دي، هكون معاك في أقرب وقت."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-calm">Review Order</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-calm">Review Order</span></div>
     <div class="card-body">
       <div class="phrase-box" data-en="Please allow me a moment while I review the order details for you. Thank you very much for your patience." data-ar="لحظة واحدة من فضلك أراجع تفاصيل الطلب لحضرتك.
-وشكراً جداً على صبرك."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+وشكراً جدًا على صبرك."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-calm">Check System</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I need a brief moment to check the information in our system. I will be right with you." data-ar="محتاج لحظة صغيرة أتحقق من المعلومات على النظام — هرجعلك في الحال."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-calm">Verify Info</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Allow me a moment to verify this for you. I will be with you as soon as possible." data-ar="خليني أتأكد من المعلومة دي لحضرتك — هكون معاك في أقرب وقت."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="sub-group"><span class="sub-group-label">Extended Wait</span><div class="sub-group-line"></div></div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-alert">Need Extra Minutes</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I apologize — I need a few more minutes to look into this properly. Thank you so much for your patience, I truly appreciate it." data-ar="بعتذر من حضرتك — محتاج دقايق إضافية أراجع البيانات وأرجع لحضرتك.
+شكراً جدًا على صبرك، ده بيفرق معايا جدًا."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-alert">Still Checking</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I am still looking into this for you — I apologize for the additional wait. I want to make sure I give you the most accurate information." data-ar="لسه بتابع الموضوع لحضرتك — بعتذر على الانتظار الزيادة.
+عايز أتأكد إني بديك المعلومة الصح."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-calm">Returning</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Thank you for your patience — I am back with you now." data-ar="شكراً على صبرك — أنا معاك دلوقتي."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 </section>
 
-<!-- NO RESPONSE -->
+<!-- ═══════════════════════════════════════
+     ANYTHING ELSE
+════════════════════════════════════════ -->
+<section id="anything" class="section">
+  <div class="section-header">
+    <div class="section-icon">💬</div>
+    <div class="section-info">
+      <h2 class="section-title">Anything Else?</h2>
+      <p class="section-desc">Follow-up prompts to ensure complete resolution</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Still Have Questions</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Is there still anything else I can assist you with today?" data-ar="هل مازال عند حضرتك أي استفسار؟"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Anything Else</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Is there anything else I can help you with?" data-ar="في حاجة تانية أقدر أساعدك فيها؟"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Before We Close</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Before we wrap up, is there anything else I can help you with?" data-ar="قبل ما نخلص، في أي حاجة تانية أقدر أساعدك فيها؟"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Further Help</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Please feel free to reach out if you need any further assistance." data-ar="لو محتاج أي حاجة تانية، أنا هنا."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Any Questions</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="If you have any additional questions, please do not hesitate to ask." data-ar="لو عندك أي سؤال تاني، متترددش وسألني."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     NO RESPONSE
+════════════════════════════════════════ -->
 <section id="noresponse" class="section">
   <div class="section-header">
     <div class="section-icon">🔇</div>
@@ -492,317 +539,276 @@ body[dir="rtl"] .toast{right:auto;left:28px}
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Standard</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-prof">Standard</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="As we have not received a response, we will close this conversation. Please feel free to contact us again if you need further assistance." data-ar="بما إننا مش بنتلقى رد، هنغلق الشات دلوقتي. لو احتجت أي حاجة، تقدر تتواصل معانا في أي وقت."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+      <div class="phrase-box" data-en="As we have not received a response, we will close this conversation. Please feel free to contact us again if you need further assistance." data-ar="بما إننا مش بنتلقى رد، هنغلق الشات دلوقتي.
+لو احتجت أي حاجة، تقدر تتواصل معانا في أي وقت."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Reassuring</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-prof">Reassuring</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Since we have not heard back from you, we will close this chat. Our support team remains available should you need assistance in the future." data-ar="بما إننا مش سامعين حضرتك، هنضطر نغلق الشات. فريق الدعم دايماً موجود لو احتجت مساعدة."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+      <div class="phrase-box" data-en="Since we have not heard back from you, we will close this chat. Our support team is always available should you need assistance in the future." data-ar="بما إننا مش سامعين حضرتك، هنضطر نغلق الشات.
+فريق الدعم دايمًا موجود لو احتجت مساعدة."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">End Wait</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-prof">End Wait</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="We didn't hear back from you, so we'll close this chat for now. You can reach out anytime if you need help." data-ar="بما إننا مش بنتلقى رد، هنغلق الشات دلوقتي. تقدر تتواصل معانا في أي وقت لو احتجت."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Feedback Request</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Thank you so much for your time and for reaching out to us today. I'd really appreciate it if you could share your feedback after our conversation ends." data-ar="شكراً جزيلاً على وقتك ووجودك معانا النهارده. هيسعدني لو شاركتنا رأيك بعد ما المحادثة تخلص."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+      <div class="phrase-box" data-en="We did not hear back from you, so we will close this chat for now. You can reach out anytime if you need help." data-ar="بما إننا مش بنتلقى رد، هنغلق الشات دلوقتي.
+تقدر تتواصل معانا في أي وقت لو احتجت."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 </section>
 
-<!-- CHARGE WALLET -->
+<!-- ═══════════════════════════════════════
+     WALLET
+════════════════════════════════════════ -->
 <section id="wallet" class="section">
   <div class="section-header">
     <div class="section-icon">💳</div>
     <div class="section-info">
       <h2 class="section-title">Charge Wallet</h2>
-      <p class="section-desc">Clear instructions for wallet top-up procedures</p>
+      <p class="section-desc">Step-by-step wallet top-up instructions</p>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">English UI</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-prof">English UI</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
+      <div class="phrase-box" data-en="Here are the steps to add credit to your Breadfast wallet:
 
-1. Open the Breadfast app and navigate to the payment page labeled &quot;Pay&quot; at the bottom.
-2. You will see your current wallet balance and an option labeled &quot;Add to balance&quot; — select this.
+1. Open the Breadfast app and go to the &quot;Pay&quot; page at the bottom.
+2. You will see your wallet balance and an &quot;Add to balance&quot; option — tap it.
 3. Choose &quot;Quick add&quot; to add a specific amount (100, 200, etc.).
 4. Under &quot;Payment Method&quot;, select &quot;New credit/debit card&quot;.
-5. Enter your card details to complete the wallet top-up.
+5. Enter your card details to complete the top-up.
 
-Please follow these steps, and let me know if you encounter any issues." data-ar="هرشدك على خطوات إضافة رصيد لمحفظة بريدفاست:
+Let me know if you run into any issues!" data-ar="هرشدك على خطوات إضافة رصيد لمحفظة بريدفاست:
 
-1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;Pay&quot; في الأسفل.
-2. ستجد رصيد المحفظة الحالي وخيار &quot;Add to balance&quot; — اختره.
+1. افتح تطبيق بريدفاست وانتقل لصفحة &quot;Pay&quot; في الأسفل.
+2. هتلاقي رصيد المحفظة وخيار &quot;Add to balance&quot; — اضغط عليه.
 3. اختر &quot;Quick add&quot; لإضافة مبلغ محدد (100، 200، إلخ).
 4. في &quot;Payment Method&quot;، اختر &quot;New credit/debit card&quot;.
 5. أدخل بيانات بطاقتك لإكمال الشحن.
 
-اتبع الخطوات دي، وقولي لو واجهت أي مشكلة."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+قولي لو واجهت أي مشكلة!"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Arabic UI</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-prof">Arabic UI</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="I will guide you through adding credit to your Breadfast wallet:
+      <div class="phrase-box" data-en="Here are the steps to add credit to your Breadfast wallet (Arabic app):
 
-1. Open the Breadfast app and navigate to the payment page labeled &quot;باي&quot; at the bottom.
-2. You will see your current wallet balance and an option labeled &quot;إضافة إلى الرصيد&quot; — select this.
+1. Open the app and go to &quot;باي&quot; at the bottom.
+2. Tap &quot;إضافة إلى الرصيد&quot;.
 3. Choose &quot;إضافة سريعة&quot; to add a specific amount.
 4. Under &quot;طريقة الدفع&quot;, select &quot;بطاقة ائتمان أو خصم جديدة&quot;.
-5. Enter your card details to complete the wallet top-up.
+5. Enter your card details to complete the top-up.
 
-Please follow these steps, and let me know if you encounter any issues." data-ar="هرشدك على خطوات إضافة رصيد لمحفظة بريدفاست:
+Let me know if you need any help!" data-ar="هرشدك على خطوات إضافة رصيد لمحفظة بريدفاست (التطبيق بالعربي):
 
-1. افتح تطبيق بريدفاست وانتقل إلى صفحة الدفع المسمّاة &quot;باي&quot; في الأسفل.
-2. ستجد رصيد المحفظة الحالي وخيار &quot;إضافة إلى الرصيد&quot; — اختره.
+1. افتح التطبيق وانتقل لصفحة &quot;باي&quot; في الأسفل.
+2. اضغط على &quot;إضافة إلى الرصيد&quot;.
 3. اختر &quot;إضافة سريعة&quot; لإضافة مبلغ محدد.
 4. في &quot;طريقة الدفع&quot;، اختر &quot;بطاقة ائتمان أو خصم جديدة&quot;.
 5. أدخل بيانات بطاقتك لإكمال الشحن.
 
-اتبع الخطوات دي، وقولي لو واجهت أي مشكلة."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+قولي لو محتاج أي مساعدة!"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 </section>
 
-<!-- ADDRESS -->
+<!-- ═══════════════════════════════════════
+     ADDRESS
+════════════════════════════════════════ -->
 <section id="address" class="section">
   <div class="section-header">
     <div class="section-icon">📍</div>
     <div class="section-info">
       <h2 class="section-title">Change / Add Address</h2>
-      <p class="section-desc">Step-by-step instructions for address management</p>
+      <p class="section-desc">Step-by-step address management instructions</p>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Instructions</span>
+    <div class="card-header"><span class="card-tag tag-calm">Delete &amp; Re-add Prompt</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Could you please delete the address and add it again? I will guide you through the steps." data-ar="ممكن حضرتك تمسح العنوان وتضيفه مرة تانية؟ هرشدك على الخطوات."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Full Steps</span></div>
     <div class="card-body">
       <div class="phrase-box" data-en="Here are the steps to add or update your address in the Breadfast app:
 
 1. Open the app and tap &quot;More&quot; at the bottom of the screen.
-2. Select &quot;Account Settings&quot; from the menu.
-3. Tap &quot;Saved addresses&quot; to view your current addresses.
-4. Tap &quot;Add new address&quot; to add a new location (home, work, etc.).
-5. A map will appear with a location pin. Drag the pin to your exact location, then tap &quot;Confirm location&quot;.
-6. Enter your address details: street name, building number, apartment number, etc.
-7. Tap &quot;Save address&quot; to complete the process.
+2. Go to &quot;Account Settings&quot;.
+3. Tap &quot;Saved addresses&quot;.
+4. Tap &quot;Add new address&quot;.
+5. A map will appear — drag the pin to your exact location, then tap &quot;Confirm location&quot;.
+6. Fill in your address details (street, building, apartment, etc.).
+7. Tap &quot;Save address&quot;.
 
-Your new address will now be available for future orders. Please let me know if you need clarification on any step." data-ar="دي الخطوات اللي هتضيف أو تعدل بيها عنوانك في تطبيق بريدفاست:
+Your new address will be ready for your next order. Let me know if you need help with any step!" data-ar="لإضافة أو تعديل عنوانك في تطبيق بريدفاست:
 
-1. افتح التطبيق واضغط على &quot;More&quot; في أسفل الشاشة.
-2. اختر &quot;Account Settings&quot; من القائمة.
-3. اضغط على &quot;Saved addresses&quot; لعرض عناوينك الحالية.
-4. اضغط على &quot;Add new address&quot; لإضافة موقع جديد (المنزل، العمل، إلخ).
-5. ستظهر خريطة مع دبوس الموقع. اسحب الدبوس إلى موقعك بالضبط، ثم اضغط على &quot;Confirm location&quot;.
-6. أدخل تفاصيل عنوانك: اسم الشارع، رقم المبنى، رقم الشقة، إلخ.
-7. اضغط على &quot;Save address&quot; لإكمال العملية.
+1. افتح التطبيق.
+2. اضغط على المزيد في الأسفل.
+3. اختر الإعدادات.
+4. اضغط على تعديل العناوين.
+5. اضغط أضِف عنوانًا جديدًا.
+6. حدِّد موقعك على الخريطة.
+7. اضغط للتأكيد.
+8. املأ البيانات (الشارع، رقم المبنى، الشقة، إلخ).
+9. اضغط على أضِف العنوان.
 
-العنوان الجديد هيبقى متاح للطلبات الجاية. قولي لو محتاج توضيح في أي خطوة."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+العنوان الجديد هيبقى جاهز للطلب الجاي. قولي لو محتاج مساعدة في أي خطوة!"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 </section>
 
-<!-- SURVEY -->
+<!-- ═══════════════════════════════════════
+     SURVEY
+════════════════════════════════════════ -->
 <section id="survey" class="section">
   <div class="section-header">
     <div class="section-icon">⭐</div>
     <div class="section-info">
       <h2 class="section-title">Survey</h2>
-      <p class="section-desc">Encourage customers to complete post-chat feedback</p>
+      <p class="section-desc">Encourage customers to rate the chat after it ends</p>
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Glad to Help</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="Glad I could assist you today. After we end the chat, you'll see a brief question about my help — we value your feedback." data-ar="يسعدني إني قدرت أساعدك النهارده. بعد ما المحادثة تخلص هيظهرلك سؤال قصير عن مساعدتي — رأيك مهم لينا."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
+  <div class="sub-group"><span class="sub-group-label">Arabic — Standard (Use This)</span><div class="sub-group-line"></div></div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Happy to Help</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I'm happy I could help today. You'll receive a short question about my assistance once the chat closes — we truly appreciate your feedback." data-ar="يسعدني إني أفدتك النهارده. بعد إغلاق الشات هيوصلك سؤال قصير عن مساعدتي — رأيك مهم جداً لينا."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Great Assisting</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="It was great assisting you today. After the chat ends, you'll see a quick question about my support — your feedback really matters to us." data-ar="كان نفسي أساعدك النهارده. بعد ما المحادثة تخلص هتلاقي سؤال سريع عن الدعم اللي قدمته — تقييمك مهم جداً لينا."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-warm">Arabic</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-warm">Arabic Survey</span></div>
     <div class="card-body">
       <div class="phrase-box" data-en="Thank you for your time. After the conversation ends, a brief rating about the assistance I provided will appear — your opinion truly matters to us." data-ar="أشكرك على وقتك. بعد انتهاء المحادثة هيظهر لك تقييم قصير عن المساعدة اللي قدمتهالك خلال المحادثة — رأيك يهمنا جدًا."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="sub-group"><span class="sub-group-label">English — 3 Variants</span><div class="sub-group-line"></div></div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-warm">Glad to Help</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="Glad I could assist you today. After we end the chat, you'll see a brief question about my help — we value your feedback." data-ar="أشكرك على وقتك. بعد انتهاء المحادثة هيظهر لك تقييم قصير عن المساعدة اللي قدمتهالك خلال المحادثة — رأيك يهمنا جدًا."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-warm">Happy to Help</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="I'm happy I could help today. You'll receive a short question about my assistance once the chat closes — we truly appreciate your feedback." data-ar="أشكرك على وقتك. بعد انتهاء المحادثة هيظهر لك تقييم قصير عن المساعدة اللي قدمتهالك خلال المحادثة — رأيك يهمنا جدًا."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-warm">Great Assisting</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="It was great assisting you today. After the chat ends, you'll see a quick question about my support — your feedback really matters to us." data-ar="أشكرك على وقتك. بعد انتهاء المحادثة هيظهر لك تقييم قصير عن المساعدة اللي قدمتهالك خلال المحادثة — رأيك يهمنا جدًا."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 </section>
 
-<!-- END / CLOSE -->
+<!-- ═══════════════════════════════════════
+     END / CLOSE
+════════════════════════════════════════ -->
 <section id="endclose" class="section">
   <div class="section-header">
     <div class="section-icon">✅</div>
     <div class="section-info">
       <h2 class="section-title">End / Close</h2>
-      <p class="section-desc">Professional closing messages to wrap up customer interactions</p>
+      <p class="section-desc">Professional closing messages to wrap up interactions</p>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-prof">Thank You Close</span>
-    </div>
+    <div class="card-header"><span class="card-tag tag-prof">Standard Close</span></div>
     <div class="card-body">
-      <div class="phrase-box" data-en="Thank you very much for contacting Breadfast Support. We hope you have a better experience next time, and we wish you a wonderful day." data-ar="شكراً جداً لتواصلك مع دعم بريدفاست.
-نتمنى لحضرتك تجربة أفضل في المرات القادمة ونتمنى لك يوم سعيد."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
+      <div class="phrase-box" data-en="Thank you very much for contacting Breadfast Support. We hope to provide you with an even better experience next time. Have a wonderful day!" data-ar="شكراً جدًا لتواصلك مع دعم بريدفاست.
+نتمنى لحضرتك تجربة أفضل في المرات القادمة، ونتمنالك يوم سعيد!"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-prof">Repeat Apology Close</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="We sincerely apologize again for any inconvenience caused. Thank you so much for your understanding — we are always here if you need us." data-ar="بنكرر اعتذارنا عن أي إزعاج سببناه لحضرتك، وبنشكرك جدًا على تفهُّمك.
+دايمًا هنا لو احتجتنا."></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-tag tag-calm">Reorder Suggestion</span></div>
+    <div class="card-body">
+      <div class="phrase-box" data-en="You are welcome to place a new order whenever you are ready — I have already applied the compensation. We hope your next experience with Breadfast is a great one!" data-ar="ممكن حضرتك تطلب مرة تانية وأنا عوّضت حضرتك بالفعل.
+نتمنى تجربتك الجاية مع بريدفاست تكون أحسن بكتير!"></div>
+      <div class="card-actions"><button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button></div>
     </div>
   </div>
 </section>
-<section id="cancel" class="section">
-  <div class="section-header">
-    <div class="section-icon">❌</div>
-    <div class="section-info">
-      <h2 class="section-title">Order Cancellation</h2>
-      <p class="section-desc">Explanation and next steps for restaurant-canceled orders</p>
-    </div>
-  </div>
 
-  <div class="card">
-    <div class="card-header">
-      <span class="card-tag tag-empathy">Explanation</span>
-    </div>
-    <div class="card-body">
-      <div class="phrase-box" data-en="I sincerely apologize that your order was canceled. This occurred because the restaurant did not respond to the order — neither accepting nor rejecting it within the required timeframe.
-
-I will contact the restaurant immediately to understand why this happened and will update you as soon as I have more information." data-ar="بعتذر جداً عن إلغاء طلبك. ده حصل لأن المطعم ما ردش على الطلب — لا قبله ولا رفضه — في الوقت المطلوب.
-
-هتواصل مع المطعم دلوقتي أفهم إيه اللي صاير وهحدثك بأسرع ما عندي معلومة."></div>
-      <div class="card-actions">
-        <button class="btn-copy" onclick="copyPhrase(this)"><span class="copy-icon">📋</span><span class="copy-label">Copy</span></button>
-      </div>
-    </div>
-  </div>
-</section></main>
-
+</main>
 <script>
 var currentLang = 'en';
 
 var translations = {
   greeting:{en:'Greeting & Opening',ar:'التحية والافتتاحية'},
-  delay:{en:'Order Delay — Apology',ar:'الاعتذار عن تأخير الطلب'},
-  anything:{en:'Anything Else?',ar:'أي شيء آخر؟'},
+  apology:{en:'Apology',ar:'الاعتذار'},
   hold:{en:'Hold & Wait',ar:'الانتظار'},
+  anything:{en:'Anything Else?',ar:'أي استفسار آخر؟'},
   noresponse:{en:'No Response — Closing',ar:'لا يوجد رد — الإغلاق'},
   wallet:{en:'Charge Wallet',ar:'شحن المحفظة'},
   address:{en:'Change / Add Address',ar:'تغيير أو إضافة عنوان'},
-  cancel:{en:'Order Cancellation',ar:'إلغاء الطلب'},
   survey:{en:'Survey',ar:'التقييم'},
   endclose:{en:'End / Close',ar:'إنهاء المحادثة'}
 };
 
 var descTranslations = {
-  greeting:{en:'Professional opening statements to begin customer interactions',ar:'عبارات افتتاحية احترافية لبدء التفاعل مع العملاء'},
-  delay:{en:'Sincere acknowledgment of delays with appropriate accountability',ar:'الاعتراف الصادق بالتأخيرات مع تحمل المسؤولية المناسبة'},
-  anything:{en:'Professional closure prompts to ensure complete resolution',ar:'عبارات إغلاق احترافية لضمان الحل الكامل'},
-  hold:{en:'Respectful requests for time to review information',ar:'طلبات محترمة للوقت لمراجعة المعلومات'},
+  greeting:{en:'Opening statements to welcome and assist customers',ar:'عبارات افتتاحية لاستقبال العملاء ومساعدتهم'},
+  apology:{en:'General and issue-specific apologies with accountability',ar:'اعتذارات عامة وخاصة بكل نوع من المشاكل'},
+  hold:{en:'Polite requests to hold while checking the system or issue',ar:'طلبات مؤدبة للانتظار أثناء المراجعة'},
+  anything:{en:'Follow-up prompts to ensure complete resolution',ar:'عبارات للتأكد من حل جميع استفسارات العميل'},
   noresponse:{en:'Professional closure when customer is unresponsive',ar:'إغلاق احترافي عندما لا يستجيب العميل'},
-  wallet:{en:'Clear instructions for wallet top-up procedures',ar:'تعليمات واضحة لإجراءات شحن المحفظة'},
-  address:{en:'Step-by-step instructions for address management',ar:'تعليمات خطوة بخطوة لإدارة العنوان'},
-  cancel:{en:'Explanation and next steps for restaurant-canceled orders',ar:'الشرح والخطوات التالية للطلبات الملغاة من المطعم'},
-  survey:{en:'Encourage customers to complete post-chat feedback',ar:'تشجيع العملاء على إكمال استطلاع ما بعد المحادثة'},
-  endclose:{en:'Professional closing messages to wrap up customer interactions',ar:'رسائل إغلاق احترافية لإنهاء تفاعلات العملاء'}
+  wallet:{en:'Step-by-step wallet top-up instructions',ar:'خطوات شحن المحفظة'},
+  address:{en:'Step-by-step address management instructions',ar:'خطوات إضافة أو تعديل العنوان'},
+  survey:{en:'Encourage customers to rate the chat after it ends',ar:'تشجيع العملاء على تقييم المحادثة'},
+  endclose:{en:'Professional closing messages to wrap up interactions',ar:'رسائل إغلاق احترافية لإنهاء المحادثة'}
 };
 
 var navLabels = {
   greeting:{en:'Greeting',ar:'التحية'},
-  delay:{en:'Order Delay',ar:'تأخير الطلب'},
-  anything:{en:'Anything Else',ar:'أي شيء آخر'},
-  hold:{en:'Hold',ar:'الانتظار'},
+  apology:{en:'Apology',ar:'الاعتذار'},
+  hold:{en:'Hold & Wait',ar:'الانتظار'},
+  anything:{en:'Anything Else',ar:'استفسار آخر'},
   noresponse:{en:'No Response',ar:'لا يوجد رد'},
   wallet:{en:'Wallet',ar:'المحفظة'},
   address:{en:'Address',ar:'العنوان'},
-  cancel:{en:'Cancellation',ar:'الإلغاء'},
   survey:{en:'Survey',ar:'التقييم'},
   endclose:{en:'End / Close',ar:'إنهاء'}
 };
 
-var sectionOrder = ['greeting','delay','anything','hold','noresponse','wallet','address','cancel','survey','endclose'];
+var sectionOrder = ['greeting','apology','hold','anything','noresponse','wallet','address','survey','endclose'];
 
-// Init all phrase boxes on load
 window.onload = function() {
   document.querySelectorAll('.phrase-box').forEach(function(box) {
     box.textContent = box.getAttribute('data-en') || '';
@@ -811,20 +817,14 @@ window.onload = function() {
 
 function setLang(lang) {
   currentLang = lang;
-
-  // Direction
   document.body.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
-  // Toggle active button
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
 
-  // Update all phrase boxes
   document.querySelectorAll('.phrase-box').forEach(function(box) {
     box.textContent = box.getAttribute('data-' + lang) || '';
   });
 
-  // Update section titles & descs
   document.querySelectorAll('.section').forEach(function(sec) {
     var id = sec.id;
     if (!translations[id]) return;
@@ -834,24 +834,21 @@ function setLang(lang) {
     if (d) d.textContent = descTranslations[id][lang];
   });
 
-  // Update nav labels
   document.querySelectorAll('.nav-label').forEach(function(lbl, i) {
     var id = sectionOrder[i];
     if (navLabels[id]) lbl.textContent = navLabels[id][lang];
   });
 
-  // Update copy button labels
   document.querySelectorAll('.copy-label').forEach(function(lbl) {
     if (!lbl.closest('.btn-copy').classList.contains('copied')) {
       lbl.textContent = lang === 'ar' ? 'نسخ' : 'Copy';
     }
   });
 
-  // Hero text
   var h1 = document.getElementById('hero-title');
-  var p = document.getElementById('hero-sub');
+  var p  = document.getElementById('hero-sub');
   if (h1) h1.textContent = lang === 'ar' ? 'مكتبة ردود الدعم' : 'Agent Phrase Library';
-  if (p) p.textContent = lang === 'ar' ? 'ردود جاهزة للنسخ لكل سيناريو دعم' : 'Quick-copy responses for every support scenario';
+  if (p)  p.textContent  = lang === 'ar' ? 'ردود جاهزة للنسخ لكل سيناريو دعم' : 'Quick-copy responses for every support scenario';
 }
 
 function showSection(id, btn) {
@@ -863,43 +860,38 @@ function showSection(id, btn) {
 }
 
 function copyPhrase(btn) {
-  var box = btn.closest('.card-body').querySelector('.phrase-box');
+  var box  = btn.closest('.card-body').querySelector('.phrase-box');
   var text = box.getAttribute('data-' + currentLang) || box.textContent || '';
 
-  // Ripple effect
   var ripple = document.createElement('span');
   ripple.className = 'ripple';
   var rect = btn.getBoundingClientRect();
   var size = Math.max(rect.width, rect.height);
-  ripple.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+((rect.width - size)/2)+'px;top:'+((rect.height - size)/2)+'px';
+  ripple.style.cssText = 'width:'+size+'px;height:'+size+'px;left:'+((rect.width-size)/2)+'px;top:'+((rect.height-size)/2)+'px';
   btn.appendChild(ripple);
   setTimeout(function(){ ripple.remove(); }, 600);
 
-  // Flash the phrase box
   box.classList.remove('flash');
-  void box.offsetWidth; // reflow
+  void box.offsetWidth;
   box.classList.add('flash');
   setTimeout(function(){ box.classList.remove('flash'); }, 500);
 
-  // Copy text — with fallback for non-HTTPS
   function doSuccess() {
     btn.classList.add('copied');
-    var icon = btn.querySelector('.copy-icon');
+    var icon  = btn.querySelector('.copy-icon');
     var label = btn.querySelector('.copy-label');
-    if (icon) icon.textContent = '✅';
+    if (icon)  icon.textContent  = '✅';
     if (label) label.textContent = currentLang === 'ar' ? 'تم النسخ!' : 'Copied!';
     showToast(currentLang === 'ar' ? '✅ تم النسخ بنجاح' : '✅ Copied to clipboard!');
     setTimeout(function() {
       btn.classList.remove('copied');
-      if (icon) icon.textContent = '📋';
+      if (icon)  icon.textContent  = '📋';
       if (label) label.textContent = currentLang === 'ar' ? 'نسخ' : 'Copy';
     }, 2000);
   }
 
   if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(doSuccess).catch(function() {
-      fallbackCopy(text, doSuccess);
-    });
+    navigator.clipboard.writeText(text).then(doSuccess).catch(function(){ fallbackCopy(text, doSuccess); });
   } else {
     fallbackCopy(text, doSuccess);
   }
@@ -910,14 +902,8 @@ function fallbackCopy(text, callback) {
   ta.value = text;
   ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
   document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try {
-    document.execCommand('copy');
-    callback();
-  } catch(e) {
-    console.error('Copy failed:', e);
-  }
+  ta.focus(); ta.select();
+  try { document.execCommand('copy'); callback(); } catch(e){ console.error(e); }
   document.body.removeChild(ta);
 }
 
