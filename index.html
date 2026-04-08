@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith - Breadfast Support</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f0f13;
+            --bg-secondary: #1a1a24;
+            --bg-card: #22222e;
+            --bg-card-hover: #2a2a38;
+            --accent: #6c63ff;
+            --accent-light: #8b83ff;
+            --accent-glow: rgba(108, 99, 255, 0.15);
+            --text-primary: #e8e8ed;
+            --text-secondary: #9494a8;
+            --text-muted: #6b6b80;
+            --border: #2e2e3e;
+            --success: #4ade80;
+            --success-bg: rgba(74, 222, 128, 0.1);
+            --greeting: #f59e0b;
+            --greeting-bg: rgba(245, 158, 11, 0.1);
+            --help: #3b82f6;
+            --help-bg: rgba(59, 130, 246, 0.1);
+            --end: #10b981;
+            --end-bg: rgba(16, 185, 129, 0.1);
+            --survey: #a855f7;
+            --survey-bg: rgba(168, 85, 247, 0.1);
+            --apology: #ef4444;
+            --apology-bg: rgba(239, 68, 68, 0.1);
+            --wait: #f97316;
+            --wait-bg: rgba(249, 115, 22, 0.1);
+            --balance: #06b6d4;
+            --balance-bg: rgba(6, 182, 212, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', 'Cairo', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 20px 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-logo {
+            padding: 10px 24px 30px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .sidebar-logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-logo span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 4px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 0 12px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+            text-decoration: none;
+        }
+
+        .nav-item:hover {
+            background: var(--accent-glow);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--accent-glow);
+            color: var(--accent-light);
+        }
+
+        .nav-item .nav-icon {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 220px;
+            padding: 30px 40px;
+            max-width: 1000px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            scroll-margin-top: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-icon {
+            font-size: 1.4rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px 20px;
+            position: relative;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            white-space: pre-line;
+            direction: ltr;
+        }
+
+        .card-text[dir="rtl"] {
+            direction: rtl;
+            text-align: right;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
+
+        .card:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-light);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+        }
+
+        /* Section colors */
+        .section-greeting .section-icon { background: var(--greeting-bg); }
+        .section-greeting .section-title { color: var(--greeting); }
+        .section-greeting .card-label { background: var(--greeting-bg); color: var(--greeting); }
+
+        .section-help .section-icon { background: var(--help-bg); }
+        .section-help .section-title { color: var(--help); }
+        .section-help .card-label { background: var(--help-bg); color: var(--help); }
+
+        .section-end .section-icon { background: var(--end-bg); }
+        .section-end .section-title { color: var(--end); }
+        .section-end .card-label { background: var(--end-bg); color: var(--end); }
+
+        .section-survey .section-icon { background: var(--survey-bg); }
+        .section-survey .section-title { color: var(--survey); }
+        .section-survey .card-label { background: var(--survey-bg); color: var(--survey); }
+
+        .section-apology .section-icon { background: var(--apology-bg); }
+        .section-apology .section-title { color: var(--apology); }
+        .section-apology .card-label { background: var(--apology-bg); color: var(--apology); }
+
+        .section-wait .section-icon { background: var(--wait-bg); }
+        .section-wait .section-title { color: var(--wait); }
+        .section-wait .card-label { background: var(--wait-bg); color: var(--wait); }
+
+        .section-balance .section-icon { background: var(--balance-bg); }
+        .section-balance .section-title { color: var(--balance); }
+        .section-balance .card-label { background: var(--balance-bg); color: var(--balance); }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--success);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile hamburger */
+        .hamburger {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-size: 1.3rem;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 90;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .hamburger {
+                display: block;
+            }
+            .overlay.active {
+                display: block;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 70px 18px 30px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile -->
+    <button class="hamburger" onclick="toggleSidebar()">☰</button>
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <h1>ZENITH</h1>
+            <span>Breadfast Support Tool</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#greeting" class="nav-item active" onclick="closeSidebar()">
+                <span class="nav-icon">👋</span> Greeting
+            </a>
+            <a href="#help" class="nav-item" onclick="closeSidebar()">
+                <span class="nav-icon">❓</span> Help
+            </a>
+            <a href="#end" class="nav-item" onclick="closeSidebar()">
+                <span class="nav-icon">✅</span> End
+            </a>
+            <a href="#survey" class="nav-item" onclick="closeSidebar()">
+                <span class="nav-icon">⭐</span> Survey
+            </a>
+            <a href="#apology" class="nav-item" onclick="closeSidebar()">
+                <span class="nav-icon">🙏</span> Apology
+            </a>
+            <a href="#wait" class="nav-item" onclick="closeSidebar()">
+                <span class="nav-icon">⏳</span> Wait
+            </a>
+            <a href="#balance" class="nav-item" onclick="closeSidebar()">
+                <span class="nav-icon">💰</span> Balance
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <!-- ==================== GREETING ==================== -->
+        <div class="section section-greeting" id="greeting">
+            <div class="section-header">
+                <div class="section-icon">👋</div>
+                <h2 class="section-title">Greeting</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English</span>
+                    <div class="card-text">Hello
+Thank you for contacting Breadfast Support.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي</span>
+                    <div class="card-text" dir="rtl">أهلاً أ.
+أتمنى تكون بخير
+شكراً لتواصلك مع بريدفاست</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== HELP ==================== -->
+        <div class="section section-help" id="help">
+            <div class="section-header">
+                <div class="section-icon">❓</div>
+                <h2 class="section-title">Help / Follow-up</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English</span>
+                    <div class="card-text">Do you need any further help?</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English</span>
+                    <div class="card-text">Is there anything else I can help you with?</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English</span>
+                    <div class="card-text">Please let me know if you need any further assistance.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي</span>
+                    <div class="card-text" dir="rtl">هل في أي حاجة تانية أقدر أساعد حضرتك فيها؟</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي</span>
+                    <div class="card-text" dir="rtl">هل حضرتك محتاج أي مساعدة تانية؟</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== END ==================== -->
+        <div class="section section-end" id="end">
+            <div class="section-header">
+                <div class="section-icon">✅</div>
+                <h2 class="section-title">End</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي</span>
+                    <div class="card-text" dir="rtl">شكراً جداً لتواصلك مع دعم بريدفاست.
+نتمنى لحضرتك تجربة أفضل في المرات القادمة ونتمنى لك يوم سعيد.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English</span>
+                    <div class="card-text">Thank you very much for contacting Breadfast Support.
+We hope you have a better experience next time, and we wish you a wonderful day.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SURVEY ==================== -->
+        <div class="section section-survey" id="survey">
+            <div class="section-header">
+                <div class="section-icon">⭐</div>
+                <h2 class="section-title">Survey</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English — V1</span>
+                    <div class="card-text">Glad I could assist you today. After we end the chat, you'll see a brief question about my help — we value your feedback.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English — V2</span>
+                    <div class="card-text">I'm happy I could help today. You'll receive a short question about my assistance once the chat closes — we truly appreciate your feedback.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English — V3</span>
+                    <div class="card-text">It was great assisting you today. After the chat ends, you'll see a quick question about my support — your feedback really matters to us.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي</span>
+                    <div class="card-text" dir="rtl">أشكرك على وقتك. بعد انتهاء المحادثة هيظهر لك تقييم قصير عن المساعدة اللي قدمتهالك خلال المحادثة — رأيك يهمنا جدًا.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== APOLOGY ==================== -->
+        <div class="section section-apology" id="apology">
+            <div class="section-header">
+                <div class="section-icon">🙏</div>
+                <h2 class="section-title">Apology</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي — خطأ</span>
+                    <div class="card-text" dir="rtl">بعتذر جدًا عن الخطأ، وده شيء غير مقبول تمامًا.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي — تأخر رد</span>
+                    <div class="card-text" dir="rtl">بعتذر لحضرتك جدًا عن التأخر في الرد نظرًا لتعرضنا لضغط كبير من الرسائل.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي — إزعاج</span>
+                    <div class="card-text" dir="rtl">بعتذر لحضرتك جداً عن الإزعاج اللي حصل.
+أكيد ده مش المستوى اللي بنسعى نقدمه في بريدفاست، وخليني أساعد حضرتك بأفضل حل ممكن.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English</span>
+                    <div class="card-text">We sincerely apologize for the inconvenience caused.
+This is certainly not the experience we aim to provide at Breadfast, and I'll do my best to assist you with the best possible solution.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== WAIT ==================== -->
+        <div class="section section-wait" id="wait">
+            <div class="section-header">
+                <div class="section-icon">⏳</div>
+                <h2 class="section-title">Wait</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي</span>
+                    <div class="card-text" dir="rtl">لحظة واحدة من فضلك.
+وشكراً جداً على صبرك.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي</span>
+                    <div class="card-text" dir="rtl">هستأذنك لحظات للمراجعة.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English</span>
+                    <div class="card-text">Please allow me a moment.
+Thank you very much for your patience.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== BALANCE ==================== -->
+        <div class="section section-balance" id="balance">
+            <div class="section-header">
+                <div class="section-icon">💰</div>
+                <h2 class="section-title">Balance Check</h2>
+            </div>
+            <div class="card-grid">
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">عربي</span>
+                    <div class="card-text" dir="rtl">للتحقق من رصيدك:
+من صفحة التطبيق الرئيسية:
+- الضغط على "ادفع" أسفل الصفحة الرئيسية.
+- سيظهر رصيدك أعلاه.
+- لو المبلغ مش ظاهر، من فضلك اقفل التطبيق، استنى دقيقة، وبعدين افتحه تاني. هيظهر المبلغ جوه التطبيق.</div>
+                </div>
+                <div class="card" onclick="copyCard(this)">
+                    <button class="copy-btn">Copy</button>
+                    <span class="card-label">English</span>
+                    <div class="card-text">To check your balance:
+From the main app page:
+- Click on 'Pay' at the bottom of the home page.
+- Your balance will appear above.
+- If the amount isn't showing, please close the app, wait a minute, then reopen it. The balance will appear inside the app.</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">✓ Copied to clipboard!</div>
+
+    <script>
+        function copyCard(card) {
+            const textEl = card.querySelector('.card-text');
+            const text = textEl.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+                const btn = card.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 1500);
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1800);
+        }
+
+        // Active nav highlighting
+        const sections = document.querySelectorAll('.section');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navItems.forEach(item => item.classList.remove('active'));
+                    const id = entry.target.id;
+                    const activeNav = document.querySelector(`.nav-item[href="#${id}"]`);
+                    if (activeNav) activeNav.classList.add('active');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        sections.forEach(section => observer.observe(section));
+
+        // Mobile sidebar
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
